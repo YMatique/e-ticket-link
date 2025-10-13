@@ -15,9 +15,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+          $this->call([
+            ProvinceSeeder::class,
+            CitySeeder::class,
         ]);
+
+        // $this->command->info('✅ Províncias e Cidades de Moçambique criadas com sucesso!');
     }
 }
