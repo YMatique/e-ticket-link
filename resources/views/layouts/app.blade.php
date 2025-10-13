@@ -117,12 +117,14 @@
 				<li class="nav-item nav-item-dropdown-lg dropdown ms-lg-2">
 					<a href="#" class="navbar-nav-link align-items-center rounded-pill p-1" data-bs-toggle="dropdown">
 						<div class="status-indicator-container">
-							<div class="d-flex align-items-center justify-center w-32px h-32px rounded-pill bg-white text-primary fw-bold">
+							{{-- <div class="d-flex align-items-center justify-center w-32px h-32px rounded-pill  text-primary fw-bold">
 								{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
-							</div>
+							</div> --}}
+                            <img src="{{ asset('template/assets/images/demo/users/face11.jpg') }}" class="w-32px h-32px rounded-pill" alt="">
+							<span class="status-indicator bg-success"></span>
 							<span class="status-indicator bg-success"></span>
 						</div>
-						<span class="d-none d-lg-inline-block mx-lg-2 text-white">{{ auth()->user()->name }}</span>
+						<span class="d-none d-lg-inline-block mx-lg-2">{{ auth()->user()->name }}</span>
 					</a>
 
 					<div class="dropdown-menu dropdown-menu-end">
@@ -151,7 +153,7 @@
 
 
 	<!-- Breadcrumbs -->
-	<div class="page-header page-header-light shadow mb-2">
+	<div class="page-header page-header-light shadow ">
 		<div class="page-header-content d-lg-flex">
 			<div class="d-flex">
 				<div class="breadcrumb py-2">
@@ -171,6 +173,25 @@
 	</div>
 	<!-- /breadcrumbs -->
 
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content d-lg-flex">
+			<div class="d-flex">
+				<h4 class="page-title mb-0">
+					@yield('page-title', 'Dashboard')
+				</h4>
+
+				<a href="#page_header" class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto" data-bs-toggle="collapse">
+					<i class="ph-caret-down collapsible-indicator ph-sm m-1"></i>
+				</a>
+			</div>
+
+			<div class="collapse d-lg-block my-lg-auto ms-lg-auto" id="page_header">
+				@yield('page-header-content')
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
 
 	<!-- Page content -->
 	<div class="page-content ">

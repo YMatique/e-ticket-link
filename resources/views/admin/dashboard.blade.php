@@ -2,6 +2,10 @@
 
 @section('title', 'Dashboard')
 
+@section('page-title')
+	Home - <span class="fw-normal">Dashboard</span>
+@endsection
+
 @section('breadcrumbs')
 	<a href="{{ route('dashboard') }}" class="breadcrumb-item">Dashboard</a>
 	<span class="breadcrumb-item active">Visão Geral</span>
@@ -70,7 +74,7 @@
 
 			<div class="card-body">
 				<div class="chart-container">
-					<div class="chart" id="sales-chart" style="height: 300px;"></div>
+					<canvas id="sales-chart" style="height: 300px;"></canvas>
 				</div>
 			</div>
 		</div>
@@ -84,7 +88,7 @@
 
 			<div class="card-body">
 				<div class="chart-container">
-					<div class="chart" id="payment-methods-chart" style="height: 300px;"></div>
+					<canvas  id="payment-methods-chart" style="height: 300px;"></canvas>
 				</div>
 			</div>
 
@@ -399,35 +403,123 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('template/assets/demo/charts/pages/dashboard/lines.js') }}"></script>
-<script src="{{ asset('template/assets/demo/charts/pages/dashboard/donuts.js') }}"></script>
-
+{{-- <script src="{{ asset('template/assets/demo/charts/pages/dashboard/lines.js') }}"></script>
+<script src="{{ asset('template/assets/demo/charts/pages/dashboard/donuts.js') }}"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Sales Chart
 const salesChart = function() {
     const element = document.getElementById('sales-chart');
     if (!element) return;
 
-    // Dados de exemplo - substitua com dados reais do backend
-    const salesData = [ ['Segunda', 25],['Terça', 32],['Quarta', 28], ['Quinta', 45],['Sexta', 38],['Sábado', 52],['Domingo', 45]];
+    const ctx = element.getContext('2d');
 
-    // Implementar gráfico D3.js aqui
-    console.log('Sales data:', salesData);
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+            datasets: [{
+                label: 'Bilhetes Vendidos',
+                data: [25, 32, 28, 45, 38, 52, 45],
+                borderColor: '#E63946',
+                backgroundColor: 'rgba(230, 57, 70, 0.1)',
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 5,
+                pointBackgroundColor: '#E63946',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: '#1D3557',
+                    padding: 12,
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    callbacks: {
+                        label: function(context) {
+                            return context.parsed.y + ' bilhetes';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#e0e0e0',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#666'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#666'
+                    }
+                }
+            }
+        }
+    });
 };
 
-// Payment Methods Chart
+
+// Gráfico de Métodos de Pagamento (Donut)
 const paymentMethodsChart = function() {
     const element = document.getElementById('payment-methods-chart');
     if (!element) return;
 
-    const paymentData = [
-        ['M-Pesa', 65],
-        ['e-Mola', 25],
-        ['Dinheiro', 10]
-    ];
+    const ctx = element.getContext('2d');
 
-    // Implementar gráfico D3.js aqui
-    console.log('Payment data:', paymentData);
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['M-Pesa', 'e-Mola', 'Dinheiro'],
+            datasets: [{
+                data: [65, 25, 10],
+                backgroundColor: [
+                    '#E63946',
+                    '#06D6A0',
+                    '#FFC107'
+                ],
+                borderWidth: 3,
+                borderColor: '#fff',
+                hoverOffset: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: '#1D3557',
+                    padding: 12,
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
 };
 
 // Initialize
