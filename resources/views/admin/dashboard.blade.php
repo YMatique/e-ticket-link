@@ -400,6 +400,40 @@
 </div>
 <!-- /popular routes -->
 
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Testar Toast Notifications</h5>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <button onclick="toast.success('Operação bem-sucedida!')" class="btn btn-success w-100">
+                    <i class="ph-check-circle me-2"></i>
+                    Toast Sucesso
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button onclick="toast.error('Algo deu errado!')" class="btn btn-danger w-100">
+                    <i class="ph-x-circle me-2"></i>
+                    Toast Erro
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button onclick="toast.warning('Atenção necessária!')" class="btn btn-warning w-100">
+                    <i class="ph-warning-circle me-2"></i>
+                    Toast Aviso
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button onclick="toast.info('Informação útil!')" class="btn btn-info w-100">
+                    <i class="ph-info me-2"></i>
+                    Toast Info
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')

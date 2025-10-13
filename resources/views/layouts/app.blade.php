@@ -482,13 +482,16 @@
 
     <script src="{{ asset('template/assets/demo/demo_configurator.js') }}"></script>
     <script src="{{ asset('template/assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('template/assets/js/vendor/visualization/d3/d3.min.js') }}"></script>
-    <script src="{{ asset('template/assets/js/vendor/visualization/d3/d3_tooltip.js') }}"></script>
 
     <script src="{{ asset('template/html/layout_3/full/assets/js/app.js') }}"></script>
-
-    <script src="{{ asset('template/assets/demo/pages/dashboard.js') }}"></script>
+	<script src="{{ asset('js/toast.js') }}"></script>
+    {{-- <script src="{{ asset('template/assets/demo/pages/dashboard.js') }}"></script> --}}
     
+    	<!-- Toast Container -->
+	<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+		<!-- Toasts serão inseridos aqui via JavaScript -->
+	</div>
+	<!-- /toast container -->
 	@stack('scripts')
 
 </body>
