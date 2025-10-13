@@ -1,46 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+	<title>{{ config('app.name', 'CityLink e-Ticket') }} - @yield('title', 'Dashboard')</title>
 
 	<!-- Global stylesheets -->
-	<link href="../../../assets/fonts/inter/inter.css" rel="stylesheet" type="text/css">
-	<link href="../../../assets/icons/phosphor/styles.min.css" rel="stylesheet" type="text/css">
-	<link href="assets/css/ltr/all.min.css" id="stylesheet" rel="stylesheet" type="text/css">
-	<!-- /global stylesheets -->
-
-	<!-- Core JS files -->
-	<script src="../../../assets/demo/demo_configurator.js"></script>
-	<script src="../../../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-	<!-- /core JS files -->
-
-	<!-- Theme JS files -->
-	<script src="../../../assets/js/vendor/visualization/d3/d3.min.js"></script>
-	<script src="../../../assets/js/vendor/visualization/d3/d3_tooltip.js"></script>
-
-	<script src="assets/js/app.js"></script>
-	<script src="../../../assets/demo/pages/dashboard.js"></script>
-	<script src="../../../assets/demo/charts/pages/dashboard/streamgraph.js"></script>
-	<script src="../../../assets/demo/charts/pages/dashboard/sparklines.js"></script>
-	<script src="../../../assets/demo/charts/pages/dashboard/lines.js"></script>	
-	<script src="../../../assets/demo/charts/pages/dashboard/areas.js"></script>
-	<script src="../../../assets/demo/charts/pages/dashboard/donuts.js"></script>
-	<script src="../../../assets/demo/charts/pages/dashboard/bars.js"></script>
-	<script src="../../../assets/demo/charts/pages/dashboard/progress.js"></script>
-	<script src="../../../assets/demo/charts/pages/dashboard/heatmaps.js"></script>
-	<script src="../../../assets/demo/charts/pages/dashboard/pies.js"></script>
-	<script src="../../../assets/demo/charts/pages/dashboard/bullets.js"></script>
-	<!-- /theme JS files -->
-
+	<link href="{{ asset('template/assets/fonts/inter/inter.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{ asset('template/assets/icons/phosphor/styles.min.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{ asset('template/html/layout_3/full/assets/css/ltr/all.min.css') }}" id="stylesheet" rel="stylesheet" type="text/css">
+	
+	@stack('styles')
 </head>
 
 <body>
 
 	<!-- Main navbar -->
-	<div class="navbar navbar-dark navbar-expand-lg navbar-static">
+	<div class="navbar navbar-dark navbar-expand-lg navbar-static border-bottom border-bottom-white border-opacity-10">
 		<div class="container-fluid">
 			<div class="d-flex d-lg-none me-2">
 				<button type="button" class="navbar-toggler sidebar-mobile-main-toggle rounded-pill">
@@ -49,9 +27,9 @@
 			</div>
 
 			<div class="navbar-brand flex-1 flex-lg-0">
-				<a href="index.html" class="d-inline-flex align-items-center">
-					<img src="../../../assets/images/logo_icon.svg" alt="">
-					<img src="../../../assets/images/logo_text_light.svg" class="d-none d-sm-inline-block h-16px ms-3" alt="">
+				<a href="{{ route('dashboard') }}" class="d-inline-flex align-items-center">
+					<i class="ph-bus ph-2x text-white"></i>
+					<span class="d-none d-sm-inline-block text-white fw-bold ms-3">CityLink e-Ticket</span>
 				</a>
 			</div>
 
@@ -69,199 +47,60 @@
 
 					<div class="dropdown-menu dropdown-menu-scrollable-sm wmin-lg-600 p-0">
 						<div class="d-flex align-items-center border-bottom p-3">
-							<h6 class="mb-0">Browse apps</h6>
-							<a href="#" class="ms-auto">
-								View all
-								<i class="ph-arrow-circle-right ms-1"></i>
-							</a>
+							<h6 class="mb-0">Acesso Rápido</h6>
 						</div>
 
 						<div class="row row-cols-1 row-cols-sm-2 g-0">
 							<div class="col">
-								<button type="button" class="dropdown-item text-wrap h-100 align-items-start border-end-sm border-bottom p-3">
+								<a href="{{ route('tickets.create') }}" class="dropdown-item text-wrap h-100 align-items-start border-end-sm border-bottom p-3">
 									<div>
-										<img src="../../../assets/images/demo/logos/1.svg" class="h-40px mb-2" alt="">
-										<div class="fw-semibold my-1">Customer data platform</div>
-										<div class="text-muted">Unify customer data from multiple sources</div>
+										<i class="ph-ticket ph-2x text-primary mb-2"></i>
+										<div class="fw-semibold my-1">Emitir Bilhete</div>
+										<div class="text-muted">Vender bilhete para passageiro</div>
 									</div>
-								</button>
+								</a>
 							</div>
 
 							<div class="col">
-								<button type="button" class="dropdown-item text-wrap h-100 align-items-start border-bottom p-3">
+								<a href="{{ route('tickets.validate') }}" class="dropdown-item text-wrap h-100 align-items-start border-bottom p-3">
 									<div>
-										<img src="../../../assets/images/demo/logos/2.svg" class="h-40px mb-2" alt="">
-										<div class="fw-semibold my-1">Data catalog</div>
-										<div class="text-muted">Discover, inventory, and organize data assets</div>
+										<i class="ph-qr-code ph-2x text-success mb-2"></i>
+										<div class="fw-semibold my-1">Validar Bilhete</div>
+										<div class="text-muted">Escanear QR Code do bilhete</div>
 									</div>
-								</button>
+								</a>
 							</div>
 
 							<div class="col">
-								<button type="button" class="dropdown-item text-wrap h-100 align-items-start border-end-sm border-bottom border-bottom-sm-0 rounded-bottom-start p-3">
+								<a href="{{ route('schedules.create') }}" class="dropdown-item text-wrap h-100 align-items-start border-end-sm rounded-bottom-start p-3">
 									<div>
-										<img src="../../../assets/images/demo/logos/3.svg" class="h-40px mb-2" alt="">
-										<div class="fw-semibold my-1">Data governance</div>
-										<div class="text-muted">The collaboration hub and data marketplace</div>
+										<i class="ph-calendar-plus ph-2x text-warning mb-2"></i>
+										<div class="fw-semibold my-1">Novo Horário</div>
+										<div class="text-muted">Criar horário de viagem</div>
 									</div>
-								</button>
+								</a>
 							</div>
 
 							<div class="col">
-								<button type="button" class="dropdown-item text-wrap h-100 align-items-start rounded-bottom-end p-3">
+								<a href="{{ route('reports.index') }}" class="dropdown-item text-wrap h-100 align-items-start rounded-bottom-end p-3">
 									<div>
-										<img src="../../../assets/images/demo/logos/4.svg" class="h-40px mb-2" alt="">
-										<div class="fw-semibold my-1">Data privacy</div>
-										<div class="text-muted">Automated provisioning of non-production datasets</div>
+										<i class="ph-chart-line ph-2x text-info mb-2"></i>
+										<div class="fw-semibold my-1">Relatórios</div>
+										<div class="text-muted">Ver estatísticas e vendas</div>
 									</div>
-								</button>
+								</a>
 							</div>
 						</div>
 					</div>
 				</li>
-
-				
 			</ul>
 
 			<div class="navbar-collapse justify-content-center flex-lg-1 order-2 order-lg-1 collapse" id="navbar_search">
 				<div class="navbar-search flex-fill position-relative mt-2 mt-lg-0 mx-lg-3">
-					<div class="form-control-feedback form-control-feedback-start flex-grow-1" data-color-theme="dark">
-						<input type="text" class="form-control bg-transparent rounded-pill" placeholder="Search" data-bs-toggle="dropdown">
-						<div class="form-control-feedback-icon">
+					<div class="form-control-feedback form-control-feedback-start flex-grow-1">
+						<input type="text" class="form-control bg-white bg-opacity-10 border-white border-opacity-10 text-white rounded-pill" placeholder="Pesquisar bilhetes, passageiros...">
+						<div class="form-control-feedback-icon text-white">
 							<i class="ph-magnifying-glass"></i>
-						</div>
-						<div class="dropdown-menu w-100" data-color-theme="light">
-							<button type="button" class="dropdown-item">
-								<div class="text-center w-32px me-3">
-									<i class="ph-magnifying-glass"></i>
-								</div>
-								<span>Search <span class="fw-bold">"in"</span> everywhere</span>
-							</button>
-
-							<div class="dropdown-divider"></div>
-
-							<div class="dropdown-menu-scrollable-lg">
-								<div class="dropdown-header">
-									Contacts
-									<a href="#" class="float-end">
-										See all
-										<i class="ph-arrow-circle-right ms-1"></i>
-									</a>
-								</div>
-
-								<div class="dropdown-item cursor-pointer">
-									<div class="me-3">
-										<img src="../../../assets/images/demo/users/face3.jpg" class="w-32px h-32px rounded-pill" alt="">
-									</div>
-
-									<div class="d-flex flex-column flex-grow-1">
-										<div class="fw-semibold">Christ<mark>in</mark>e Johnson</div>
-										<span class="fs-sm text-muted">c.johnson@awesomecorp.com</span>
-									</div>
-
-									<div class="d-inline-flex">
-										<a href="#" class="text-body ms-2">
-											<i class="ph-user-circle"></i>
-										</a>
-									</div>
-								</div>
-
-								<div class="dropdown-item cursor-pointer">
-									<div class="me-3">
-										<img src="../../../assets/images/demo/users/face24.jpg" class="w-32px h-32px rounded-pill" alt="">
-									</div>
-
-									<div class="d-flex flex-column flex-grow-1">
-										<div class="fw-semibold">Cl<mark>in</mark>ton Sparks</div>
-										<span class="fs-sm text-muted">c.sparks@awesomecorp.com</span>
-									</div>
-
-									<div class="d-inline-flex">
-										<a href="#" class="text-body ms-2">
-											<i class="ph-user-circle"></i>
-										</a>
-									</div>
-								</div>
-
-								<div class="dropdown-divider"></div>
-
-								<div class="dropdown-header">
-									Clients
-									<a href="#" class="float-end">
-										See all
-										<i class="ph-arrow-circle-right ms-1"></i>
-									</a>
-								</div>
-
-							</div>
-						</div>
-					</div>
-
-					<div>
-						<a href="#" class="navbar-nav-link align-items-center justify-content-center w-40px h-32px rounded-pill position-absolute end-0 top-50 translate-middle-y p-0 me-1" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-							<i class="ph-faders-horizontal"></i>
-						</a>
-
-						<div class="dropdown-menu w-100 p-3">
-							<div class="d-flex align-items-center mb-3">
-								<h6 class="mb-0">Search options</h6>
-								<a href="#" class="text-body rounded-pill ms-auto">
-									<i class="ph-clock-counter-clockwise"></i>
-								</a>
-							</div>
-
-							<div class="mb-3">
-								<label class="d-block form-label">Category</label>
-								<label class="form-check form-check-inline">
-									<input type="checkbox" class="form-check-input" checked>
-									<span class="form-check-label">Invoices</span>
-								</label>
-								<label class="form-check form-check-inline">
-									<input type="checkbox" class="form-check-input">
-									<span class="form-check-label">Files</span>
-								</label>
-								<label class="form-check form-check-inline">
-									<input type="checkbox" class="form-check-input">
-									<span class="form-check-label">Users</span>
-								</label>
-							</div>
-
-							<div class="mb-3">
-								<label class="form-label">Addition</label>
-								<div class="input-group">
-									<select class="form-select w-auto flex-grow-0">
-										<option value="1" selected>has</option>
-										<option value="2">has not</option>
-									</select>
-									<input type="text" class="form-control" placeholder="Enter the word(s)">
-								</div>
-							</div>
-
-							<div class="mb-3">
-								<label class="form-label">Status</label>
-								<div class="input-group">
-									<select class="form-select w-auto flex-grow-0">
-										<option value="1" selected>is</option>
-										<option value="2">is not</option>
-									</select>
-									<select class="form-select">
-										<option value="1" selected>Active</option>
-										<option value="2">Inactive</option>
-										<option value="3">New</option>
-										<option value="4">Expired</option>
-										<option value="5">Pending</option>
-									</select>
-								</div>
-							</div>
-
-							<div class="d-flex">
-								<button type="button" class="btn btn-light">Reset</button>
-
-								<div class="ms-auto">
-									<button type="button" class="btn btn-light">Cancel</button>
-									<button type="button" class="btn btn-primary ms-2">Apply</button>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -271,46 +110,38 @@
 				<li class="nav-item ms-lg-2">
 					<a href="#" class="navbar-nav-link navbar-nav-link-icon rounded-pill" data-bs-toggle="offcanvas" data-bs-target="#notifications">
 						<i class="ph-bell"></i>
-						<span class="badge bg-yellow text-black position-absolute top-0 end-0 translate-middle-top zindex-1 rounded-pill mt-1 me-1">2</span>
+						<span class="badge bg-yellow text-black position-absolute top-0 end-0 translate-middle-top zindex-1 rounded-pill mt-1 me-1">3</span>
 					</a>
 				</li>
 
 				<li class="nav-item nav-item-dropdown-lg dropdown ms-lg-2">
 					<a href="#" class="navbar-nav-link align-items-center rounded-pill p-1" data-bs-toggle="dropdown">
 						<div class="status-indicator-container">
-							<img src="../../../assets/images/demo/users/face11.jpg" class="w-32px h-32px rounded-pill" alt="">
+							<div class="d-flex align-items-center justify-center w-32px h-32px rounded-pill bg-white text-primary fw-bold">
+								{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+							</div>
 							<span class="status-indicator bg-success"></span>
 						</div>
-						<span class="d-none d-lg-inline-block mx-lg-2">Victoria</span>
+						<span class="d-none d-lg-inline-block mx-lg-2 text-white">{{ auth()->user()->name }}</span>
 					</a>
 
 					<div class="dropdown-menu dropdown-menu-end">
 						<a href="#" class="dropdown-item">
 							<i class="ph-user-circle me-2"></i>
-							My profile
+							Meu Perfil
 						</a>
-						<a href="#" class="dropdown-item">
-							<i class="ph-currency-circle-dollar me-2"></i>
-							My subscription
-						</a>
-						<a href="#" class="dropdown-item">
-							<i class="ph-shopping-cart me-2"></i>
-							My orders
-						</a>
-						<a href="#" class="dropdown-item">
-							<i class="ph-envelope-open me-2"></i>
-							My inbox
-							<span class="badge bg-primary rounded-pill ms-auto">26</span>
+						<a href="{{ route('settings.index') }}" class="dropdown-item">
+							<i class="ph-gear me-2"></i>
+							Configurações
 						</a>
 						<div class="dropdown-divider"></div>
-						<a href="#" class="dropdown-item">
-							<i class="ph-gear me-2"></i>
-							Account settings
-						</a>
-						<a href="#" class="dropdown-item">
-							<i class="ph-sign-out me-2"></i>
-							Logout
-						</a>
+						<form method="POST" action="{{ route('logout') }}">
+							@csrf
+							<button type="submit" class="dropdown-item">
+								<i class="ph-sign-out me-2"></i>
+								Terminar Sessão
+							</button>
+						</form>
 					</div>
 				</li>
 			</ul>
@@ -320,13 +151,12 @@
 
 
 	<!-- Breadcrumbs -->
-	<div class="page-header page-header-light shadow">
+	<div class="page-header page-header-light shadow mb-2">
 		<div class="page-header-content d-lg-flex">
 			<div class="d-flex">
 				<div class="breadcrumb py-2">
-					<a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
-					<a href="#" class="breadcrumb-item">Home</a>
-					<span class="breadcrumb-item active">Dashboard</span>
+					<a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
+					@yield('breadcrumbs')
 				</div>
 
 				<a href="#breadcrumb_elements" class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto" data-bs-toggle="collapse">
@@ -335,143 +165,15 @@
 			</div>
 
 			<div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
-				<div class="d-lg-flex mb-2 mb-lg-0">
-					<a href="#" class="d-flex align-items-center text-body py-2">
-						<i class="ph-lifebuoy me-2"></i>
-						Support
-					</a>
-
-					<div class="dropdown ms-lg-3">
-						<a href="#" class="d-flex align-items-center text-body dropdown-toggle py-2" data-bs-toggle="dropdown">
-							<i class="ph-gear me-2"></i>
-							<span class="flex-1">Settings</span>
-						</a>
-
-						<div class="dropdown-menu dropdown-menu-end w-100 w-lg-auto">
-							<a href="#" class="dropdown-item">
-								<i class="ph-shield-warning me-2"></i>
-								Account security
-							</a>
-							<a href="#" class="dropdown-item">
-								<i class="ph-chart-bar me-2"></i>
-								Analytics
-							</a>
-							<a href="#" class="dropdown-item">
-								<i class="ph-lock-key me-2"></i>
-								Privacy
-							</a>
-							<div class="dropdown-divider"></div>
-							<a href="#" class="dropdown-item">
-								<i class="ph-gear me-2"></i>
-								All settings
-							</a>
-						</div>
-					</div>
-				</div>
+				@yield('header-actions')
 			</div>
 		</div>
 	</div>
 	<!-- /breadcrumbs -->
 
 
-	<!-- Page header -->
-	<div class="page-header">
-		<div class="page-header-content d-lg-flex">
-			<div class="d-flex">
-				<h4 class="page-title mb-0">
-					Home - <span class="fw-normal">Dashboard</span>
-				</h4>
-
-				<a href="#page_header" class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto" data-bs-toggle="collapse">
-					<i class="ph-caret-down collapsible-indicator ph-sm m-1"></i>
-				</a>
-			</div>
-
-			<div class="collapse d-lg-block my-lg-auto ms-lg-auto" id="page_header">
-				<div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
-					<div class="dropdown w-100 w-sm-auto">
-						<a href="#" class="d-flex align-items-center text-body lh-1 dropdown-toggle py-sm-2" data-bs-toggle="dropdown" data-bs-display="static">
-							<img src="../../../assets/images/brands/tesla.svg" class="w-32px h-32px me-2" alt="">
-							<div class="me-auto me-lg-1">
-								<div class="fs-sm text-muted mb-1">Customer</div>
-								<div class="fw-semibold">Tesla Motors Inc</div>
-							</div>
-						</a>
-
-						<div class="dropdown-menu dropdown-menu-lg-end w-100 w-lg-auto wmin-300 wmin-sm-350 pt-0">
-							<div class="d-flex align-items-center p-3">
-								<h6 class="fw-semibold mb-0">Customers</h6>
-								<a href="#" class="ms-auto">
-									View all
-									<i class="ph-arrow-circle-right ms-1"></i>
-								</a>
-							</div>
-							<a href="#" class="dropdown-item active py-2">
-								<img src="../../../assets/images/brands/tesla.svg" class="w-32px h-32px me-2" alt="">
-								<div>
-									<div class="fw-semibold">Tesla Motors Inc</div>
-									<div class="fs-sm text-muted">42 users</div>
-								</div>
-							</a>
-							<a href="#" class="dropdown-item py-2">
-								<img src="../../../assets/images/brands/debijenkorf.svg" class="w-32px h-32px me-2" alt="">
-								<div>
-									<div class="fw-semibold">De Bijenkorf</div>
-									<div class="fs-sm text-muted">49 users</div>
-								</div>
-							</a>
-							<a href="#" class="dropdown-item py-2">
-								<img src="../../../assets/images/brands/klm.svg" class="w-32px h-32px me-2" alt="">
-								<div>
-									<div class="fw-semibold">Royal Dutch Airlines</div>
-									<div class="fs-sm text-muted">18 users</div>
-								</div>
-							</a>
-							<a href="#" class="dropdown-item py-2">
-								<img src="../../../assets/images/brands/shell.svg" class="w-32px h-32px me-2" alt="">
-								<div>
-									<div class="fw-semibold">Royal Dutch Shell</div>
-									<div class="fs-sm text-muted">54 users</div>
-								</div>
-							</a>
-							<a href="#" class="dropdown-item py-2">
-								<img src="../../../assets/images/brands/bp.svg" class="w-32px h-32px me-2" alt="">
-								<div>
-									<div class="fw-semibold">BP plc</div>
-									<div class="fs-sm text-muted">23 users</div>
-								</div>
-							</a>
-						</div>
-					</div>
-
-					<div class="vr d-none d-sm-block flex-shrink-0 my-2 mx-3"></div>
-
-					<div class="d-inline-flex mt-3 mt-sm-0">
-						<a href="#" class="status-indicator-container ms-1">
-							<img src="../../../assets/images/demo/users/face24.jpg" class="w-32px h-32px rounded-pill" alt="">
-							<span class="status-indicator bg-warning"></span>
-						</a>
-						<a href="#" class="status-indicator-container ms-1">
-							<img src="../../../assets/images/demo/users/face1.jpg" class="w-32px h-32px rounded-pill" alt="">
-							<span class="status-indicator bg-success"></span>
-						</a>
-						<a href="#" class="status-indicator-container ms-1">
-							<img src="../../../assets/images/demo/users/face3.jpg" class="w-32px h-32px rounded-pill" alt="">
-							<span class="status-indicator bg-danger"></span>
-						</a>
-						<a href="#" class="btn btn-outline-primary btn-icon w-32px h-32px rounded-pill ms-3">
-							<i class="ph-plus"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /page header -->
-
-
 	<!-- Page content -->
-	<div class="page-content pt-0">
+	<div class="page-content ">
 
 		<!-- Main sidebar -->
 		<div class="sidebar sidebar-main sidebar-expand-lg align-self-start">
@@ -482,7 +184,7 @@
 				<!-- Sidebar header -->
 				<div class="sidebar-section">
 					<div class="sidebar-section-body d-flex justify-content-center">
-						<h5 class="sidebar-resize-hide flex-grow-1 my-auto">Navigation</h5>
+						<h5 class="sidebar-resize-hide flex-grow-1 my-auto">Navegação</h5>
 
 						<div>
 							<button type="button" class="btn btn-light btn-icon btn-sm rounded-pill border-transparent sidebar-control sidebar-main-resize d-none d-lg-inline-flex">
@@ -502,184 +204,136 @@
 				<div class="sidebar-section">
 					<ul class="nav nav-sidebar" data-nav-type="accordion">
 
-						<!-- Main -->
+						<!-- Dashboard -->
 						<li class="nav-item-header pt-0">
-							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Main</div>
+							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Menu Principal</div>
 							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
 						<li class="nav-item">
-							<a href="index.html" class="nav-link active">
-								<i class="ph-house"></i>
-								<span>
-									Dashboard
-									<span class="d-block fw-normal text-body opacity-50">No pending orders</span>
-								</span>
-							</a>
-						</li>
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link">
-								<i class="ph-layout"></i>
-								<span>Layouts</span>
-							</a>
-							<ul class="nav-group-sub collapse" data-submenu-title="Layouts">
-								<li class="nav-item"><a href="../../layout_1/full/index.html" class="nav-link">Default layout</a></li>
-								<li class="nav-item"><a href="../../layout_2/full/index.html" class="nav-link">Layout 2</a></li>
-								<li class="nav-item"><a href="index.html" class="nav-link active">Layout 3</a></li>
-								<li class="nav-item"><a href="../../layout_4/full/index.html" class="nav-link">Layout 4</a></li>
-								<li class="nav-item"><a href="../../layout_5/full/index.html" class="nav-link">Layout 5</a></li>
-								<li class="nav-item"><a href="../../layout_6/full/index.html" class="nav-link">Layout 6</a></li>
-								<li class="nav-item"><a href="../../layout_7/full/index.html" class="nav-link disabled">Layout 7 <span class="opacity-75 fs-sm ms-auto">Coming soon</span></a></li>
-							</ul>
-						</li>
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link">
-								<i class="ph-swatches"></i>
-								<span>Themes</span>
-							</a>
-							<ul class="nav-group-sub collapse" data-submenu-title="Themes">
-								<li class="nav-item"><a href="index.html" class="nav-link active">Default</a></li>
-								<li class="nav-item"><a href="../../../LTR/material/full/index.html" class="nav-link disabled">Material <span class="opacity-75 fs-sm ms-auto">Coming soon</span></a></li>
-								<li class="nav-item"><a href="../../../LTR/clean/full/index.html" class="nav-link disabled">Clean <span class="opacity-75 fs-sm ms-auto">Coming soon</span></a></li>
-							</ul>
-						</li>
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link">
-								<i class="ph-note-blank"></i>
-								<span>Starter kit</span>
-							</a>
-							<ul class="nav-group-sub collapse" data-submenu-title="Starter kit">
-								<li class="nav-item"><a href="../seed/layout_navbar_fixed.html" class="nav-link">Fixed navbar</a></li>
-								<li class="nav-item"><a href="../seed/layout_navbar_hideable.html" class="nav-link">Hideable navbar</a></li>
-								<li class="nav-item-divider"></li>
-								<li class="nav-item"><a href="../seed/layout_no_header.html" class="nav-link">No header</a></li>
-								<li class="nav-item"><a href="../seed/layout_no_footer.html" class="nav-link">No footer</a></li>
-								<li class="nav-item"><a href="../seed/layout_fixed_footer.html" class="nav-link">Fixed footer</a></li>
-								<li class="nav-item-divider"></li>
-								<li class="nav-item"><a href="../seed/layout_2_sidebars_1_side.html" class="nav-link">2 sidebars on 1 side</a></li>
-								<li class="nav-item"><a href="../seed/layout_2_sidebars_2_sides.html" class="nav-link">2 sidebars on 2 sides</a></li>
-								<li class="nav-item"><a href="../seed/layout_3_sidebars.html" class="nav-link">3 sidebars</a></li>
-								<li class="nav-item-divider"></li>
-								<li class="nav-item"><a href="../seed/layout_boxed_page.html" class="nav-link">Boxed page</a></li>
-								<li class="nav-item"><a href="../seed/layout_boxed_content.html" class="nav-link">Boxed content</a></li>
-							</ul>
-						</li>
-						<li class="nav-item">
-							<a href="../../../../docs/other_changelog.html" class="nav-link">
-								<i class="ph-list-numbers"></i>
-								<span>Changelog</span>
-								<span class="badge bg-primary align-self-center rounded-pill ms-auto">4.0</span>
+							<a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+								<i class="ph-gauge"></i>
+								<span>Dashboard</span>
 							</a>
 						</li>
 
-						<!-- Layout -->
+						<!-- Gestão de Viagens -->
 						<li class="nav-item-header">
-							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Layout</div>
+							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Gestão de Viagens</div>
 							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
-						<li class="nav-item nav-item-submenu">
+						<li class="nav-item nav-item-submenu {{ request()->is('routes*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
-								<i class="ph-layout"></i>
-								<span>Page layouts</span>
+								<i class="ph-map-trifold"></i>
+								<span>Rotas</span>
 							</a>
+							<ul class="nav-group-sub collapse {{ request()->is('routes*') ? 'show' : '' }}">
+								<li class="nav-item"><a href="{{ route('routes.index') }}" class="nav-link {{ request()->routeIs('routes.index') ? 'active' : '' }}">Lista de Rotas</a></li>
+								<li class="nav-item"><a href="{{ route('routes.create') }}" class="nav-link {{ request()->routeIs('routes.create') ? 'active' : '' }}">Nova Rota</a></li>
+							</ul>
+						</li>
+						<li class="nav-item nav-item-submenu {{ request()->is('schedules*') ? 'nav-item-open' : '' }}">
+							<a href="#" class="nav-link">
+								<i class="ph-calendar-blank"></i>
+								<span>Horários</span>
+							</a>
+							<ul class="nav-group-sub collapse {{ request()->is('schedules*') ? 'show' : '' }}">
+								<li class="nav-item"><a href="{{ route('schedules.index') }}" class="nav-link {{ request()->routeIs('schedules.index') ? 'active' : '' }}">Lista de Horários</a></li>
+								<li class="nav-item"><a href="{{ route('schedules.create') }}" class="nav-link {{ request()->routeIs('schedules.create') ? 'active' : '' }}">Novo Horário</a></li>
+							</ul>
+						</li>
+						<li class="nav-item nav-item-submenu {{ request()->is('buses*') ? 'nav-item-open' : '' }}">
+							<a href="#" class="nav-link">
+								<i class="ph-bus"></i>
+								<span>Autocarros</span>
+							</a>
+							<ul class="nav-group-sub collapse {{ request()->is('buses*') ? 'show' : '' }}">
+								<li class="nav-item"><a href="{{ route('buses.index') }}" class="nav-link {{ request()->routeIs('buses.index') ? 'active' : '' }}">Lista de Autocarros</a></li>
+								<li class="nav-item"><a href="{{ route('buses.create') }}" class="nav-link {{ request()->routeIs('buses.create') ? 'active' : '' }}">Novo Autocarro</a></li>
+							</ul>
+						</li>
 
-							<ul class="nav-group-sub collapse" data-submenu-title="Page layouts">
-								<li class="nav-item"><a href="layout_navbar_fixed.html" class="nav-link">Fixed navbar</a></li>
-								<li class="nav-item"><a href="layout_navbar_hideable.html" class="nav-link">Hideable navbar</a></li>
-								<li class="nav-item-divider"></li>
-								<li class="nav-item"><a href="layout_no_header.html" class="nav-link">No header</a></li>
-								<li class="nav-item"><a href="layout_no_footer.html" class="nav-link">No footer</a></li>
-								<li class="nav-item"><a href="layout_fixed_footer.html" class="nav-link">Fixed footer</a></li>
-								<li class="nav-item-divider"></li>
-								<li class="nav-item"><a href="layout_2_sidebars_1_side.html" class="nav-link">2 sidebars on 1 side</a></li>
-								<li class="nav-item"><a href="layout_2_sidebars_2_sides.html" class="nav-link">2 sidebars on 2 sides</a></li>
-								<li class="nav-item"><a href="layout_3_sidebars.html" class="nav-link">3 sidebars</a></li>
-								<li class="nav-item-divider"></li>
-								<li class="nav-item"><a href="layout_boxed_page.html" class="nav-link">Boxed page</a></li>
-								<li class="nav-item"><a href="layout_boxed_content.html" class="nav-link">Boxed content</a></li>
-							</ul>
+						<!-- Passageiros e Bilhetes -->
+						<li class="nav-item-header">
+							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Passageiros & Bilhetes</div>
+							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
-						<li class="nav-item nav-item-submenu">
+						<li class="nav-item nav-item-submenu {{ request()->is('passengers*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
-								<i class="ph-columns"></i>
-								<span>Sidebars</span>
+								<i class="ph-users"></i>
+								<span>Passageiros</span>
 							</a>
-							<ul class="nav-group-sub collapse" data-submenu-title="Sidebars">
-								<li class="nav-item nav-item-submenu">
-									<a href="#" class="nav-link">Main sidebar</a>
-									<ul class="nav-group-sub collapse">
-										<li class="nav-item"><a href="sidebar_default_resizable.html" class="nav-link">Resizable</a></li>
-										<li class="nav-item"><a href="sidebar_default_resized.html" class="nav-link">Resized</a></li>
-										<li class="nav-item"><a href="sidebar_default_hideable.html" class="nav-link">Hideable</a></li>
-										<li class="nav-item"><a href="sidebar_default_hidden.html" class="nav-link">Hidden</a></li>
-										<li class="nav-item-divider"></li>
-										<li class="nav-item"><a href="sidebar_default_stretched.html" class="nav-link">Stretched</a></li>
-										<li class="nav-item"><a href="sidebar_default_color_dark.html" class="nav-link">Dark color</a></li>
-									</ul>
-								</li>
-								<li class="nav-item nav-item-submenu">
-									<a href="#" class="nav-link">Secondary sidebar</a>
-									<ul class="nav-group-sub collapse">
-										<li class="nav-item"><a href="sidebar_secondary_hideable.html" class="nav-link">Hideable</a></li>
-										<li class="nav-item"><a href="sidebar_secondary_hidden.html" class="nav-link">Hidden</a></li>
-										<li class="nav-item-divider"></li>
-										<li class="nav-item"><a href="sidebar_secondary_stretched.html" class="nav-link">Stretched</a></li>
-										<li class="nav-item"><a href="sidebar_secondary_color_dark.html" class="nav-link">Dark color</a></li>
-									</ul>
-								</li>
-								<li class="nav-item nav-item-submenu">
-									<a href="#" class="nav-link">Right sidebar</a>
-									<ul class="nav-group-sub collapse">
-										<li class="nav-item"><a href="sidebar_right_hideable.html" class="nav-link">Hideable</a></li>
-										<li class="nav-item"><a href="sidebar_right_hidden.html" class="nav-link">Hidden</a></li>
-										<li class="nav-item-divider"></li>
-										<li class="nav-item"><a href="sidebar_right_stretched.html" class="nav-link">Stretched</a></li>
-										<li class="nav-item"><a href="sidebar_right_color_dark.html" class="nav-link">Dark color</a></li>
-									</ul>
-								</li>
-								<li class="nav-item-divider"></li>
-								<li class="nav-item"><a href="sidebar_components.html" class="nav-link">Sidebar components</a></li>
+							<ul class="nav-group-sub collapse {{ request()->is('passengers*') ? 'show' : '' }}">
+								<li class="nav-item"><a href="{{ route('passengers.index') }}" class="nav-link {{ request()->routeIs('passengers.index') ? 'active' : '' }}">Lista de Passageiros</a></li>
+								<li class="nav-item"><a href="{{ route('passengers.create') }}" class="nav-link {{ request()->routeIs('passengers.create') ? 'active' : '' }}">Novo Passageiro</a></li>
 							</ul>
 						</li>
-						<li class="nav-item nav-item-submenu">
+						<li class="nav-item nav-item-submenu {{ request()->is('tickets*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
-								<i class="ph-rows"></i>
-								<span>Navbars</span>
+								<i class="ph-ticket"></i>
+								<span>Bilhetes</span>
 							</a>
-							<ul class="nav-group-sub collapse" data-submenu-title="Navbars">
-								<li class="nav-item nav-item-submenu">
-									<a href="#" class="nav-link">Single navbar</a>
-									<ul class="nav-group-sub collapse">
-										<li class="nav-item"><a href="navbar_single_top_static.html" class="nav-link">Top static</a></li>
-										<li class="nav-item"><a href="navbar_single_top_fixed.html" class="nav-link">Top fixed</a></li>
-										<li class="nav-item"><a href="navbar_single_bottom_static.html" class="nav-link">Bottom static</a></li>
-										<li class="nav-item"><a href="navbar_single_bottom_fixed.html" class="nav-link">Bottom fixed</a></li>
-									</ul>
-								</li>
-								<li class="nav-item nav-item-submenu">
-									<a href="#" class="nav-link">Multiple navbars</a>
-									<ul class="nav-group-sub collapse">
-										<li class="nav-item"><a href="navbar_multiple_top_static.html" class="nav-link">Top static</a></li>
-										<li class="nav-item"><a href="navbar_multiple_top_fixed.html" class="nav-link">Top fixed</a></li>
-										<li class="nav-item"><a href="navbar_multiple_bottom_static.html" class="nav-link">Bottom static</a></li>
-										<li class="nav-item"><a href="navbar_multiple_bottom_fixed.html" class="nav-link">Bottom fixed</a></li>
-										<li class="nav-item"><a href="navbar_multiple_top_bottom_fixed.html" class="nav-link">Top and bottom fixed</a></li>
-										<li class="nav-item"><a href="navbar_multiple_secondary_sticky.html" class="nav-link">Secondary sticky</a></li>
-									</ul>
-								</li>
-								<li class="nav-item nav-item-submenu">
-									<a href="#" class="nav-link">Content navbar</a>
-									<ul class="nav-group-sub collapse">
-										<li class="nav-item"><a href="navbar_component_single.html" class="nav-link">Single navbar</a></li>
-										<li class="nav-item"><a href="navbar_component_multiple.html" class="nav-link">Multiple navbars</a></li>
-									</ul>
-								</li>
-								<li class="nav-item-divider"></li>
-								<li class="nav-item"><a href="navbar_colors.html" class="nav-link">Color options</a></li>
-								<li class="nav-item"><a href="navbar_sizes.html" class="nav-link">Sizing options</a></li>
-								<li class="nav-item"><a href="navbar_components.html" class="nav-link">Navbar components</a></li>
+							<ul class="nav-group-sub collapse {{ request()->is('tickets*') ? 'show' : '' }}">
+								<li class="nav-item"><a href="{{ route('tickets.index') }}" class="nav-link {{ request()->routeIs('tickets.index') ? 'active' : '' }}">Todos os Bilhetes</a></li>
+								<li class="nav-item"><a href="{{ route('tickets.create') }}" class="nav-link {{ request()->routeIs('tickets.create') ? 'active' : '' }}">Emitir Bilhete</a></li>
+								<li class="nav-item"><a href="{{ route('tickets.validate') }}" class="nav-link {{ request()->routeIs('tickets.validate') ? 'active' : '' }}">Validar Bilhete</a></li>
 							</ul>
 						</li>
-						<!-- /layout -->
+
+						<!-- Pagamentos -->
+						<li class="nav-item-header">
+							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Financeiro</div>
+							<i class="ph-dots-three sidebar-resize-show"></i>
+						</li>
+						<li class="nav-item nav-item-submenu {{ request()->is('payments*') ? 'nav-item-open' : '' }}">
+							<a href="#" class="nav-link">
+								<i class="ph-credit-card"></i>
+								<span>Pagamentos</span>
+							</a>
+							<ul class="nav-group-sub collapse {{ request()->is('payments*') ? 'show' : '' }}">
+								<li class="nav-item"><a href="{{ route('payments.index') }}" class="nav-link {{ request()->routeIs('payments.index') ? 'active' : '' }}">Transacções</a></li>
+								<li class="nav-item"><a href="{{ route('payments.mpesa') }}" class="nav-link {{ request()->routeIs('payments.mpesa') ? 'active' : '' }}">M-Pesa / e-Mola</a></li>
+							</ul>
+						</li>
+						<li class="nav-item">
+							<a href="{{ route('reports.index') }}" class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+								<i class="ph-chart-line"></i>
+								<span>Relatórios</span>
+							</a>
+						</li>
+
+						<!-- Localização -->
+						<li class="nav-item-header">
+							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Localização</div>
+							<i class="ph-dots-three sidebar-resize-show"></i>
+						</li>
+						<li class="nav-item">
+							<a href="{{ route('provinces.index') }}" class="nav-link {{ request()->routeIs('provinces.*') ? 'active' : '' }}">
+								<i class="ph-map-pin"></i>
+								<span>Províncias</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="{{ route('cities.index') }}" class="nav-link {{ request()->routeIs('cities.*') ? 'active' : '' }}">
+								<i class="ph-buildings"></i>
+								<span>Cidades</span>
+							</a>
+						</li>
+
+						<!-- Configurações -->
+						<li class="nav-item-header">
+							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Sistema</div>
+							<i class="ph-dots-three sidebar-resize-show"></i>
+						</li>
+						<li class="nav-item nav-item-submenu {{ request()->is('settings*') ? 'nav-item-open' : '' }}">
+							<a href="#" class="nav-link">
+								<i class="ph-gear"></i>
+								<span>Configurações</span>
+							</a>
+							<ul class="nav-group-sub collapse {{ request()->is('settings*') ? 'show' : '' }}">
+								<li class="nav-item"><a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">Utilizadores</a></li>
+								<li class="nav-item"><a href="{{ route('settings.system') }}" class="nav-link {{ request()->routeIs('settings.system') ? 'active' : '' }}">Sistema</a></li>
+							</ul>
+						</li>
 
 					</ul>
 				</div>
@@ -697,7 +351,33 @@
 
 			<!-- Content area -->
 			<div class="content">
+				@if(session('success'))
+					<div class="alert alert-success alert-dismissible fade show">
+						<span class="fw-semibold">Sucesso!</span> {{ session('success') }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				@endif
 
+				@if(session('error'))
+					<div class="alert alert-danger alert-dismissible fade show">
+						<span class="fw-semibold">Erro!</span> {{ session('error') }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				@endif
+
+				@if($errors->any())
+					<div class="alert alert-danger alert-dismissible fade show">
+						<span class="fw-semibold">Erro!</span> Por favor corrija os seguintes erros:
+						<ul class="mb-0 mt-2">
+							@foreach($errors->all() as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				@endif
+
+				@yield('content')
 			</div>
 			<!-- /content area -->
 
@@ -711,30 +391,22 @@
 	<!-- Footer -->
 	<div class="navbar navbar-sm navbar-footer border-top">
 		<div class="container-fluid">
-			<span>&copy; 2022 <a href="https://themeforest.net/item/limitless-responsive-web-application-kit/13080328">Limitless Web App Kit</a></span>
+			<span>&copy; {{ date('Y') }} <a href="#">CityLink e-Ticket</a> - Sistema de Bilhetes Electrónicos</span>
 
 			<ul class="nav">
 				<li class="nav-item">
-					<a href="#" class="navbar-nav-link navbar-nav-link-icon rounded" target="_blank">
+					<a href="#" class="navbar-nav-link navbar-nav-link-icon rounded">
 						<div class="d-flex align-items-center mx-md-1">
 							<i class="ph-lifebuoy"></i>
-							<span class="d-none d-md-inline-block ms-2">Support</span>
+							<span class="d-none d-md-inline-block ms-2">Suporte</span>
 						</div>
 					</a>
 				</li>
 				<li class="nav-item ms-md-1">
-					<a href="#" class="navbar-nav-link navbar-nav-link-icon rounded" target="_blank">
+					<a href="#" class="navbar-nav-link navbar-nav-link-icon rounded">
 						<div class="d-flex align-items-center mx-md-1">
 							<i class="ph-file-text"></i>
-							<span class="d-none d-md-inline-block ms-2">Docs</span>
-						</div>
-					</a>
-				</li>
-				<li class="nav-item ms-md-1">
-					<a href="#" class="navbar-nav-link navbar-nav-link-icon text-primary bg-primary bg-opacity-10 fw-semibold rounded" target="_blank">
-						<div class="d-flex align-items-center mx-md-1">
-							<i class="ph-shopping-cart"></i>
-							<span class="d-none d-md-inline-block ms-2">Purchase</span>
+							<span class="d-none d-md-inline-block ms-2">Documentação</span>
 						</div>
 					</a>
 				</li>
@@ -747,63 +419,38 @@
 	<!-- Notifications -->
 	<div class="offcanvas offcanvas-end" tabindex="-1" id="notifications">
 		<div class="offcanvas-header py-0">
-			<h5 class="offcanvas-title py-3">Activity</h5>
+			<h5 class="offcanvas-title py-3">Notificações</h5>
 			<button type="button" class="btn btn-light btn-sm btn-icon border-transparent rounded-pill" data-bs-dismiss="offcanvas">
 				<i class="ph-x"></i>
 			</button>
 		</div>
 
 		<div class="offcanvas-body p-0">
-			<div class="bg-light fw-medium py-2 px-3">New notifications</div>
+			<div class="bg-light fw-medium py-2 px-3">Novas notificações</div>
 			<div class="p-3">
 				<div class="d-flex align-items-start mb-3">
-					<a href="#" class="status-indicator-container me-3">
-						<img src="../../../assets/images/demo/users/face1.jpg" class="w-40px h-40px rounded-pill" alt="">
-						<span class="status-indicator bg-success"></span>
-					</a>
-					<div class="flex-fill">
-						<a href="#" class="fw-semibold">James</a> has completed the task <a href="#">Submit documents</a> from <a href="#">Onboarding</a> list
-
-						<div class="bg-light rounded p-2 my-2">
-							<label class="form-check ms-1">
-								<input type="checkbox" class="form-check-input" checked disabled>
-								<del class="form-check-label">Submit personal documents</del>
-							</label>
+					<div class="me-3">
+						<div class="bg-success bg-opacity-10 text-success rounded-pill p-2">
+							<i class="ph-check-circle"></i>
 						</div>
-
-						<div class="fs-sm text-muted mt-1">2 hours ago</div>
+					</div>
+					<div class="flex-fill">
+						<a href="#" class="fw-semibold">Pagamento confirmado</a>
+						<div class="text-muted">Bilhete #TKT-20251013-ABC123 pago via M-Pesa</div>
+						<div class="fs-sm text-muted mt-1">5 minutos atrás</div>
 					</div>
 				</div>
-                ...
-			</div>
 
-			<div class="bg-light fw-medium py-2 px-3">Older notifications</div>
-			<div class="p-3">
 				<div class="d-flex align-items-start mb-3">
-					<a href="#" class="status-indicator-container me-3">
-						<img src="../../../assets/images/demo/users/face25.jpg" class="w-40px h-40px rounded-pill" alt="">
-						<span class="status-indicator bg-success"></span>
-					</a>
-					<div class="flex-fill">
-						<a href="#" class="fw-semibold">Nick</a> requested your feedback and approval in support request <a href="#">#458</a>
-
-						<div class="my-2">
-							<a href="#" class="btn btn-success btn-sm me-1">
-								<i class="ph-checks ph-sm me-1"></i>
-								Approve
-							</a>
-							<a href="#" class="btn btn-light btn-sm">
-								Review
-							</a>
+					<div class="me-3">
+						<div class="bg-warning bg-opacity-10 text-warning rounded-pill p-2">
+							<i class="ph-warning"></i>
 						</div>
-
-						<div class="fs-sm text-muted mt-1">3 days ago</div>
 					</div>
-				</div>
-                ....
-				<div class="text-center">
-					<div class="spinner-border" role="status">
-						<span class="visually-hidden">Loading...</span>
+					<div class="flex-fill">
+						<a href="#" class="fw-semibold">Autocarro em manutenção</a>
+						<div class="text-muted">Autocarro ABC-1234 necessita revisão</div>
+						<div class="fs-sm text-muted mt-1">1 hora atrás</div>
 					</div>
 				</div>
 			</div>
@@ -812,68 +459,16 @@
 	<!-- /notifications -->
 
 
-	<!-- Demo config -->
-	<div class="offcanvas offcanvas-end" tabindex="-1" id="demo_config">
-		<div class="position-absolute top-50 end-100 visible">
-			<button type="button" class="btn btn-primary btn-icon translate-middle-y rounded-end-0" data-bs-toggle="offcanvas" data-bs-target="#demo_config">
-				<i class="ph-gear"></i>
-			</button>
-		</div>
+    <script src="{{ asset('template/assets/demo/demo_configurator.js') }}"></script>
+    <script src="{{ asset('template/assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('template/assets/js/vendor/visualization/d3/d3.min.js') }}"></script>
+    <script src="{{ asset('template/assets/js/vendor/visualization/d3/d3_tooltip.js') }}"></script>
 
-		<div class="offcanvas-header border-bottom py-0">
-			<h5 class="offcanvas-title py-3">Demo configuration</h5>
-			<button type="button" class="btn btn-light btn-sm btn-icon border-transparent rounded-pill" data-bs-dismiss="offcanvas">
-				<i class="ph-x"></i>
-			</button>
-		</div>
+    <script src="{{ asset('template/html/layout_3/full/assets/js/app.js') }}"></script>
 
-		<div class="offcanvas-body">
-			<div class="fw-semibold mb-2">Color mode</div>
-			<div class="list-group mb-3">
-				<label class="list-group-item list-group-item-action form-check border-width-1 rounded mb-2">
-					<div class="d-flex flex-fill my-1">
-						<div class="form-check-label d-flex me-2">
-							<i class="ph-sun ph-lg me-3"></i>
-							<div>
-								<span class="fw-bold">Light theme</span>
-								<div class="fs-sm text-muted">Set light theme or reset to default</div>
-							</div>
-						</div>
-						<input type="radio" class="form-check-input cursor-pointer ms-auto" name="main-theme" value="light" checked>
-					</div>
-				</label>
-
-				<label class="list-group-item list-group-item-action form-check border-width-1 rounded mb-2">
-					<div class="d-flex flex-fill my-1">
-						<div class="form-check-label d-flex me-2">
-							<i class="ph-moon ph-lg me-3"></i>
-							<div>
-								<span class="fw-bold">Dark theme</span>
-								<div class="fs-sm text-muted">Switch to dark theme</div>
-							</div>
-						</div>
-						<input type="radio" class="form-check-input cursor-pointer ms-auto" name="main-theme" value="dark">
-					</div>
-				</label>
-
-				<label class="list-group-item list-group-item-action form-check border-width-1 rounded mb-0">
-					<div class="d-flex flex-fill my-1">
-						<div class="form-check-label d-flex me-2">
-							<i class="ph-translate ph-lg me-3"></i>
-							<div>
-								<span class="fw-bold">Auto theme</span>
-								<div class="fs-sm text-muted">Set theme based on system mode</div>
-							</div>
-						</div>
-						<input type="radio" class="form-check-input cursor-pointer ms-auto" name="main-theme" value="auto">
-					</div>
-				</label>
-			</div>			
-		</div>
-
-		
-	</div>
-	<!-- /demo config -->
+    <script src="{{ asset('template/assets/demo/pages/dashboard.js') }}"></script>
+    
+	@stack('scripts')
 
 </body>
 </html>
