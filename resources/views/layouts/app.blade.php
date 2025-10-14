@@ -480,9 +480,9 @@
 	<!-- /notifications -->
 
 
-    <script src="{{ asset('template/assets/demo/demo_configurator.js') }}"></script>
+    {{-- <script src="{{ asset('template/assets/demo/demo_configurator.js') }}"></script> --}}
     <script src="{{ asset('template/assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
-
+	<script src="{{ asset('template/assets/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('template/html/layout_3/full/assets/js/app.js') }}"></script>
 	<script src="{{ asset('js/toast.js') }}"></script>
     {{-- <script src="{{ asset('template/assets/demo/pages/dashboard.js') }}"></script> --}}
