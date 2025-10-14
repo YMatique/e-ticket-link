@@ -4,6 +4,7 @@ use App\Http\Controllers\BusController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\ScheduleController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
