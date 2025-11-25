@@ -24,7 +24,7 @@
             <div class="navbar-brand">
                 <a href="{{ route('public.home') }}" class="d-inline-flex align-items-center">
                     <i class="ph-bus ph-2x text-primary"></i>
-                    <span class="fw-bold ms-3 text-primary">CityLink e-Ticket</span>
+                    <span class="fw-bold ms-3 text-primary">e-Ticket Link</span>
                 </a>
             </div>
 
@@ -124,7 +124,7 @@
                         </li>
                         <li class="mb-2">
                             <a 
-                            {{-- href="{{ route('public.my-tickets') }}"  --}}
+                            href="{{ route('public.my-tickets') }}" 
                             class="text-white-50 text-decoration-none">
                                 <i class="ph-caret-right me-1"></i> Meus Bilhetes
                             </a>
