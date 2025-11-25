@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Public\AvailableTrips;
 use App\Livewire\Public\SearchTickets;
 use Illuminate\Support\Facades\Route;
 
@@ -16,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 // Homepage - Busca de Bilhetes
 Route::get('/', SearchTickets::class)->name('public.home');
-/*
+
 // Resultados de Viagens Disponíveis
 Route::get('/viagens', AvailableTrips::class)->name('public.trips');
-
+/*
 // Seleção de Assentos
 Route::get('/assentos/{schedule}', SeatSelection::class)->name('public.seats');
 
