@@ -13,427 +13,417 @@
         
         body {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 12px;
+            font-size: 10px;
             color: #333;
-            line-height: 1.5;
+            line-height: 1.3;
+            padding: 15px;
         }
         
-        .page {
-            width: 100%;
-            padding: 20px;
+        .ticket-container {
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 700px;
+            margin: 0 auto;
         }
         
-        /* Header */
+        /* Header compacto */
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            margin-bottom: 12px;
         }
         
         .header h1 {
             color: #667eea;
-            font-size: 28px;
-            margin-bottom: 5px;
+            font-size: 18px;
+            margin-bottom: 2px;
         }
         
-        .header p {
+        .header .subtitle {
             color: #666;
-            font-size: 14px;
+            font-size: 9px;
         }
         
-        /* Ticket Number */
+        /* Ticket number e status */
+        .ticket-header {
+            display: table;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        
         .ticket-number {
-            text-align: center;
-            background: #f8f9fa;
-            border: 2px dashed #667eea;
-            padding: 20px;
-            margin: 20px 0;
+            display: table-cell;
+            width: 60%;
+            vertical-align: middle;
         }
         
         .ticket-number h2 {
             color: #667eea;
-            font-size: 24px;
-            margin-bottom: 5px;
+            font-size: 16px;
+            margin-bottom: 2px;
         }
         
-        .ticket-number .status {
+        .ticket-number small {
+            color: #999;
+            font-size: 8px;
+        }
+        
+        .ticket-status {
+            display: table-cell;
+            width: 40%;
+            text-align: right;
+            vertical-align: middle;
+        }
+        
+        .status-badge {
             display: inline-block;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 9px;
             font-weight: bold;
             text-transform: uppercase;
-            margin-top: 10px;
         }
         
         .status-paid {
             background: #d4edda;
             color: #155724;
+            border: 1px solid #c3e6cb;
         }
         
         .status-reserved {
             background: #fff3cd;
             color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        /* Main content - 2 colunas */
+        .content {
+            display: table;
+            width: 100%;
+        }
+        
+        .left-column {
+            display: table-cell;
+            width: 65%;
+            vertical-align: top;
+            padding-right: 15px;
+        }
+        
+        .right-column {
+            display: table-cell;
+            width: 35%;
+            vertical-align: top;
+            text-align: center;
         }
         
         /* Route */
-        .route-section {
-            margin: 30px 0;
-            padding: 20px;
+        .route-box {
             background: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .route-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .route-header h3 {
-            color: #333;
-            font-size: 16px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
             margin-bottom: 10px;
         }
         
-        .route {
+        .route-cities {
             display: table;
             width: 100%;
-            margin: 20px 0;
         }
         
-        .route-item {
+        .city {
             display: table-cell;
             width: 45%;
             text-align: center;
-            vertical-align: middle;
         }
         
-        .route-arrow {
+        .arrow {
             display: table-cell;
             width: 10%;
             text-align: center;
-            vertical-align: middle;
-            font-size: 24px;
+            font-size: 14px;
             color: #667eea;
         }
         
-        .route-item .city {
-            font-size: 20px;
+        .city-name {
+            font-size: 14px;
             font-weight: bold;
             color: #333;
-            margin-bottom: 5px;
         }
         
-        .route-item .time {
-            font-size: 14px;
+        .city-time {
+            font-size: 9px;
             color: #666;
         }
         
-        /* Details Grid */
-        .details {
-            margin: 30px 0;
-        }
-        
-        .details h3 {
-            color: #333;
-            font-size: 16px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #667eea;
-        }
-        
+        /* Details grid */
         .details-grid {
             display: table;
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 10px;
         }
         
-        .details-row {
+        .detail-row {
             display: table-row;
         }
         
-        .details-cell {
+        .detail-cell {
             display: table-cell;
-            width: 50%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            background: white;
+            padding: 5px 8px;
+            border: 1px solid #dee2e6;
+            background: #fff;
         }
         
-        .details-cell:nth-child(odd) {
+        .detail-cell.header {
             background: #f8f9fa;
-        }
-        
-        .details-cell .label {
-            display: block;
-            font-size: 10px;
-            color: #666;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        
-        .details-cell .value {
-            display: block;
-            font-size: 14px;
             font-weight: bold;
+            width: 35%;
+            font-size: 9px;
+            color: #666;
+        }
+        
+        .detail-cell.value {
+            width: 65%;
+            font-size: 10px;
             color: #333;
         }
         
-        /* Passenger Info */
-        .passenger-section {
-            margin: 30px 0;
-            padding: 20px;
-            background: #fff9e6;
-            border: 2px solid #ffd700;
-            border-radius: 8px;
+        /* Passenger info */
+        .passenger-box {
+            background: #fffbf0;
+            border: 1px solid #ffd700;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 10px;
         }
         
-        .passenger-section h3 {
+        .passenger-box h4 {
+            font-size: 10px;
             color: #333;
-            font-size: 16px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #ffd700;
+            padding-bottom: 3px;
         }
         
         .passenger-info {
-            line-height: 2;
+            font-size: 9px;
+            line-height: 1.5;
+        }
+        
+        .passenger-info div {
+            margin: 2px 0;
         }
         
         .passenger-info strong {
             color: #666;
-            min-width: 120px;
             display: inline-block;
+            min-width: 70px;
         }
         
-        /* QR Code */
-        .qr-section {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
+        /* QR Code section */
+        .qr-box {
             background: #f8f9fa;
-            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
         }
         
-        .qr-section h3 {
-            color: #333;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-        
-        .qr-section img {
-            border: 4px solid white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .qr-section p {
-            margin-top: 10px;
+        .qr-box h4 {
+            font-size: 9px;
             color: #666;
-            font-size: 11px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .qr-box img {
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .qr-info {
+            font-size: 7px;
+            color: #999;
+            margin-top: 5px;
         }
         
         /* Instructions */
         .instructions {
-            margin: 30px 0;
-            padding: 20px;
             background: #e7f3ff;
-            border-left: 4px solid #2196F3;
+            border: 1px solid #b3d9ff;
+            border-left: 3px solid #2196F3;
             border-radius: 4px;
+            padding: 8px;
+            margin-top: 10px;
         }
         
-        .instructions h3 {
+        .instructions h4 {
+            font-size: 9px;
             color: #2196F3;
-            font-size: 16px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
         
         .instructions ul {
-            margin-left: 20px;
-            line-height: 1.8;
+            margin-left: 15px;
+            font-size: 8px;
+            line-height: 1.5;
         }
         
         .instructions li {
-            margin: 8px 0;
-            color: #333;
+            margin: 3px 0;
         }
         
         /* Footer */
         .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #ddd;
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px solid #dee2e6;
             text-align: center;
-        }
-        
-        .footer p {
+            font-size: 8px;
             color: #666;
-            font-size: 11px;
-            margin: 5px 0;
         }
         
         .footer .company {
             font-weight: bold;
-            color: #333;
-            font-size: 14px;
+            color: #667eea;
+            font-size: 9px;
         }
         
-        /* Page break */
-        .page-break {
-            page-break-after: always;
+        .footer .contacts {
+            margin-top: 3px;
         }
         
-        /* Watermark (optional) */
-        .watermark {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 100px;
-            color: rgba(102, 126, 234, 0.05);
-            z-index: -1;
+        /* Print optimization */
+        @media print {
+            body {
+                padding: 10px;
+            }
+            .ticket-container {
+                border: 2px solid #667eea;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Watermark (optional) -->
-    <!-- <div class="watermark">CityLink</div> -->
-    
-    <div class="page">
+    <div class="ticket-container">
         <!-- Header -->
         <div class="header">
             <h1>🚌 CityLink e-Ticket</h1>
-            <p>Bilhete Electrónico de Viagem</p>
+            <div class="subtitle">Bilhete Electrónico de Viagem</div>
         </div>
         
-        <!-- Ticket Number -->
-        <div class="ticket-number">
-            <h2>{{ $ticket->ticket_number }}</h2>
-            <span class="status status-{{ $ticket->status }}">
-                @if($ticket->status === 'paid')
-                    ✓ PAGO
-                @elseif($ticket->status === 'reserved')
-                    ⏳ RESERVADO
-                @else
-                    {{ strtoupper($ticket->status) }}
-                @endif
-            </span>
+        <!-- Ticket Number & Status -->
+        <div class="ticket-header">
+            <div class="ticket-number">
+                <h2>{{ $ticket->ticket_number }}</h2>
+                <small>Número do Bilhete</small>
+            </div>
+            <div class="ticket-status">
+                <span class="status-badge status-{{ $ticket->status }}">
+                    @if($ticket->status === 'paid')
+                        ✓ PAGO
+                    @elseif($ticket->status === 'reserved')
+                        ⏳ RESERVADO
+                    @else
+                        {{ strtoupper($ticket->status) }}
+                    @endif
+                </span>
+            </div>
         </div>
         
-        <!-- Route -->
-        <div class="route-section">
-            <div class="route-header">
-                <h3>Rota da Viagem</h3>
+        <!-- Main Content: 2 Columns -->
+        <div class="content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Route -->
+                <div class="route-box">
+                    <div class="route-cities">
+                        <div class="city">
+                            <div class="city-name">{{ $route->originCity->name }}</div>
+                            <div class="city-time">{{ $schedule->departure_time }}</div>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="city">
+                            <div class="city-name">{{ $route->destinationCity->name }}</div>
+                            <div class="city-time">{{ $schedule->arrival_time }}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Details -->
+                <div class="details-grid">
+                    <div class="detail-row">
+                        <div class="detail-cell header">Data</div>
+                        <div class="detail-cell value">{{ $schedule->departure_date->format('d/m/Y') }}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-cell header">Assento</div>
+                        <div class="detail-cell value">{{ $ticket->seat_number }}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-cell header">Autocarro</div>
+                        <div class="detail-cell value">{{ $schedule->bus->plate_number }}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-cell header">Preço</div>
+                        <div class="detail-cell value">{{ number_format($ticket->price, 2) }} MT</div>
+                    </div>
+                </div>
+                
+                <!-- Passenger Info -->
+                <div class="passenger-box">
+                    <h4>Passageiro</h4>
+                    <div class="passenger-info">
+                        <div><strong>Nome:</strong> {{ $passenger->first_name }} {{ $passenger->last_name }}</div>
+                        <div><strong>Doc:</strong> {{ strtoupper($passenger->document_type) }} {{ $passenger->document_number }}</div>
+                        <div><strong>Tel:</strong> {{ $passenger->phone }}</div>
+                    </div>
+                </div>
+                
+                <!-- Instructions -->
+                <div class="instructions">
+                    <h4>📌 Instruções</h4>
+                    <ul>
+                        <li>Chegue <strong>30 minutos antes</strong></li>
+                        <li>Apresente este bilhete + documento</li>
+                        <li>Use o QR Code para validação rápida</li>
+                        @if($ticket->status === 'reserved')
+                        <li><strong>⚠️ Complete pagamento no terminal</strong></li>
+                        @endif
+                    </ul>
+                </div>
             </div>
             
-            <div class="route">
-                <div class="route-item">
-                    <div class="city">{{ $route->originCity->name }}</div>
-                    <div class="time">Partida: {{ $schedule->departure_time }}</div>
-                </div>
-                <div class="route-arrow">→</div>
-                <div class="route-item">
-                    <div class="city">{{ $route->destinationCity->name }}</div>
-                    <div class="time">Chegada: {{ $schedule->arrival_time }}</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Details -->
-        <div class="details">
-            <h3>Detalhes da Viagem</h3>
-            <div class="details-grid">
-                <div class="details-row">
-                    <div class="details-cell">
-                        <span class="label">Data da Viagem</span>
-                        <span class="value">{{ $schedule->departure_date->format('d/m/Y') }}</span>
-                    </div>
-                    <div class="details-cell">
-                        <span class="label">Horário de Partida</span>
-                        <span class="value">{{ $schedule->departure_time }}</span>
+            <!-- Right Column: QR Code -->
+            <div class="right-column">
+                @if($ticket->qr_code)
+                <div class="qr-box">
+                    <h4>QR Code</h4>
+                    <img src="data:image/png;base64,{{ $qrCodeBase64 }}" 
+                         alt="QR Code" 
+                         width="150" 
+                         height="150">
+                    <div class="qr-info">
+                        Apresente no embarque
                     </div>
                 </div>
-                <div class="details-row">
-                    <div class="details-cell">
-                        <span class="label">Número do Assento</span>
-                        <span class="value">{{ $ticket->seat_number }}</span>
-                    </div>
-                    <div class="details-cell">
-                        <span class="label">Autocarro</span>
-                        <span class="value">{{ $schedule->bus->plate_number }}</span>
-                    </div>
-                </div>
-                <div class="details-row">
-                    <div class="details-cell">
-                        <span class="label">Preço</span>
-                        <span class="value">{{ number_format($ticket->price, 2) }} MT</span>
-                    </div>
-                    <div class="details-cell">
-                        <span class="label">Método de Pagamento</span>
-                        <span class="value">
-                            @if($ticket->status === 'paid')
-                                Pago Online
-                            @else
-                                Pagar no Terminal
-                            @endif
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Passenger Info -->
-        <div class="passenger-section">
-            <h3>📋 Dados do Passageiro</h3>
-            <div class="passenger-info">
-                <div><strong>Nome Completo:</strong> {{ $passenger->first_name }} {{ $passenger->last_name }}</div>
-                <div><strong>Documento:</strong> {{ strtoupper($passenger->document_type) }} - {{ $passenger->document_number }}</div>
-                <div><strong>Email:</strong> {{ $passenger->email }}</div>
-                <div><strong>Telefone:</strong> {{ $passenger->phone }}</div>
-            </div>
-        </div>
-        
-        <!-- QR Code -->
-        @if($ticket->qr_code)
-        <div class="qr-section">
-            <h3>QR Code de Validação</h3>
-            <img src="data:image/png;base64,{{ $qrCodeBase64 }}" 
-                 alt="QR Code" 
-                 width="200" 
-                 height="200">
-            <p><strong>Apresente este código no embarque</strong></p>
-            <p style="font-size: 10px; color: #999; margin-top: 5px;">
-                Código: {{ substr($ticket->qr_code, 0, 20) }}...
-            </p>
-        </div>
-        @endif
-        
-        <!-- Instructions -->
-        <div class="instructions">
-            <h3>📌 Instruções Importantes</h3>
-            <ul>
-                <li><strong>Chegue com antecedência:</strong> Apresente-se no terminal com pelo menos 30 minutos de antecedência.</li>
-                <li><strong>Documentação:</strong> Tenha em mãos este bilhete (impresso ou digital) e seu documento de identificação.</li>
-                <li><strong>QR Code:</strong> O código acima pode ser escaneado para validação rápida no embarque.</li>
-                @if($ticket->status === 'reserved')
-                <li><strong>⚠️ Atenção:</strong> Este bilhete está RESERVADO. Complete o pagamento no terminal antes da viagem.</li>
                 @endif
-                <li><strong>Bagagem:</strong> Permitido 1 mala de mão (10kg) + 1 bagagem despachada (20kg).</li>
-                <li><strong>Contato:</strong> Em caso de dúvidas, ligue para +258 84 000 0000.</li>
-            </ul>
+            </div>
         </div>
         
         <!-- Footer -->
         <div class="footer">
-            <p class="company">CityLink e-Ticket</p>
-            <p>Sistema de Bilhetes Electrónicos para Viagens de Autocarro</p>
-            <p style="margin-top: 10px;">
+            <div class="company">CityLink e-Ticket</div>
+            <div class="contacts">
                 📞 +258 84 000 0000 | 
                 📧 suporte@citylink.co.mz | 
                 🌐 www.citylink.co.mz
-            </p>
-            <p style="margin-top: 15px; font-size: 10px; color: #999;">
-                Bilhete emitido em {{ now()->format('d/m/Y H:i:s') }} | 
-                Este documento é válido apenas com documento de identificação
-            </p>
+            </div>
+            <div style="margin-top: 4px; font-size: 7px; color: #999;">
+                Emitido em {{ now()->format('d/m/Y H:i') }} | Válido com documento de identificação
+            </div>
         </div>
     </div>
 </body>
