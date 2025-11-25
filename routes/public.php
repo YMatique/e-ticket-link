@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Public\AvailableTrips;
+use App\Livewire\Public\MyTickets;
 use App\Livewire\Public\PassengerInfo;
 use App\Livewire\Public\SearchTickets;
 use App\Livewire\Public\SeatSelection;
@@ -31,9 +32,9 @@ Route::get('/assentos/{schedule}', SeatSelection::class)->name('public.seats');
 Route::get('/checkout/{schedule}', PassengerInfo::class)->name('public.checkout');
 // Route::get('/checkout/{schedule}/{seat}', PassengerInfo::class)->name('public.checkout');
 Route::get('/confirmacao', Ticketconfirmation::class)->name('public.ticket-confirmation');
-/*// Meus Bilhetes (permite buscar por número de bilhete ou email)
+// Meus Bilhetes (permite buscar por número de bilhete ou email)
 Route::get('/meus-bilhetes', MyTickets::class)->name('public.my-tickets');
-
+/*
 // Página de Ajuda
 Route::view('/ajuda', 'public.help')->name('public.help');
 

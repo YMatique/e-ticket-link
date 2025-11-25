@@ -42,7 +42,7 @@
                     </li>
                     <li class="nav-item">
                         <a 
-                        {{-- href="{{ route('public.my-tickets') }}"  --}}
+                        href="{{ route('public.my-tickets') }}" 
                         class="nav-link">
                             <i class="ph-ticket me-1"></i>
                             Meus Bilhetes
