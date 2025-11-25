@@ -67,6 +67,7 @@ class ValidateTicket extends Component
         ->where('ticket_number', $cleanCode)
         ->orWhere('qr_code', $cleanCode)
         ->first();
+        // dd($ticket->bus);
 
         if (!$ticket) {
             $this->validation_type = 'error';

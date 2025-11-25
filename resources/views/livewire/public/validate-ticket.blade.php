@@ -1,6 +1,6 @@
 <div>
     <!-- Hero Section -->
-    <div class="bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 0;">
+    <div class="" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 0;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center text-white">
@@ -271,7 +271,7 @@
                                     <div class="col-6 col-md-3">
                                         <div class="text-center p-3 bg-light rounded">
                                             <div class="text-muted small">Autocarro</div>
-                                            <div class="fw-bold">{{ $ticket->schedule->bus->plate_number }}</div>
+                                            <div class="fw-bold">{{ $ticket->schedule->bus->registration_number }}</div>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3">
