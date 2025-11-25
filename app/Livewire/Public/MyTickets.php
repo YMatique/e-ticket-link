@@ -196,8 +196,8 @@ class MyTickets extends Component
         }
 
         // TODO: Gerar PDF do bilhete
-        session()->flash('info', 'Download de PDF em implementação. Por enquanto, imprima a página.');
-        
+        // session()->flash('info', 'Download de PDF em implementação. Por enquanto, imprima a página.');
+        return redirect()->route('ticket.pdf.download', $ticketId);
         \Log::info('Download ticket solicitado', ['ticket_id' => $ticketId]);
     }
 
