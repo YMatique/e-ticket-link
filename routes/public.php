@@ -6,6 +6,7 @@ use App\Livewire\Public\PassengerInfo;
 use App\Livewire\Public\SearchTickets;
 use App\Livewire\Public\SeatSelection;
 use App\Livewire\Public\Ticketconfirmation;
+use App\Livewire\Public\ValidateTicket;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,4 +40,4 @@ Route::get('/meus-bilhetes', MyTickets::class)->name('public.my-tickets');
 Route::view('/ajuda', 'livewire.public.help')->name('public.help');
 
 // Validar Bilhete (para motoristas/agentes)
-// Route::view('/validar-bilhete', 'public.validate-ticket')->name('public.validate-ticket');
+Route::get('/validar-bilhete', ValidateTicket::class)->name('public.validate-ticket');
