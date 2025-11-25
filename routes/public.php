@@ -4,6 +4,7 @@ use App\Livewire\Public\AvailableTrips;
 use App\Livewire\Public\PassengerInfo;
 use App\Livewire\Public\SearchTickets;
 use App\Livewire\Public\SeatSelection;
+use App\Livewire\Public\Ticketconfirmation;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,8 +28,9 @@ Route::get('/viagens', AvailableTrips::class)->name('public.trips');
 Route::get('/assentos/{schedule}', SeatSelection::class)->name('public.seats');
 
 // Informações do Passageiro e Pagamento
-Route::get('/checkout/{schedule}/{seat}', PassengerInfo::class)->name('public.checkout');
-
+Route::get('/checkout/{schedule}', PassengerInfo::class)->name('public.checkout');
+// Route::get('/checkout/{schedule}/{seat}', PassengerInfo::class)->name('public.checkout');
+Route::get('/confirmacao', Ticketconfirmation::class)->name('public.ticket-confirmation');
 /*// Meus Bilhetes (permite buscar por número de bilhete ou email)
 Route::get('/meus-bilhetes', MyTickets::class)->name('public.my-tickets');
 

@@ -36,7 +36,7 @@ class PassengerInfo extends Component
     {
         $rules = [
             'email' => 'required|email',
-            'phone' => 'required|regex:/^(\+258|258)?[8][2-7][0-9]{7}$/',
+            'phone' => ['required', 'regex:/^(\+?258)?[8][2-7][0-9]{7}$/'],
             'accept_terms' => 'accepted',
             'payment_method' => 'required|in:mpesa,emola,cash',
         ];
@@ -56,7 +56,8 @@ class PassengerInfo extends Component
 
         // Regras para M-Pesa
         if ($this->payment_method === 'mpesa') {
-            $rules['mpesa_number'] = 'required|regex:/^(\+258|258)?[8][2-7][0-9]{7}$/';
+            // $rules['mpesa_number'] = 'required|regex:/^(\+?258|258)?[8][2-7][0-9]{7}$/';
+             $rules['mpesa_number'] = ['required', 'regex:/^(\+?258)?[8][2-7][0-9]{7}$/'];
         }
 
         return $rules;
