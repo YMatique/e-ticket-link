@@ -1,6 +1,6 @@
 <div>
     <!-- Hero Section -->
-    <div class="" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 0;">
+    <div class="bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 0;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center text-white">
@@ -127,42 +127,93 @@
                 <!-- Scanner Section -->
                 <div class="card shadow-sm mb-4">
                     <div class="card-body p-4">
-                        <div class="text-center mb-4">
-                            <i class="ph-qr-code text-primary" style="font-size: 80px;"></i>
-                            <h5 class="mt-3">Escaneie o QR Code ou Digite o Número</h5>
-                        </div>
+                        <!-- Tabs para escolher método -->
+                        <ul class="nav nav-tabs mb-4" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="camera-tab" data-bs-toggle="tab" 
+                                        data-bs-target="#camera-pane" type="button" role="tab">
+                                    <i class="ph-camera me-2"></i>
+                                    Escanear com Câmera
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="manual-tab" data-bs-toggle="tab" 
+                                        data-bs-target="#manual-pane" type="button" role="tab">
+                                    <i class="ph-keyboard me-2"></i>
+                                    Digitar Manualmente
+                                </button>
+                            </li>
+                        </ul>
 
-                        <form wire:submit.prevent="searchTicket">
-                            <div class="row">
-                                <div class="col-lg-9 mb-3 mb-lg-0">
-                                    <input type="text" 
-                                           class="form-control form-control-lg @error('ticket_code') is-invalid @enderror" 
-                                           wire:model.live="ticket_code"
-                                           placeholder="TKT-20251125-ABC123 ou escaneie QR Code"
-                                           autofocus>
-                                    @error('ticket_code')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                        <div class="tab-content">
+                            <!-- Tab 1: Scanner com Câmera -->
+                            <div class="tab-pane fade show active" id="camera-pane" role="tabpanel">
+                                <div class="text-center mb-3">
+                                    <i class="ph-camera text-primary" style="font-size: 60px;"></i>
+                                    <h5 class="mt-3">Escaneie o QR Code</h5>
+                                    <p class="text-muted">Posicione o QR Code na frente da câmera</p>
                                 </div>
-                                <div class="col-lg-3">
-                                    <button type="submit" class="btn btn-primary btn-lg w-100" wire:loading.attr="disabled">
-                                        <span wire:loading.remove wire:target="searchTicket">
-                                            <i class="ph-magnifying-glass me-2"></i>
-                                            Buscar
-                                        </span>
-                                        <span wire:loading wire:target="searchTicket">
-                                            <span class="spinner-border spinner-border-sm me-2"></span>
-                                            Buscando...
-                                        </span>
+
+                                <!-- Leitor de QR Code -->
+                                <div id="qr-reader" style="width: 100%; max-width: 500px; margin: 0 auto;"></div>
+                                
+                                <!-- Botões de controle -->
+                                <div class="text-center mt-3">
+                                    <button type="button" id="start-camera" class="btn btn-primary btn-lg">
+                                        <i class="ph-camera me-2"></i>
+                                        Iniciar Câmera
+                                    </button>
+                                    <button type="button" id="stop-camera" class="btn btn-danger btn-lg" style="display: none;">
+                                        <i class="ph-stop me-2"></i>
+                                        Parar Câmera
                                     </button>
                                 </div>
-                            </div>
-                        </form>
 
-                        <div class="alert alert-info mt-4 mb-0">
-                            <i class="ph-info me-2"></i>
-                            <strong>Dica:</strong> Use um leitor de QR Code externo e cole o resultado aqui, 
-                            ou digite manualmente o número do bilhete.
+                                <div class="alert alert-info mt-4">
+                                    <i class="ph-info me-2"></i>
+                                    <strong>Dica:</strong> Permita o acesso à câmera quando solicitado pelo navegador.
+                                </div>
+                            </div>
+
+                            <!-- Tab 2: Input Manual -->
+                            <div class="tab-pane fade" id="manual-pane" role="tabpanel">
+                                <div class="text-center mb-4">
+                                    <i class="ph-keyboard text-primary" style="font-size: 60px;"></i>
+                                    <h5 class="mt-3">Digite o Código</h5>
+                                </div>
+
+                                <form wire:submit.prevent="searchTicket">
+                                    <div class="row">
+                                        <div class="col-lg-9 mb-3 mb-lg-0">
+                                            <input type="text" 
+                                                   class="form-control form-control-lg @error('ticket_code') is-invalid @enderror" 
+                                                   wire:model.live="ticket_code"
+                                                   placeholder="TKT-20251125-ABC123 ou código do QR"
+                                                   autofocus>
+                                            @error('ticket_code')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <button type="submit" class="btn btn-primary btn-lg w-100" wire:loading.attr="disabled">
+                                                <span wire:loading.remove wire:target="searchTicket">
+                                                    <i class="ph-magnifying-glass me-2"></i>
+                                                    Buscar
+                                                </span>
+                                                <span wire:loading wire:target="searchTicket">
+                                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                                    Buscando...
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="alert alert-info mt-4 mb-0">
+                                    <i class="ph-info me-2"></i>
+                                    <strong>Dica:</strong> Cole o código QR ou digite o número do bilhete.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -271,7 +322,7 @@
                                     <div class="col-6 col-md-3">
                                         <div class="text-center p-3 bg-light rounded">
                                             <div class="text-muted small">Autocarro</div>
-                                            <div class="fw-bold">{{ $ticket->schedule->bus->registration_number }}</div>
+                                            <div class="fw-bold">{{ $ticket->schedule->bus->plate_number }}</div>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3">
@@ -351,5 +402,142 @@
         .card:hover {
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
+
+        /* QR Reader styling */
+        #qr-reader {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #qr-reader video {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        #qr-reader__dashboard_section_swaplink {
+            display: none !important;
+        }
     </style>
+
+    <!-- HTML5 QR Code Library -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+    <script>
+        let html5QrCode;
+        let isScanning = false;
+
+        // Botões
+        const startBtn = document.getElementById('start-camera');
+        const stopBtn = document.getElementById('stop-camera');
+
+        // Função para iniciar câmera
+        startBtn?.addEventListener('click', async function() {
+            if (isScanning) return;
+
+            try {
+                // Criar instância do scanner
+                html5QrCode = new Html5Qrcode("qr-reader");
+
+                // Configurações
+                const config = {
+                    fps: 10,
+                    qrbox: { width: 250, height: 250 },
+                    aspectRatio: 1.0
+                };
+
+                // Iniciar scanning
+                await html5QrCode.start(
+                    { facingMode: "environment" }, // Câmera traseira
+                    config,
+                    onScanSuccess,
+                    onScanFailure
+                );
+
+                isScanning = true;
+                startBtn.style.display = 'none';
+                stopBtn.style.display = 'inline-block';
+
+            } catch (err) {
+                console.error('Erro ao iniciar câmera:', err);
+                alert('Erro ao acessar câmera. Verifique as permissões do navegador.');
+            }
+        });
+
+        // Função para parar câmera
+        stopBtn?.addEventListener('click', async function() {
+            if (!isScanning) return;
+
+            try {
+                await html5QrCode.stop();
+                html5QrCode.clear();
+                
+                isScanning = false;
+                startBtn.style.display = 'inline-block';
+                stopBtn.style.display = 'none';
+            } catch (err) {
+                console.error('Erro ao parar câmera:', err);
+            }
+        });
+
+        // Callback quando QR Code é lido com sucesso
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log('QR Code detectado:', decodedText);
+
+            // Parar câmera
+            if (html5QrCode && isScanning) {
+                html5QrCode.stop().then(() => {
+                    isScanning = false;
+                    startBtn.style.display = 'inline-block';
+                    stopBtn.style.display = 'none';
+                }).catch(err => {
+                    console.error('Erro ao parar câmera:', err);
+                });
+            }
+
+            // Enviar para Livewire
+            @this.set('ticket_code', decodedText);
+            @this.call('searchTicket');
+
+            // Mudar para tab manual para mostrar resultado
+            setTimeout(() => {
+                const manualTab = document.getElementById('manual-tab');
+                if (manualTab) {
+                    const tab = new bootstrap.Tab(manualTab);
+                    tab.show();
+                }
+            }, 500);
+        }
+
+        // Callback para erros (opcional - não faz nada, é normal ter muitos erros)
+        function onScanFailure(error) {
+            // Ignora erros - é normal enquanto busca o QR Code
+            // console.warn('Erro de scan:', error);
+        }
+
+        // Limpar ao trocar de tab
+        document.getElementById('camera-tab')?.addEventListener('shown.bs.tab', function() {
+            // Quando voltar para câmera, não faz nada
+        });
+
+        document.getElementById('manual-tab')?.addEventListener('shown.bs.tab', function() {
+            // Quando ir para manual, parar câmera
+            if (html5QrCode && isScanning) {
+                html5QrCode.stop().then(() => {
+                    isScanning = false;
+                    startBtn.style.display = 'inline-block';
+                    stopBtn.style.display = 'none';
+                }).catch(err => {
+                    console.error('Erro ao parar câmera:', err);
+                });
+            }
+        });
+
+        // Limpar quando sair da página
+        window.addEventListener('beforeunload', function() {
+            if (html5QrCode && isScanning) {
+                html5QrCode.stop();
+            }
+        });
+    </script>
 </div>
