@@ -180,7 +180,9 @@
                     <i class="ph-house me-2"></i>
                     Voltar ao Início
                 </a>
-                <a href="{{ route('public.my-tickets') }}" class="btn btn-outline-primary">
+                <a 
+                {{-- href="{{ route('public.my-tickets') }}"  --}}
+                class="btn btn-outline-primary">
                     <i class="ph-ticket me-2"></i>
                     Ver Meus Bilhetes
                 </a>

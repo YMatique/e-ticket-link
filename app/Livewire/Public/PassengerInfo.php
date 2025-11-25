@@ -167,6 +167,7 @@ class PassengerInfo extends Component
     {
         // $this->validate();
         // Validar apenas campos do Step 2
+
         $rules = [
             'payment_method' => 'required|in:mpesa,emola,cash',
         ];
@@ -177,6 +178,7 @@ class PassengerInfo extends Component
         }
 
         $this->validate($rules);
+
         
         $this->step = 3; // Processando
 
@@ -217,7 +219,7 @@ class PassengerInfo extends Component
                     'schedule_id' => $this->schedule->id,
                     'seat_number' => $data['seat'],
                     'price' => $this->schedule->price,
-                    'status' => $this->payment_method === 'cash' ? 'reserved' : 'pending_payment',
+                    'status' => 'reserved',//$this->payment_method === 'cash' ? 'reserved' : 'pending_payment',
                     'qr_code' => null, // Será gerado após pagamento
                 ]);
 
@@ -265,6 +267,7 @@ class PassengerInfo extends Component
 
         } catch (\Exception $e) {
             DB::rollBack();
+                                     \Log::info('ERRO: '.$e->getMessage());
             
             $this->step = 2;
             $this->dispatch('show-toast', [
@@ -276,6 +279,9 @@ class PassengerInfo extends Component
 
     private function processMpesaPayment()
     {
+
+    
+
         // TODO: Integração real com M-Pesa API
         // Por enquanto, simulação
         sleep(2); // Simular delay de processamento
