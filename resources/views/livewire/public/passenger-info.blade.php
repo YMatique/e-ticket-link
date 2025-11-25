@@ -1,4 +1,17 @@
 <div>
+    <!-- EXIBIR ERROS -->
+@if ($errors->any())
+    <div class="container mt-3">
+        <div class="alert alert-danger">
+            <strong>Erros:</strong>
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+@endif
     <!-- Progress Steps -->
     <section class="bg-light py-3 border-bottom">
         <div class="container">
@@ -482,5 +495,5 @@
 @endpush
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> --}}
 @endpush

@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class PassengerInfo extends Component
 {
-     public $schedule;
+   public $schedule;
     public $seats = [];
     public $totalPrice = 0;
     
@@ -56,8 +56,7 @@ class PassengerInfo extends Component
 
         // Regras para M-Pesa
         if ($this->payment_method === 'mpesa') {
-            // $rules['mpesa_number'] = 'required|regex:/^(\+?258|258)?[8][2-7][0-9]{7}$/';
-             $rules['mpesa_number'] = ['required', 'regex:/^(\+?258)?[8][2-7][0-9]{7}$/'];
+            $rules['mpesa_number'] = ['required', 'regex:/^(\+?258)?[8][2-7][0-9]{7}$/'];
         }
 
         return $rules;
@@ -134,7 +133,28 @@ class PassengerInfo extends Component
 
     public function goToPayment()
     {
-        $this->validate();
+        // $this->validate();
+          $rules = [
+            'email' => 'required|email',
+            'phone' => ['required', 'regex:/^(\+?258)?[8][2-7][0-9]{7}$/'],
+            'accept_terms' => 'accepted',
+        ];
+
+        // Validar dados dos passageiros
+        foreach ($this->passengers as $index => $passenger) {
+            $rules["passengers.{$index}.first_name"] = 'required|string|min:2|max:100';
+            $rules["passengers.{$index}.last_name"] = 'required|string|min:2|max:100';
+            $rules["passengers.{$index}.document_type"] = 'required|in:bi,passport,birth_certificate';
+            $rules["passengers.{$index}.document_number"] = 'required|string|max:50';
+        }
+
+        // Validar senha se criar conta
+        if ($this->create_account) {
+            $rules['password'] = 'required|min:8';
+        }
+
+        // Validar apenas Step 1
+        $this->validate($rules);
         $this->step = 2;
     }
 
@@ -145,7 +165,18 @@ class PassengerInfo extends Component
 
     public function processPayment()
     {
-        $this->validate();
+        // $this->validate();
+        // Validar apenas campos do Step 2
+        $rules = [
+            'payment_method' => 'required|in:mpesa,emola,cash',
+        ];
+
+        // Validar M-Pesa apenas se for o método escolhido
+        if ($this->payment_method === 'mpesa') {
+            $rules['mpesa_number'] = ['required', 'regex:/^(\+?258)?[8][2-7][0-9]{7}$/'];
+        }
+
+        $this->validate($rules);
         
         $this->step = 3; // Processando
 
