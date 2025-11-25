@@ -57,7 +57,35 @@ class ValidateTicket extends Component
         // Limpar código (remover espaços, etc)
         $cleanCode = trim(strtoupper($this->ticket_code));
 
-        // Buscar ticket
+        $qrData = $this->validateQrCode($cleanCode);
+
+        if ($qrData !== false) {
+               \Log::info('QR Code válido escaneado', [
+                'ticket_number' => $qrData['ticket_number'],
+                'timestamp' => date('Y-m-d H:i:s', $qrData['timestamp'])
+            ]);
+            
+            $ticket = Ticket::with([
+                'passenger',
+                'schedule.route.originCity',
+                'schedule.route.destinationCity',
+                'schedule.bus'
+            ])
+            ->where('ticket_number', $qrData['ticket_number'])
+            ->first();
+        }else{
+              $ticket = Ticket::with([
+                'passenger',
+                'schedule.route.originCity',
+                'schedule.route.destinationCity',
+                'schedule.bus'
+            ])
+            ->where('ticket_number', $cleanCode)
+            ->orWhere('qr_code', $cleanCode)
+            ->first();
+        }
+
+        /*// Buscar ticket
         $ticket = Ticket::with([
             'passenger',
             'schedule.route.originCity',
@@ -68,7 +96,7 @@ class ValidateTicket extends Component
         ->orWhere('qr_code', $cleanCode)
         ->first();
         // dd($ticket->bus);
-
+        */
         if (!$ticket) {
             $this->validation_type = 'error';
             $this->validation_message = 'Bilhete não encontrado. Verifique o número e tente novamente.';
@@ -81,6 +109,52 @@ class ValidateTicket extends Component
         $this->checkTicketStatus();
     }
 
+    /**
+     * Valida um QR Code decodificando e verificando o hash
+     * 
+     * @param string $qrCode
+     * @return array|false Retorna ['ticket_number' => string, 'timestamp' => int] ou false se inválido
+     */
+    private function validateQrCode($qrCode)
+    {
+        try {
+            // Decodificar Base64
+            $decoded = base64_decode($qrCode, true);
+            
+            if ($decoded === false) {
+                return false;
+            }
+            
+            // Separar componentes
+            $parts = explode('|', $decoded);
+            
+            if (count($parts) !== 3) {
+                return false;
+            }
+            
+            list($ticketNumber, $timestamp, $hash) = $parts;
+            
+            // Verificar hash de segurança
+            $expectedHash = hash_hmac('sha256', $ticketNumber . '|' . $timestamp, config('app.key'));
+            
+            if (!hash_equals($expectedHash, $hash)) {
+                \Log::warning('QR Code com hash inválido detectado (possível falsificação)', [
+                    'attempted_decode' => substr($qrCode, 0, 50) . '...'
+                ]);
+                return false;
+            }
+            
+            return [
+                'ticket_number' => $ticketNumber,
+                'timestamp' => (int) $timestamp,
+                'valid' => true
+            ];
+            
+        } catch (\Exception $e) {
+            // Não é um QR Code válido, mas pode ser um número de bilhete
+            return false;
+        }
+    }
     private function checkTicketStatus()
     {
         // Verificar se já foi validado
