@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Implementação - CityLink e-Ticket (Área Pública)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; text-align: center; border-radius: 10px; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        header p { font-size: 1.2em; opacity: 0.9; }
+        .card { background: white; border-radius: 10px; padding: 30px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { color: #667eea; margin-bottom: 20px; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
+        h3 { color: #764ba2; margin: 20px 0 15px; }
+        .step { background: #f8f9fa; border-left: 4px solid #667eea; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .step-number { display: inline-block; background: #667eea; color: white; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-weight: bold; margin-right: 10px; }
+        code { background: #f4f4f4; padding: 3px 8px; border-radius: 4px; font-family: 'Courier New', monospace; color: #e83e8c; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 15px 0; }
+        pre code { background: none; color: inherit; padding: 0; }
+        .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .success { background: #d4edda; border-left: 4px solid #28a745; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .info { background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .file-tree { font-family: monospace; background: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .file-tree .folder { color: #007bff; font-weight: bold; }
+        .file-tree .file { color: #28a745; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        table th, table td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        table th { background: #667eea; color: white; }
+        table tr:nth-child(even) { background: #f8f9fa; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.85em; font-weight: bold; }
+        .badge-success { background: #28a745; color: white; }
+        .badge-warning { background: #ffc107; color: #333; }
+        .badge-info { background: #17a2b8; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚌 Guia de Implementação</h1>
+            <p>Sistema Público de Compra de Bilhetes - CityLink e-Ticket</p>
+        </header>
+
+        <!-- Visão Geral -->
+        <div class="card">
+            <h2>📋 Visão Geral</h2>
+            <p>Este guia contém todas as instruções para implementar a <strong>área pública</strong> do sistema CityLink e-Ticket, onde os passageiros podem:</p>
+            <ul>
+                <li>✅ Buscar viagens disponíveis</li>
+                <li>✅ Visualizar horários e preços</li>
+                <li>✅ Selecionar assentos com mapa visual interativo</li>
+                <li>✅ Fazer reservas temporárias (15 minutos)</li>
+                <li>✅ Proceder para checkout e pagamento</li>
+            </ul>
+        </div>
+
+        <!-- Estrutura de Arquivos -->
+        <div class="card">
+            <h2>📁 Estrutura de Arquivos Criados</h2>
+            <div class="file-tree">
+<span class="folder">app/</span>
+├── <span class="folder">Livewire/Public/</span>
+│   ├── <span class="file">SearchTickets.php</span> ................... Homepage com busca
+│   ├── <span class="file">AvailableTrips.php</span> ................. Lista de viagens disponíveis
+│   └── <span class="file">SeatSelection.php</span> .................. Seleção de assentos
+├── <span class="folder">Models/</span>
+│   └── <span class="file">TemporaryReservation.php</span> ........... Reservas temporárias
+
+<span class="folder">resources/views/</span>
+├── <span class="folder">components/layouts/</span>
+│   └── <span class="file">public.blade.php</span> ................... Layout público
+└── <span class="folder">livewire/public/</span>
+    ├── <span class="file">search-tickets.blade.php</span> ........... View da homepage
+    ├── <span class="file">available-trips.blade.php</span> .......... View de resultados
+    └── <span class="file">seat-selection.blade.php</span> ........... View de assentos
+
+<span class="folder">routes/</span>
+└── <span class="file">public.php</span> ............................ Rotas públicas
+
+<span class="folder">database/migrations/</span>
+└── <span class="file">2025_01_14_000000_create_temporary_reservations_table.php</span>
+            </div>
+        </div>
+
+        <!-- Passo 1: Copiar Arquivos -->
+        <div class="card">
+            <h2>1️⃣ Copiar Arquivos para o Projeto</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Copie os componentes Livewire:</strong>
+            </div>
+            <pre><code>app/Livewire/Public/SearchTickets.php
+app/Livewire/Public/AvailableTrips.php
+app/Livewire/Public/SeatSelection.php</code></pre>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Copie as views Blade:</strong>
+            </div>
+            <pre><code>resources/views/components/layouts/public.blade.php
+resources/views/livewire/public/search-tickets.blade.php
+resources/views/livewire/public/available-trips.blade.php
+resources/views/livewire/public/seat-selection.blade.php</code></pre>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Copie o Model e Migration:</strong>
+            </div>
+            <pre><code>app/Models/TemporaryReservation.php
+database/migrations/2025_01_14_000000_create_temporary_reservations_table.php</code></pre>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Copie as rotas:</strong>
+            </div>
+            <pre><code>routes/public.php</code></pre>
+        </div>
+
+        <!-- Passo 2: Configurar Rotas -->
+        <div class="card">
+            <h2>2️⃣ Configurar Rotas</h2>
+            
+            <p>Edite o arquivo <code>routes/web.php</code> e adicione no <strong>INÍCIO</strong> do arquivo:</p>
+            
+            <pre><code>// Incluir rotas públicas
+require __DIR__.'/public.php';</code></pre>
+
+            <div class="warning">
+                <strong>⚠️ IMPORTANTE:</strong> Coloque esta linha ANTES das outras rotas para que a rota <code>/</code> (homepage) funcione corretamente.
+            </div>
+
+            <p>Se você já tem uma rota <code>/</code> no web.php, comente ou remova ela:</p>
+            <pre><code>// Route::get('/', function () {
+//     return view('welcome');
+// })->name('home');</code></pre>
+        </div>
+
+        <!-- Passo 3: Executar Migration -->
+        <div class="card">
+            <h2>3️⃣ Executar Migration</h2>
+            
+            <p>Execute o comando para criar a tabela de reservas temporárias:</p>
+            <pre><code>php artisan migrate</code></pre>
+
+            <div class="success">
+                ✅ Isso criará a tabela <code>temporary_reservations</code> no banco de dados.
+            </div>
+        </div>
+
+        <!-- Passo 4: Atualizar Models Existentes -->
+        <div class="card">
+            <h2>4️⃣ Atualizar Models Existentes</h2>
+            
+            <h3>Schedule.php</h3>
+            <p>Adicione o relacionamento com reservas temporárias:</p>
+            <pre><code>/**
+ * Get temporary reservations for this schedule.
+ */
+public function temporaryReservations(): HasMany
+{
+    return $this->hasMany(TemporaryReservation::class);
+}
+
+/**
+ * Get available seats count.
+ */
+public function availableSeats(): int
+{
+    $bookedSeats = $this->tickets()
+        ->whereIn('status', ['reserved', 'paid', 'validated'])
+        ->count();
+
+    $temporaryReservations = $this->temporaryReservations()
+        ->where('expires_at', '>', now())
+        ->count();
+
+    return $this->bus->total_seats - ($bookedSeats + $temporaryReservations);
+}</code></pre>
+        </div>
+
+        <!-- Passo 5: Instalar Alpine.js -->
+        <div class="card">
+            <h2>5️⃣ Instalar Alpine.js (Opcional)</h2>
+            
+            <p>O componente de seleção de assentos usa Alpine.js para o timer. Se ainda não tiver instalado, adicione ao layout:</p>
+            
+            <div class="info">
+                <strong>📝 NOTA:</strong> O Alpine.js já está incluído no push de scripts da view de seleção de assentos.
+            </div>
+        </div>
+
+        <!-- Passo 6: Limpar Cache -->
+        <div class="card">
+            <h2>6️⃣ Limpar Cache do Laravel</h2>
+            
+            <p>Execute os comandos para limpar o cache:</p>
+            <pre><code>php artisan route:clear
+php artisan view:clear
+php artisan config:clear
+php artisan cache:clear</code></pre>
+        </div>
+
+        <!-- Fluxo Completo -->
+        <div class="card">
+            <h2>🔄 Fluxo Completo do Sistema</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Passo</th>
+                        <th>Componente</th>
+                        <th>Rota</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-success">1</span></td>
+                        <td>SearchTickets</td>
+                        <td><code>/</code></td>
+                        <td>Homepage com formulário de busca</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">2</span></td>
+                        <td>AvailableTrips</td>
+                        <td><code>/viagens</code></td>
+                        <td>Lista de horários disponíveis</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">3</span></td>
+                        <td>SeatSelection</td>
+                        <td><code>/assentos/{schedule}</code></td>
+                        <td>Mapa visual de assentos</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-warning">4</span></td>
+                        <td>PassengerInfo</td>
+                        <td><code>/checkout/{schedule}/{seats}</code></td>
+                        <td>🚧 A CRIAR - Dados e pagamento</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-warning">5</span></td>
+                        <td>TicketConfirmation</td>
+                        <td><code>/bilhete/{ticket}</code></td>
+                        <td>🚧 A CRIAR - Confirmação</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Funcionalidades Implementadas -->
+        <div class="card">
+            <h2>✅ Funcionalidades Implementadas</h2>
+            
+            <h3>1. Homepage (SearchTickets)</h3>
+            <ul>
+                <li>Formulário de busca com origem, destino, data e passageiros</li>
+                <li>Botão para trocar origem/destino</li>
+                <li>Validação em tempo real</li>
+                <li>Exibição de rotas populares</li>
+                <li>Seção "Como Funciona"</li>
+                <li>Design responsivo e moderno</li>
+            </ul>
+
+            <h3>2. Resultados (AvailableTrips)</h3>
+            <ul>
+                <li>Lista de horários disponíveis</li>
+                <li>Filtros por período do dia (manhã, tarde, noite)</li>
+                <li>Ordenação por preço ou horário</li>
+                <li>Informações de disponibilidade em tempo real</li>
+                <li>Alertas para últimos lugares</li>
+                <li>Indicação de horários esgotados</li>
+            </ul>
+
+            <h3>3. Seleção de Assentos (SeatSelection)</h3>
+            <ul>
+                <li>Mapa visual interativo do autocarro</li>
+                <li>Estados dos assentos: disponível, ocupado, selecionado</li>
+                <li>Reserva temporária de 15 minutos com timer</li>
+                <li>Validação de disponibilidade em tempo real</li>
+                <li>Resumo da compra</li>
+                <li>Cálculo automático do total</li>
+                <li>Animações e feedback visual</li>
+            </ul>
+        </div>
+
+        <!-- Próximos Passos -->
+        <div class="card">
+            <h2>🚀 Próximos Passos</h2>
+            
+            <div class="info">
+                <strong>Componentes a desenvolver:</strong>
+            </div>
+            
+            <ol>
+                <li><strong>PassengerInfo:</strong> Formulário com dados do passageiro</li>
+                <li><strong>PaymentProcess:</strong> Integração M-Pesa/e-Mola</li>
+                <li><strong>TicketConfirmation:</strong> Geração de QR Code e envio</li>
+                <li><strong>MyTickets:</strong> Consulta de bilhetes por número/email</li>
+                <li><strong>TicketValidation:</strong> Validação de QR Code</li>
+            </ol>
+        </div>
+
+        <!-- Dicas -->
+        <div class="card">
+            <h2>💡 Dicas e Observações</h2>
+            
+            <div class="warning">
+                <strong>⚠️ Sessões:</strong> O sistema usa <code>session()->getId()</code> para identificar reservas temporárias. Certifique-se de que as sessões estão configuradas corretamente.
+            </div>
+
+            <div class="info">
+                <strong>🔄 Limpeza Automática:</strong> As reservas temporárias expiradas são limpas automaticamente ao criar novas reservas.
+            </div>
+
+            <div class="success">
+                <strong>✅ Performance:</strong> Use índices no banco de dados e considere cache para rotas populares.
+            </div>
+        </div>
+
+        <!-- Testes -->
+        <div class="card">
+            <h2>🧪 Como Testar</h2>
+            
+            <ol>
+                <li>Acesse <code>http://seu-dominio.test/</code></li>
+                <li>Preencha o formulário de busca</li>
+                <li>Selecione uma viagem disponível</li>
+                <li>Escolha os assentos no mapa visual</li>
+                <li>Observe o timer de 15 minutos</li>
+                <li>Clique em "Continuar para Pagamento"</li>
+            </ol>
+
+            <div class="warning">
+                <strong>⚠️ IMPORTANTE:</strong> Você precisa ter dados no banco (cidades, rotas, autocarros, horários) para testar o sistema.
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card" style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2 style="color: white; border: none;">🎉 Sistema Pronto para Testar!</h2>
+            <p>Qualquer dúvida, estou aqui para ajudar! 🚀</p>
+        </div>
+    </div>
+</body>
+</html>
