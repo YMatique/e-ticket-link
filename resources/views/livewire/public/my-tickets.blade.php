@@ -138,7 +138,7 @@
 
         <!-- Resultados -->
         @if($searched)
-            @if($tickets->count() > 0)
+            @if(count($tickets) > 0)
                 <!-- Info do Passageiro -->
                 @if($passenger)
                     <div class="row mb-4">

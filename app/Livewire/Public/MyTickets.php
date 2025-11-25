@@ -142,7 +142,7 @@ class MyTickets extends Component
 
     private function applyFilters()
     {
-        if ($this->tickets->isEmpty()) {
+        if (empty($this->tickets)) {
             return;
         }
 
