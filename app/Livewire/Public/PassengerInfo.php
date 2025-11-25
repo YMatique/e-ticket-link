@@ -8,6 +8,7 @@ use App\Models\TemporaryReservation;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class PassengerInfo extends Component
@@ -359,7 +360,31 @@ class PassengerInfo extends Component
     }
     private function sendTicketNotifications($tickets)
     {
-        // TODO: Enviar emails e SMS com os bilhetes
+         foreach ($tickets as $ticket) {
+            try {
+                // Enviar email
+                Mail::to($ticket->passenger->email)->send(
+                    new \App\Mail\TicketPurchased($ticket)
+                );
+                
+                \Log::info('Email de bilhete enviado com sucesso', [
+                    'ticket_id' => $ticket->id,
+                    'ticket_number' => $ticket->ticket_number,
+                    'email' => $ticket->passenger->email
+                ]);
+                
+            } catch (\Exception $e) {
+                // Log do erro mas não falha a compra
+                \Log::error('Erro ao enviar email de bilhete', [
+                    'ticket_id' => $ticket->id,
+                    'error' => $e->getMessage()
+                ]);
+            }
+        }
+        
+        // TODO: Enviar SMS (futuro)
+        // TODO: Enviar WhatsApp (futuro)
+
         // Por enquanto, apenas log
         \Log::info('Tickets enviados para ' . $this->email, [
             'tickets' => collect($tickets)->pluck('ticket_number')->toArray()
