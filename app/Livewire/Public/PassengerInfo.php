@@ -295,9 +295,68 @@ class PassengerInfo extends Component
     private function generateQrCode($ticketNumber)
     {
         // Gerar código QR simples (pode usar biblioteca específica)
-        return base64_encode($ticketNumber . '|' . now()->timestamp);
+        // return base64_encode($ticketNumber . '|' . now()->timestamp); //LEGACY
+        $timestamp = now()->timestamp;
+        $data = $ticketNumber . '|' . $timestamp;
+        
+        // Adicionar hash HMAC SHA256 para segurança (previne falsificação)
+        $hash = hash_hmac('sha256', $data, config('app.key'));
+        
+        // Formato final: TICKET|TIMESTAMP|HASH
+        $fullData = $data . '|' . $hash;
+        
+        // Codificar em Base64 para QR Code
+        return base64_encode($fullData);
     }
 
+        /**
+     * Valida um QR Code decodificando e verificando o hash
+     * 
+     * @param string $qrCode
+     * @return array|false Retorna ['ticket_number' => string, 'timestamp' => int] ou false se inválido
+     */
+    private function validateQrCode($qrCode)
+    {
+        try {
+            // Decodificar Base64
+            $decoded = base64_decode($qrCode, true);
+            
+            if ($decoded === false) {
+                return false;
+            }
+            
+            // Separar componentes
+            $parts = explode('|', $decoded);
+            
+            if (count($parts) !== 3) {
+                return false;
+            }
+            
+            list($ticketNumber, $timestamp, $hash) = $parts;
+            
+            // Verificar hash de segurança
+            $expectedHash = hash_hmac('sha256', $ticketNumber . '|' . $timestamp, config('app.key'));
+            
+            if (!hash_equals($expectedHash, $hash)) {
+                \Log::warning('QR Code com hash inválido detectado', [
+                    'qr_code' => substr($qrCode, 0, 50) . '...'
+                ]);
+                return false;
+            }
+            
+            return [
+                'ticket_number' => $ticketNumber,
+                'timestamp' => (int) $timestamp,
+                'valid' => true
+            ];
+            
+        } catch (\Exception $e) {
+            \Log::error('Erro ao validar QR Code', [
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
+    }
     private function sendTicketNotifications($tickets)
     {
         // TODO: Enviar emails e SMS com os bilhetes
