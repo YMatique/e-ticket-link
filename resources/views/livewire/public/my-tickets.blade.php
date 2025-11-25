@@ -1,6 +1,6 @@
 <div>
     <!-- Hero Section -->
-    <div class="bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 0;">
+    <div class="bg-gradient-1" style=" padding: 60px 0;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center text-white">
@@ -143,7 +143,7 @@
                 @if($passenger)
                     <div class="row mb-4">
                         <div class="col-lg-12">
-                            <div class="card shadow-sm bg-light">
+                            <div class="card shadow-sm ">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
@@ -393,6 +393,10 @@
         .ticket-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+        }
+        .bg-gradient-1
+        {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
     </style>
 </div>
