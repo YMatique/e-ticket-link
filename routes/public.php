@@ -34,10 +34,9 @@ Route::get('/checkout/{schedule}', PassengerInfo::class)->name('public.checkout'
 Route::get('/confirmacao', Ticketconfirmation::class)->name('public.ticket-confirmation');
 // Meus Bilhetes (permite buscar por número de bilhete ou email)
 Route::get('/meus-bilhetes', MyTickets::class)->name('public.my-tickets');
-/*
+
 // Página de Ajuda
-Route::view('/ajuda', 'public.help')->name('public.help');
+Route::view('/ajuda', 'livewire.public.help')->name('public.help');
 
 // Validar Bilhete (para motoristas/agentes)
-Route::view('/validar-bilhete', 'public.validate-ticket')->name('public.validate-ticket');
-*/
+// Route::view('/validar-bilhete', 'public.validate-ticket')->name('public.validate-ticket');

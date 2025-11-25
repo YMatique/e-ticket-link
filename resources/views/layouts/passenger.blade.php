@@ -50,7 +50,7 @@
                     </li>
                     <li class="nav-item">
                         <a 
-                        {{-- href="{{ route('public.help') }}"  --}}
+                        href="{{ route('public.help') }}" 
                         class="nav-link">
                             <i class="ph-question me-1"></i>
                             Ajuda
@@ -93,7 +93,15 @@
 
     <!-- Main Content -->
     <main>
-        {{ $slot }}
+        {{-- @isset($slot)
+          {{ $slot }}  
+        @endisset --}}
+        @if (isset($slot))
+            {{ $slot }}  
+        @else
+             @yield('content')            
+        @endif
+
     </main>
 
     <!-- Footer -->
@@ -131,7 +139,7 @@
                         </li>
                         <li class="mb-2">
                             <a 
-                            {{-- href="{{ route('public.help') }}"  --}}
+                            href="{{ route('public.help') }}" 
                             class="text-white-50 text-decoration-none">
                                 <i class="ph-caret-right me-1"></i> Ajuda
                             </a>
