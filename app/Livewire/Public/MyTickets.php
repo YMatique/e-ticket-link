@@ -4,6 +4,7 @@ namespace App\Livewire\Public;
 
 use App\Models\Passenger;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class MyTickets extends Component
@@ -209,13 +210,27 @@ class MyTickets extends Component
             return;
         }
 
-        // TODO: Reenviar email/SMS
-        session()->flash('success', 'Bilhete reenviado para ' . $ticket->passenger->email);
-        
-        \Log::info('Ticket reenviado', [
-            'ticket_id' => $ticketId,
-            'email' => $ticket->passenger->email
-        ]);
+        try {
+            // Reenviar email
+            Mail::to($ticket->passenger->email)->send(
+                new \App\Mail\TicketPurchased($ticket)
+            );
+            
+            session()->flash('success', 'Bilhete reenviado com sucesso para ' . $ticket->passenger->email);
+            
+            \Log::info('Bilhete reenviado', [
+                'ticket_id' => $ticketId,
+                'email' => $ticket->passenger->email
+            ]);
+            
+        } catch (\Exception $e) {
+            session()->flash('error', 'Erro ao enviar email. Tente novamente mais tarde.');
+            
+            \Log::error('Erro ao reenviar bilhete', [
+                'ticket_id' => $ticketId,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     public function getStatusBadgeClass($status)
