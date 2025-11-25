@@ -41,13 +41,17 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('public.my-tickets') }}" class="nav-link">
+                        <a 
+                        {{-- href="{{ route('public.my-tickets') }}"  --}}
+                        class="nav-link">
                             <i class="ph-ticket me-1"></i>
                             Meus Bilhetes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('public.help') }}" class="nav-link">
+                        <a 
+                        {{-- href="{{ route('public.help') }}"  --}}
+                        class="nav-link">
                             <i class="ph-question me-1"></i>
                             Ajuda
                         </a>
@@ -119,12 +123,16 @@
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="{{ route('public.my-tickets') }}" class="text-white-50 text-decoration-none">
+                            <a 
+                            {{-- href="{{ route('public.my-tickets') }}"  --}}
+                            class="text-white-50 text-decoration-none">
                                 <i class="ph-caret-right me-1"></i> Meus Bilhetes
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="{{ route('public.help') }}" class="text-white-50 text-decoration-none">
+                            <a 
+                            {{-- href="{{ route('public.help') }}"  --}}
+                            class="text-white-50 text-decoration-none">
                                 <i class="ph-caret-right me-1"></i> Ajuda
                             </a>
                         </li>
