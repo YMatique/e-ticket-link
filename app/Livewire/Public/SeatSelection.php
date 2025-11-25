@@ -10,6 +10,8 @@ class SeatSelection extends Component
 {
     public $schedule;
     public $passengers = 1;
+
+    public $canProceed = false;
     
     // Assentos
     public $seatLayout = [];
@@ -24,7 +26,7 @@ class SeatSelection extends Component
     public function mount(Schedule $schedule)
     {
         $this->schedule = $schedule->load(['route.originCity', 'route.destinationCity', 'bus']);
-        $this->passengers = request('passengers', 1);
+        $this->passengers = (int) request('passengers', 1);
 
         // Verificar se horário está disponível
         if ($this->schedule->status !== 'active') {
@@ -46,6 +48,10 @@ class SeatSelection extends Component
         $this->reservationExpiry = now()->addMinutes(15)->timestamp;
     }
 
+    public function updateCanProceed()
+{
+    $this->canProceed = count($this->selectedSeats) === $this->passengers;
+}
     public function loadOccupiedSeats()
     {
         // Assentos já vendidos/reservados
@@ -149,6 +155,7 @@ class SeatSelection extends Component
     public function calculateTotal()
     {
         $this->totalPrice = count($this->selectedSeats) * $this->schedule->price;
+        $this->updateCanProceed();
     }
 
     public function proceedToCheckout()

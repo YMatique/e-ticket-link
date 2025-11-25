@@ -208,12 +208,12 @@
                         <!-- Botão de Continuar -->
                         <button wire:click="proceedToCheckout" 
                                 class="btn btn-primary w-100 py-3"
-                                {{ count($selectedSeats) !== $passengers ? 'disabled' : '' }}>
+                                @if(!$canProceed) disabled @endif>
                             <i class="ph-arrow-right me-2"></i>
                             Continuar para Pagamento
                         </button>
 
-                        @if(count($selectedSeats) !== $passengers)
+                        @if(!$canProceed)
                             <div class="alert alert-warning mt-3 mb-0">
                                 <small>
                                     <i class="ph-warning me-1"></i>

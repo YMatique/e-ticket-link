@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Public\AvailableTrips;
+use App\Livewire\Public\PassengerInfo;
 use App\Livewire\Public\SearchTickets;
 use App\Livewire\Public\SeatSelection;
 use Illuminate\Support\Facades\Route;
@@ -24,11 +25,11 @@ Route::get('/viagens', AvailableTrips::class)->name('public.trips');
 
 // Seleção de Assentos
 Route::get('/assentos/{schedule}', SeatSelection::class)->name('public.seats');
-/*
+
 // Informações do Passageiro e Pagamento
 Route::get('/checkout/{schedule}/{seat}', PassengerInfo::class)->name('public.checkout');
 
-// Meus Bilhetes (permite buscar por número de bilhete ou email)
+/*// Meus Bilhetes (permite buscar por número de bilhete ou email)
 Route::get('/meus-bilhetes', MyTickets::class)->name('public.my-tickets');
 
 // Página de Ajuda
