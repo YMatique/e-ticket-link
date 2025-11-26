@@ -20,7 +20,7 @@ Route::get('/', function () {
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['admin'])->group(function () {
      // Dashboard
     Route::view('dashboard', 'admin.dashboard')
         ->name('dashboard');
@@ -281,3 +281,4 @@ Route::middleware(['auth'])->group(function () {
 require __DIR__.'/auth.php';
 require __DIR__.'/public.php';
 require __DIR__.'/pdf.php';
+require __DIR__.'/admin-auth.php';
