@@ -10,6 +10,7 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -203,15 +204,17 @@ class TicketController extends Controller
                     'document_type' => $validated['document_type'],
                     'document_number' => $validated['document_number'],
                     'is_active' => true,
+                    'password'=>Hash::make('12345678') //Hash::make(uniqid())
                 ]);
             }
 
+            $ticketNumber = Ticket::generateTicketNumber();
             // Gerar QR Code
-            $qrCode = $this->generateQrCode(Ticket::generateTicketNumber());
+            $qrCode = $this->generateQrCode($ticketNumber);
 
             // Criar ticket
             $ticket = Ticket::create([
-                'ticket_number' => Ticket::generateTicketNumber(),
+                'ticket_number' => $ticketNumber,
                 'passenger_id' => $passenger->id,
                 'schedule_id' => $schedule->id,
                 'seat_number' => $validated['seat_number'],

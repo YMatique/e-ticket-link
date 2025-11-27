@@ -186,7 +186,7 @@
 				</div>
 
 				<!-- Passo 4: Pagamento -->
-				<div class="card mb-3" id="step4-card" style="display: none;">
+				<div class="card mb-3 d-none" id="step4-card">
 					<div class="card-header bg-warning text-dark">
 						<h5 class="mb-0">
 							<i class="ph-currency-circle-dollar me-2"></i>
@@ -198,7 +198,9 @@
 							<div class="col-md-6">
 								<label class="form-label">Método de Pagamento <span class="text-danger">*</span></label>
 								<select class="form-select @error('payment_method') is-invalid @enderror" 
-										name="payment_method" id="payment_method" required>
+										name="payment_method" id="payment_method" 
+										{{-- required --}}
+										>
 									<option value="">Selecione...</option>
 									<option value="cash" {{ old('payment_method') == 'cash' ? 'selected' : '' }}>Dinheiro</option>
 									<option value="mpesa" {{ old('payment_method') == 'mpesa' ? 'selected' : '' }}>M-Pesa</option>
@@ -211,7 +213,9 @@
 							<div class="col-md-6">
 								<label class="form-label">Status <span class="text-danger">*</span></label>
 								<select class="form-select @error('status') is-invalid @enderror" 
-										name="status" id="status" required>
+										name="status" id="status" 
+										{{-- required --}}
+										>
 									<option value="reserved" {{ old('status') == 'reserved' ? 'selected' : '' }}>Reservado</option>
 									<option value="paid" {{ old('status', 'paid') == 'paid' ? 'selected' : '' }}>Pago</option>
 								</select>
@@ -476,8 +480,6 @@ function selectSchedule(id, price, route, time, bus, availableSeats) {
     
 	selectedSchedule = {id, price, route, time, bus, availableSeats};
 	schedulePrice = price;
-
-
 	 
 	document.getElementById('schedule_id').value = id;
 	
@@ -663,12 +665,40 @@ function selectPassenger(id, firstName, lastName, email, phone) {
 	document.getElementById('document_number').value = '';
 
 	// Mostrar próximo passo
-	document.getElementById('step4-card').style.display = 'block';
-	document.getElementById('step4-card').scrollIntoView({behavior: 'smooth', block: 'start'});
+	// document.getElementById('step4-card').style.display = 'block';
+	// document.getElementById('step4-card').scrollIntoView({behavior: 'smooth', block: 'start'});
+	// MOSTRA O PASSO 4
+    // document.getElementById('step4-card').style.display = 'block';
+    // document.getElementById('step4-card').scrollIntoView({behavior: 'smooth', block: 'start'});
 
+    // // AQUI É O PULO DO GATO: adiciona o required só agora que o campo está visível
+    // document.getElementById('payment_method').setAttribute('required', 'required');
+    // document.getElementById('status').setAttribute('required', 'required');
+showPaymentStep();
 	updateSummary();
 }
 
+// Função nova que detecta quando o usuário terminou de preencher novo passageiro
+function checkAndShowPayment() {
+    const fields = ['first_name', 'last_name', 'phone', 'document_type', 'document_number'];
+    const allFilled = fields.every(field => {
+        const value = document.getElementById(field).value.trim();
+        return value !== '';
+    });
+
+    const hasPassenger = document.getElementById('passenger_id').value !== '';
+
+    if (allFilled || hasPassenger) {
+        showPaymentStep();
+    }
+}
+function showPaymentStep() {
+    const step4 = document.getElementById('step4-card');
+    if (step4.classList.contains('d-none')) {
+        step4.classList.remove('d-none');
+        step4.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
 // Atualizar resumo
 function updateSummary() {
 	const summaryContent = document.getElementById('summary-content');
@@ -728,7 +758,7 @@ function updateSummary() {
 		const priceInput = document.createElement('input');
 		priceInput.type = 'hidden';
 		priceInput.name = 'price';
-		priceInput.value = schedulePrice;
+		priceInput.value = parseFloat(schedulePrice.toString().replace(/[^0-9.-]+/g, ''));
 		document.getElementById('ticketForm').appendChild(priceInput);
 	}
 
@@ -760,6 +790,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	if (scheduleId) {
 		// TODO: Carregar dados do schedule e mostrar passos
 	}
+});
+
+// Monitora preenchimento manual do novo passageiro
+document.querySelectorAll('#first_name, #last_name, #phone, #document_type, #document_number').forEach(input => {
+    input.addEventListener('input', checkAndShowPayment);
+    input.addEventListener('change', checkAndShowPayment);
+});
+
+// Também verifica ao colar
+document.querySelectorAll('#first_name, #last_name, #phone, #document_type, #document_number').forEach(input => {
+    input.addEventListener('paste', () => setTimeout(checkAndShowPayment, 100));
 });
 </script>
 @endpush
