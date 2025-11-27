@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bilhete - {{ $ticket->ticket_number }}</title>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DejaVu Sans', sans-serif; color: #333; line-height: 1.5; background: #f9f9f9; padding: 20px; }
+        .page { width: 100%; display: flex; justify-content: center; }
+
+        .card {
+            max-width: 640px;
+            width: 100%;
+            border: 1px solid #00000020;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            border-bottom: 1px solid #D1D5DB;
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+        }
+
+        .card-body { padding: 1.25rem; }
+        .card-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #D1D5DB;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #4b5563;
+            background: #f8f9fa;
+        }
+
+        .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+        .row h6 { font-weight: 700; font-size: 1rem; margin: 0; }
+        .row small { font-size: 0.875rem; color: #6b7280; }
+
+        .route-info {
+            border-bottom: 1px solid #D1D5DB;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .passenger-info small { display: block; margin: 4px 0; }
+
+        .row-depature {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid #D1D5DB;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .row-depature > div {
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .row-depature h6 {
+            font-weight: 500;
+            font-size: .9rem;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+        .row-depature p {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1f2937;
+        }
+
+        .qr-container {
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            background-color: #f3f4f6;
+        }
+
+        .qr-container img {
+            max-width: 180px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .qr-container div {
+            margin-top: 12px;
+            font-size: .95rem;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        @media (max-width: 480px) {
+            .row-depature { justify-content: center; }
+            .card-footer { flex-direction: column; text-align: center; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="card">
+
+            <!-- Cabeçalho -->
+            <div class="card-header">
+                <div class="row">
+                    <div>
+                        <h6>{{ $ticket->ticket_number }}</h6>
+                        <small>
+                            Comprado em {{ $ticket->created_at->format('d/m/Y H:i') }}
+                        </small>
+                    </div>
+                    <div style="text-align: right;">
+                        <h6>E-Ticket Link</h6>
+                        <small>NUIT: {{ config('app.nuit', '12345678') }}</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Corpo -->
+            <div class="card-body">
+
+                <!-- Rota + Preço + Passageiro -->
+                <div class="route-info">
+                    <div class="row">
+                        <div class="route">
+                            <small><strong>{{ $ticket->schedule->route->originCity->name }}</strong> → <strong>{{ $ticket->schedule->route->destinationCity->name }}</strong></small><br>
+                            <small><strong>Hora de Partida:</strong> {{ $ticket->schedule->departure_time }}</small><br>
+                            <small><strong>Preço:</strong> {{ number_format($ticket->price, 2) }} MT</small>
+                        </div>
+                        <div class="passenger-info" style="text-align: right;">
+                            <small><strong>Nome:</strong> {{ $ticket->passenger->full_name }}</small>
+                            <small><strong>Email:</strong> {{ $ticket->passenger->email ?? 'N/D' }}</small>
+                            <small><strong>Documento ({{ $ticket->passenger->document_type ?? 'BI' }}):</strong> {{ $ticket->passenger->document_number ?? 'N/D' }}</small>
+                            <small><strong>Contacto:</strong> {{ $ticket->passenger->phone }}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalhes da Viagem -->
+                <div class="row-depature">
+                    <div>
+                        <h6>Data</h6>
+                        <p>{{ $ticket->schedule->date->format('d/m/Y') }}</p>
+                    </div>
+                    <div>
+                        <h6>Hora</h6>
+                        <p>{{ $ticket->schedule->departure_time }}</p>
+                    </div>
+                    <div>
+                        <h6>Assento</h6>
+                        <p>{{ $ticket->seat_number }}</p>
+                    </div>
+                    <div>
+                        <h6>Autocarro</h6>
+                        <p>{{ $ticket->schedule->bus->plate ?? 'N/D' }}</p>
+                    </div>
+                </div>
+
+                <!-- QR Code -->
+                <div class="qr-container">
+                    <img src="data:image/png;base64,{{ base64_encode($ticket->qr_code) }}" alt="QR Code do Bilhete">
+                    <div>Apresente este código no embarque</div>
+                </div>
+            </div>
+
+            <!-- Rodapé -->
+            <div class="card-footer">
+                <div>
+                    <div>e-ticketlink.com</div>
+                    <div>info@e-ticketlink.com</div>
+                    <div>+258 84 | 87 123 4567</div>
+                </div>
+                <div style="max-width: 300px;">
+                    <p style="font-size: 10px; line-height: 1.4;">
+                        Chegue 30 minutos antes da partida e apresente o bilhete.<br>
+                        Tem direito a bagagem de até 20kg. Excesso: 100 MT/kg.<br>
+                        <strong>Conectando o país!</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

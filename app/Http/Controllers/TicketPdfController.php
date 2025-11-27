@@ -34,7 +34,14 @@ class TicketPdfController extends Controller
         ]);
 
         // Configurações do PDF
-        $pdf->setPaper('a4', 'portrait');
+        // $pdf->setPaper('a4', 'portrait');
+        $pdf->setPaper([0, 0, 450, 470], 'portrait');
+        $pdf->setOption([
+                  'defaultFont' => 'DejaVu Sans',
+                  'isRemoteEnabled' => true,
+                  'isHtml5ParserEnabled' => true,
+                  'dpi' => 112,
+        ]);
 
         // Nome do arquivo
         $filename = 'bilhete-' . $ticket->ticket_number . '.pdf';
@@ -69,7 +76,20 @@ class TicketPdfController extends Controller
         ]);
 
         // Configurações
-        $pdf->setPaper('a4', 'portrait');
+        // $pdf->setPaper([0, 0, 650, 650], 'portrait');
+        // $pdf->setOption([
+        //           'defaultFont' => 'DejaVu Sans',
+        //           'isRemoteEnabled' => true,
+        //           'isHtml5ParserEnabled' => true,
+        //           'dpi' => 150,
+        // ]);
+        $pdf->setPaper([0, 0, 450, 470], 'portrait');
+        $pdf->setOption([
+                  'defaultFont' => 'DejaVu Sans',
+                  'isRemoteEnabled' => true,
+                  'isHtml5ParserEnabled' => true,
+                  'dpi' => 112,
+        ]);
 
         // Stream (visualizar)
         return $pdf->stream('bilhete-' . $ticket->ticket_number . '.pdf');

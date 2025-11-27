@@ -82,8 +82,8 @@
             margin-top: 20px;
         }
         .qr-container img {
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 180px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
@@ -91,7 +91,7 @@
             margin-top: 12px;
             font-size: 14px;
             color: #4b5563;
-            /* font-weight: 500; */
+            font-weight: 500;
         }
 
         .card-footer {
@@ -142,7 +142,7 @@
                                 <strong>Preço:</strong> {{ number_format($ticket->price, 2) }} MT
                             </td>
                             <td style="text-align:right;">
-                                <strong>Nome:</strong> {{ $ticket->passenger->fullName() }}<br>
+                                <strong>Nome:</strong> {{ $ticket->passenger->full_name }}<br>
                                 <strong>Email:</strong> {{ $ticket->passenger->email ?? 'N/D' }}<br>
                                 <strong>{{ strtoupper($ticket->passenger->document_type ?? 'bi') }}:</strong> {{ $ticket->passenger->document_number ?? 'N/D' }}<br>
                                 <strong>Contacto:</strong> {{ $ticket->passenger->phone }}
@@ -157,7 +157,7 @@
                         <td><h6>Data</h6><p>{{ $ticket->schedule->departure_date->format('d/m/Y') }}</p></td>
                         <td><h6>Hora</h6><p>{{ $ticket->schedule->departure_time }}</p></td>
                         <td><h6>Assento</h6><p>{{ $ticket->seat_number }}</p></td>
-                        <td><h6>Autocarro</h6><p>{{ $ticket->schedule->bus->registration_number ?? 'N/D' }}</p></td>
+                        <td><h6>Autocarro</h6><p>{{ $ticket->schedule->bus->ticket_number ?? 'N/D' }}</p></td>
                     </tr>
                 </table>
 
