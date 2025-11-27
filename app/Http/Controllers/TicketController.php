@@ -524,4 +524,70 @@ class TicketController extends Controller
         ]);
     }
 
+
+    
+    /**
+     * API: Get available schedules (for create form)
+     */
+    public function apiGetSchedules(Request $request)
+    {
+        $query = Schedule::with(['route.originCity', 'route.destinationCity', 'bus'])
+            ->where('status', 'active')
+            ->where('departure_date', $request->date);
+
+        if ($request->filled('route_id')) {
+            $query->where('route_id', $request->route_id);
+        }
+
+        $schedules = $query->orderBy('departure_time')->get()->map(function ($schedule) {
+            $availableSeats = $schedule->availableSeats();
+            
+            return [
+                'id' => $schedule->id,
+                'route' => $schedule->route->originCity->name . ' → ' . $schedule->route->destinationCity->name,
+                'time' => $schedule->departure_time,
+                'price' => number_format($schedule->price, 2),
+                'bus' => $schedule->bus->model . ' (' . $schedule->bus->registration_number . ')',
+                'available_seats' => $availableSeats,
+                'total_seats' => $schedule->bus->total_seats,
+            ];
+        });
+
+        return response()->json($schedules);
+    }
+
+    /**
+     * API: Search passengers (for create form)
+     */
+    public function apiSearchPassengers(Request $request)
+    {
+        $search = $request->get('q');
+
+        if (!$search || strlen($search) < 3) {
+            return response()->json([]);
+        }
+
+        $passengers = Passenger::where(function($query) use ($search) {
+            $query->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+        })
+        ->where('is_active', true)
+        ->limit(10)
+        ->get()
+        ->map(function($passenger) {
+            return [
+                'id' => $passenger->id,
+                'first_name' => $passenger->first_name,
+                'last_name' => $passenger->last_name,
+                'email' => $passenger->email,
+                'phone' => $passenger->phone,
+                'document_type' => $passenger->document_type,
+                'document_number' => $passenger->document_number,
+            ];
+        });
+
+        return response()->json($passengers);
+    }
 }

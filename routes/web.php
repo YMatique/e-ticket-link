@@ -270,6 +270,14 @@ Route::prefix('tickets')->name('tickets.pdf.')->group(function () {
     });
 });
     
+// API Routes para o formulário de emissão de bilhetes
+Route::prefix('api')->name('api.')->group(function () {
+    // Buscar horários disponíveis
+    Route::get('/schedules/available', [TicketController::class, 'apiGetSchedules'])->name('schedules.available');
+    
+    // Buscar passageiros
+    Route::get('/passengers/search', [TicketController::class, 'apiSearchPassengers'])->name('passengers.search');
+});
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
