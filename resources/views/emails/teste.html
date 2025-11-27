@@ -216,7 +216,7 @@ ervations        .ticket-card {
                         <strong>{{ $ticket->schedule->route->originCity->name }}</strong>
                         <span style="color:#3b82f6;font-size:28px;margin:0 15px;">→</span>
                         <strong>{{ $ticket->schedule->route->destinationCity->name }}</strong>
-                        <small>{{ $ticket->schedule->departure_time }} • {{ $ticket->schedule->departure_date->format('d/m/Y') }}</small>
+                        <small>{{ $ticket->schedule->departure_time }} • {{ $ticket->schedule->date->format('d/m/Y') }}</small>
                     </div>
 
                     <!-- Detalhes -->
@@ -259,7 +259,7 @@ ervations        .ticket-card {
 
                     <!-- Botão -->
                     <div style="text-align:center;">
-                        <a href="{{ route('public.my-tickets') }}?search_value={{ $ticket->passenger->email }}" class="button">
+                        <a href="{{ route('public.my-tickets') }}?email={{ $ticket->passenger->email }}" class="button">
                             Ver Todos os Meus Bilhetes
                         </a>
                     </div>
