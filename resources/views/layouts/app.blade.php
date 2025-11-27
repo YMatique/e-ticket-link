@@ -82,13 +82,13 @@
 							</div>
 
 							<div class="col">
-								<a href="{{ route('reports.index') }}" class="dropdown-item text-wrap h-100 align-items-start rounded-bottom-end p-3">
+								{{-- <a href="{{ route('reports.index') }}" class="dropdown-item text-wrap h-100 align-items-start rounded-bottom-end p-3">
 									<div>
 										<i class="ph-chart-line ph-2x text-info mb-2"></i>
 										<div class="fw-semibold my-1">Relatórios</div>
 										<div class="text-muted">Ver estatísticas e vendas</div>
 									</div>
-								</a>
+								</a> --}}
 							</div>
 						</div>
 					</div>
@@ -132,10 +132,10 @@
 							<i class="ph-user-circle me-2"></i>
 							Meu Perfil
 						</a>
-						<a href="{{ route('settings.index') }}" class="dropdown-item">
+						{{-- <a href="{{ route('settings.index') }}" class="dropdown-item">
 							<i class="ph-gear me-2"></i>
 							Configurações
-						</a>
+						</a> --}}
 						<div class="dropdown-divider"></div>
 						<form method="POST" action="{{ route('logout') }}">
 							@csrf
@@ -278,7 +278,7 @@
 							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Passageiros & Bilhetes</div>
 							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
-						<li class="nav-item nav-item-submenu {{ request()->is('passengers*') ? 'nav-item-open' : '' }}">
+						{{-- <li class="nav-item nav-item-submenu {{ request()->is('passengers*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
 								<i class="ph-users"></i>
 								<span>Passageiros</span>
@@ -287,7 +287,7 @@
 								<li class="nav-item"><a href="{{ route('passengers.index') }}" class="nav-link {{ request()->routeIs('passengers.index') ? 'active' : '' }}">Lista de Passageiros</a></li>
 								<li class="nav-item"><a href="{{ route('passengers.create') }}" class="nav-link {{ request()->routeIs('passengers.create') ? 'active' : '' }}">Novo Passageiro</a></li>
 							</ul>
-						</li>
+						</li> --}}
 						<li class="nav-item nav-item-submenu {{ request()->is('tickets*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
 								<i class="ph-ticket"></i>
@@ -305,7 +305,7 @@
 							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Financeiro</div>
 							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
-						<li class="nav-item nav-item-submenu {{ request()->is('payments*') ? 'nav-item-open' : '' }}">
+						{{-- <li class="nav-item nav-item-submenu {{ request()->is('payments*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
 								<i class="ph-credit-card"></i>
 								<span>Pagamentos</span>
@@ -314,13 +314,13 @@
 								<li class="nav-item"><a href="{{ route('payments.index') }}" class="nav-link {{ request()->routeIs('payments.index') ? 'active' : '' }}">Transacções</a></li>
 								<li class="nav-item"><a href="{{ route('payments.mpesa') }}" class="nav-link {{ request()->routeIs('payments.mpesa') ? 'active' : '' }}">M-Pesa / e-Mola</a></li>
 							</ul>
-						</li>
-						<li class="nav-item">
+						</li> --}}
+						{{-- <li class="nav-item">
 							<a href="{{ route('reports.index') }}" class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
 								<i class="ph-chart-line"></i>
 								<span>Relatórios</span>
 							</a>
-						</li>
+						</li> --}}
 
 						<!-- Localização -->
 						<li class="nav-item-header">
@@ -345,7 +345,7 @@
 							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Sistema</div>
 							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
-						<li class="nav-item nav-item-submenu {{ request()->is('settings*') ? 'nav-item-open' : '' }}">
+						{{-- <li class="nav-item nav-item-submenu {{ request()->is('settings*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
 								<i class="ph-gear"></i>
 								<span>Configurações</span>
@@ -354,7 +354,7 @@
 								<li class="nav-item"><a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">Utilizadores</a></li>
 								<li class="nav-item"><a href="{{ route('settings.system') }}" class="nav-link {{ request()->routeIs('settings.system') ? 'active' : '' }}">Sistema</a></li>
 							</ul>
-						</li>
+						</li> --}}
 
 					</ul>
 				</div>

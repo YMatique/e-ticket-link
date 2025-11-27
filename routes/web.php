@@ -89,6 +89,7 @@ Route::middleware(['admin'])->group(function () {
     */
     
     // Passageiros (Passengers)
+/*
     Route::prefix('passengers')->name('passengers.')->group(function () {
         Route::get('/', [PassengerController::class, 'index'])->name('index');
         Route::get('/create', [PassengerController::class, 'create'])->name('create');
@@ -104,7 +105,7 @@ Route::middleware(['admin'])->group(function () {
         // Activar/Desactivar passageiro
         Route::patch('/{passenger}/toggle-status', [PassengerController::class, 'toggleStatus'])->name('toggle-status');
     });
-
+*/
     // Bilhetes (Tickets)
     Route::prefix('tickets')->name('tickets.')->group(function () {
         Route::get('/', [TicketController::class, 'index'])->name('index');
@@ -114,10 +115,10 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('edit');
         Route::put('/{ticket}', [TicketController::class, 'update'])->name('update');
         Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('destroy');
-        
+        Route::get('/validate', [TicketController::class, 'validateForm'])->name('validate');
         // Validação de bilhetes
-        Route::get('/validate/scan', [TicketController::class, 'validatePage'])->name('validate');
-        Route::post('/validate/scan', [TicketController::class, 'validateTicket'])->name('validate.scan');
+        // Route::get('/validate/scan', [TicketController::class, 'validatePage'])->name('validate');
+        // Route::post('/validate/scan', [TicketController::class, 'validateTicket'])->name('validate.scan');
         
         // Cancelar bilhete
         Route::patch('/{ticket}/cancel', [TicketController::class, 'cancel'])->name('cancel');
@@ -133,20 +134,21 @@ Route::middleware(['admin'])->group(function () {
 
          Route::get('/schedules/{schedule}/available-seats', [TicketController::class, 'getAvailableSeats'])->name('available-seats');
 
+
          
     });
     // Rotas de PDF (fora do grupo tickets pois usa controller diferente)
-Route::prefix('tickets')->name('tickets.pdf.')->group(function () {
-    Route::get('/{ticket}/pdf/download', [TicketPdfController::class, 'download'])->name('download');
-    Route::get('/{ticket}/pdf/view', [TicketPdfController::class, 'view'])->name('view');
-});
+    Route::prefix('tickets')->name('tickets.pdf.')->group(function () {
+        Route::get('/{ticket}/pdf/download', [TicketPdfController::class, 'download'])->name('download');
+        Route::get('/{ticket}/pdf/view', [TicketPdfController::class, 'view'])->name('view');
+    });
 
     /*
     |--------------------------------------------------------------------------
     | FINANCEIRO
     |--------------------------------------------------------------------------
     */
-    
+    /*
     // Pagamentos (Payments)
     Route::prefix('payments')->name('payments.')->group(function () {
         Route::get('/', [PaymentController::class, 'index'])->name('index');
@@ -184,7 +186,7 @@ Route::prefix('tickets')->name('tickets.pdf.')->group(function () {
         Route::post('/export/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf');
         Route::post('/export/excel', [ReportController::class, 'exportExcel'])->name('export.excel');
     });
-
+*/
     /*
     |--------------------------------------------------------------------------
     | LOCALIZAÇÃO
@@ -221,7 +223,7 @@ Route::prefix('tickets')->name('tickets.pdf.')->group(function () {
     | SISTEMA
     |--------------------------------------------------------------------------
     */
-    
+    /*
     // Utilizadores (Users)
     Route::prefix('users')->name('users.')->middleware('role:admin')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
@@ -268,6 +270,7 @@ Route::prefix('tickets')->name('tickets.pdf.')->group(function () {
             Route::put('/payment-gateways', [SettingController::class, 'updatePaymentGateways'])->name('payment-gateways.update');
         });
     });
+    */
 });
     
 // API Routes para o formulário de emissão de bilhetes
@@ -278,6 +281,16 @@ Route::prefix('api')->name('api.')->group(function () {
     // Buscar passageiros
     Route::get('/passengers/search', [TicketController::class, 'apiSearchPassengers'])->name('passengers.search');
 });
+
+// API para validação
+Route::prefix('api')->name('api.')->group(function () {
+    // Buscar bilhete por número
+    Route::get('/tickets/{ticketNumber}/find', [TicketController::class, 'findByTicketNumber'])->name('tickets.find');
+    
+    // Estatísticas de validação
+    Route::get('/tickets/validation-stats/today', [TicketController::class, 'getValidationStats'])->name('tickets.validation-stats');
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 

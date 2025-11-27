@@ -593,4 +593,71 @@ class TicketController extends Controller
 
         return response()->json($passengers);
     }
+     /**
+     * Show validation form
+     */
+    public function validateForm()
+    {
+        return view('admin.tickets.validate');
+    }
+
+    /**
+     * API: Find ticket by ticket number
+     */
+    public function findByTicketNumber($ticketNumber)
+    {
+        $ticket = Ticket::where('ticket_number', $ticketNumber)->first();
+
+        if (!$ticket) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bilhete não encontrado'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'ticket' => [
+                'id' => $ticket->id,
+                'ticket_number' => $ticket->ticket_number,
+                'status' => $ticket->status,
+            ]
+        ]);
+    }
+
+    /**
+     * API: Get validation stats for today
+     */
+    public function getValidationStats()
+    {
+        $today = today();
+
+        $validated = Ticket::where('status', 'validated')
+            ->whereDate('validated_at', $today)
+            ->count();
+
+        // Failed validations from logs (se tiver tabela de logs)
+        $failed = 0; // TODO: implementar se necessário
+
+        $recent = Ticket::with(['passenger', 'schedule.route.originCity', 'schedule.route.destinationCity'])
+            ->where('status', 'validated')
+            ->whereDate('validated_at', $today)
+            ->orderBy('validated_at', 'desc')
+            ->limit(10)
+            ->get()
+            ->map(function($ticket) {
+                return [
+                    'ticket_number' => $ticket->ticket_number,
+                    'passenger_name' => $ticket->passenger->first_name . ' ' . $ticket->passenger->last_name,
+                    'success' => true,
+                    'validated_at' => $ticket->validated_at,
+                ];
+            });
+
+        return response()->json([
+            'validated' => $validated,
+            'failed' => $failed,
+            'recent' => $recent
+        ]);
+    }
 }
