@@ -138,7 +138,7 @@
 <!-- /login form -->
 
 <!-- Additional Info Card -->
-<div class="mt-3">
+{{-- <div class="mt-3">
 	<div class="alert alert-info border-0 mb-0">
 		<div class="d-flex align-items-center">
 			<i class="ph-info ph-lg me-2"></i>
@@ -148,7 +148,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --}}
 @endsection
 
 @push('styles')
@@ -173,15 +173,15 @@
 	
 	/* Button gradient */
 	.btn-primary {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		/* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
 		border: none;
 		transition: all 0.3s ease;
 	}
 	
 	.btn-primary:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 0.5rem 1rem rgba(102, 126, 234, 0.3);
-		background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+		/* box-shadow: 0 0.5rem 1rem rgba(102, 126, 234, 0.3); */
+		/* background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); */
 	}
 	
 	/* Alert styling */

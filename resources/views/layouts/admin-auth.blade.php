@@ -42,7 +42,7 @@
 <body>
 
 	<!-- Main navbar -->
-	<div class="navbar navbar-dark navbar-static py-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+	{{-- <div class="navbar navbar-dark navbar-static py-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
 		<div class="container-fluid">
 			<div class="navbar-brand">
 				<a href="{{ route('admin.login') }}" class="d-inline-flex align-items-center">
@@ -58,7 +58,7 @@
 				</span>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 	<!-- /main navbar -->
 
 
@@ -81,7 +81,7 @@
 
 
 				<!-- Footer -->
-				<div class="navbar navbar-sm navbar-footer border-top">
+				{{-- <div class="navbar navbar-sm navbar-footer border-top">
 					<div class="container-fluid">
 						<span class="text-muted">
 							<i class="ph-shield-check me-1"></i>
@@ -107,7 +107,7 @@
 							</li>
 						</ul>
 					</div>
-				</div>
+				</div> --}}
 				<!-- /footer -->
 
 			</div>

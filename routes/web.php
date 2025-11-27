@@ -5,6 +5,8 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TicketPdfController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -125,10 +127,19 @@ Route::middleware(['admin'])->group(function () {
         
         // Enviar bilhete por email
         Route::post('/{ticket}/send-email', [TicketController::class, 'sendEmail'])->name('send-email');
-        
+        Route::post('/{ticket}/resend-email', [TicketController::class, 'resendEmail'])->name('resend-email');
         // Enviar bilhete por SMS
         Route::post('/{ticket}/send-sms', [TicketController::class, 'sendSms'])->name('send-sms');
+
+         Route::get('/schedules/{schedule}/available-seats', [TicketController::class, 'getAvailableSeats'])->name('available-seats');
+
+         
     });
+    // Rotas de PDF (fora do grupo tickets pois usa controller diferente)
+Route::prefix('tickets')->name('tickets.pdf.')->group(function () {
+    Route::get('/{ticket}/pdf/download', [TicketPdfController::class, 'download'])->name('download');
+    Route::get('/{ticket}/pdf/view', [TicketPdfController::class, 'view'])->name('view');
+});
 
     /*
     |--------------------------------------------------------------------------

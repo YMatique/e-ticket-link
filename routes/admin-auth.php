@@ -63,13 +63,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->name('logout');
         
         // Dashboard
-        Route::get('/', function() {
-            return view('admin.dashboard.index');
-        })->name('dashboard');
+        // Route::get('/', function() {
+        //     return view('admin.dashboard.index');
+        // })->name('dashboard');
         
-        Route::get('dashboard', function() {
-            return view('admin.dashboard.index');
-        })->name('dashboard.index');
+        // Route::get('dashboard', function() {
+        //     return view('admin.dashboard.index');
+        // })->name('dashboard.index');
         
         /*
         |--------------------------------------------------------------------------
