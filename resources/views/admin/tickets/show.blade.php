@@ -3,7 +3,7 @@
 @section('content')
 <div class="content">
 	<!-- Page Header -->
-	<div class="page-header page-header-light shadow">
+	<div class="page-header page-header-light shadow mb-4">
 		<div class="page-header-content d-flex">
 			<div class="page-title">
 				<h4>
