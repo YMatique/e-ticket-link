@@ -258,7 +258,7 @@
                                             </div>
                                             <div class="col-4">
                                                 <div class="text-muted small">Autocarro</div>
-                                                <div class="fw-semibold">{{ $ticket->schedule->bus->plate_number }}</div>
+                                                <div class="fw-semibold">{{ $ticket->schedule->bus->registration_number }}</div>
                                             </div>
                                         </div>
                                     </div>
