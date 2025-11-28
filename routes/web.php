@@ -115,9 +115,9 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('edit');
         Route::put('/{ticket}', [TicketController::class, 'update'])->name('update');
         Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('destroy');
-        Route::get('/validate', [TicketController::class, 'validateForm'])->name('validate');
+        // Route::get('/validate', [TicketController::class, 'validateForm'])->name('validate');
         // Validação de bilhetes
-        // Route::get('/validate/scan', [TicketController::class, 'validatePage'])->name('validate');
+        Route::get('/validate/scan', [TicketController::class, 'validateForm'])->name('validate');
         // Route::post('/validate/scan', [TicketController::class, 'validateTicket'])->name('validate.scan');
         
         // Cancelar bilhete

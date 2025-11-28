@@ -3,7 +3,7 @@
 @section('content')
 <div class="content">
 	<!-- Page Header -->
-	<div class="page-header page-header-light shadow">
+	<div class="page-header page-header-light shadow mb-4">
 		<div class="page-header-content d-flex">
 			<div class="page-title">
 				<h4>
@@ -364,7 +364,7 @@ function startScanning(cameraId) {
 	
 	const config = {
 		fps: 10,
-		qrbox: { width: 250, height: 250 },
+		qrbox: { width: 350, height: 350 },
 		aspectRatio: 1.0
 	};
 	
