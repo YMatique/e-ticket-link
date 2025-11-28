@@ -78,7 +78,7 @@ class PassengerController extends Controller
         $passenger = Passenger::create($validated);
 
         return redirect()
-            ->route('admin.passengers.show', $passenger)
+            ->route('passengers.show', $passenger)
             ->with('success', 'Passageiro criado com sucesso!');
     }
 
@@ -87,12 +87,18 @@ class PassengerController extends Controller
      */
     public function show(Passenger $passenger)
     {
-        $passenger->load(['tickets.schedule.route.originCity', 'tickets.schedule.route.destinationCity', 'tickets.schedule.bus']);
+        // $passenger->load(['tickets.schedule.route.originCity', 'tickets.schedule.route.destinationCity', 'tickets.schedule.bus']);
 
-        $tickets = $passenger->tickets()
-            ->with('schedule.route', 'schedule.bus')
-            ->latest()
-            ->paginate(10);
+        // $tickets = $passenger->tickets()
+        //     ->with('schedule.route', 'schedule.bus')
+        //     ->latest()
+        //     ->paginate(10);
+        $passenger->loadCount('tickets');
+
+    $tickets = $passenger->tickets()
+        ->with(['schedule.route.originCity', 'schedule.route.destinationCity', 'schedule.bus'])
+        ->latest()
+        ->paginate(15);
 
         return view('admin.passengers.show', compact('passenger', 'tickets'));
     }
