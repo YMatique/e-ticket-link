@@ -88,14 +88,26 @@ class ReportController extends Controller
         $startDate = $request->get('start_date', now()->subDays(30)->format('Y-m-d'));
         $endDate   = $request->get('end_date', now()->format('Y-m-d'));
 
-        $passengers = Passenger::withCount(['tickets' => function($q) use ($startDate, $endDate) {
-                $q->whereBetween('created_at', [$startDate, $endDate])->where('status', 'paid');
-            }])
-            ->withSum(['tickets' => function($q) use ($startDate, $endDate) {
-                $q->whereBetween('created_at', [$startDate, $endDate])->where('status', 'paid');
-            }], 'price')
-            ->orderByDesc('tickets_count')
-            ->paginate(20);
+        $passengers = Passenger::query()
+        ->with(['tickets' => function($q) use ($startDate, $endDate) {
+            $q->where('status', 'paid')
+              ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+        }])
+        ->withCount(['tickets as tickets_paid_count' => function($q) use ($startDate, $endDate) {
+            $q->where('status', 'paid')
+              ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+        }])
+        ->withSum(['tickets as total_spent' => function($q) use ($startDate, $endDate) {
+            $q->where('status', 'paid')
+              ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+        }], 'price')
+        ->whereHas('tickets', function($q) use ($startDate, $endDate) {
+            $q->where('status', 'paid')
+              ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+        })
+        ->orderByDesc('total_spent')
+        ->paginate(20)
+        ->withQueryString();
 
         return view('admin.reports.passengers', compact('passengers', 'startDate', 'endDate'));
     }
