@@ -272,7 +272,7 @@ Route::middleware(['admin'])->group(function () {
             Route::put('/payment-gateways', [SettingController::class, 'updatePaymentGateways'])->name('payment-gateways.update');
         });
     });
-    */
+    
 });
     
 // API Routes para o formulário de emissão de bilhetes
