@@ -11,7 +11,8 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TicketPdfController;
 use App\Http\Controllers\UserController;
-use App\Livewire\Auth\Login;
+use App\Livewire\Public\Auth\Login as AuthLogin;
+use App\Livewire\Public\Auth\Register;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -319,7 +320,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::prefix('account')->name('account.')->group(function () {
-    Route::get('/login', Login::class)->name('login');
+    Route::get('/login', AuthLogin::class)->name('login');
     Route::get('/register', Register::class)->name('register');
     
     // Logout
