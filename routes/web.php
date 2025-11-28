@@ -11,10 +11,12 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TicketPdfController;
 use App\Http\Controllers\UserController;
+use App\Livewire\Auth\Login;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\TwoFactor;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -316,6 +318,18 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
+Route::prefix('account')->name('account.')->group(function () {
+    Route::get('/login', Login::class)->name('login');
+    Route::get('/register', Register::class)->name('register');
+    
+    // Logout
+    Route::post('/logout', function () {
+        Auth::guard('account')->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/');
+    })->name('logout');
+});
 require __DIR__.'/auth.php';
 require __DIR__.'/public.php';
 require __DIR__.'/pdf.php';
