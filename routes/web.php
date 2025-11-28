@@ -8,6 +8,7 @@ use App\Http\Controllers\RouteController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TicketPdfController;
+use App\Http\Controllers\UserController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -237,7 +238,7 @@ Route::middleware(['admin'])->group(function () {
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
         
         // Activar/Desactivar utilizador
-        Route::patch('/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('toggle-status');
+        Route::patch('/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('toggle');
         
         // Alterar permissões
         Route::put('/{user}/permissions', [UserController::class, 'updatePermissions'])->name('permissions');

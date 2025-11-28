@@ -19,6 +19,13 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $stats = [
+        'total'  => User::count(),
+        'active' => User::where('is_active', true)->count(),
+        'admin'  => User::role('Admin')->count(),
+        'today'  => User::whereDate('created_at', today())->count(),
+    ];
+
         $users = User::with('roles')
             ->when($request->search, function ($q, $search) {
                 $q->where('name', 'like', "%{$search}%")
@@ -28,7 +35,7 @@ class UserController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        return view('admin.users.index', compact('users'));
+        return view('admin.users.index', compact('users','stats'));
     }
 
     /**
