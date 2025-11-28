@@ -322,7 +322,7 @@
                                     <div class="col-6 col-md-3">
                                         <div class="text-center p-3 bg-light rounded">
                                             <div class="text-muted small">Autocarro</div>
-                                            <div class="fw-bold">{{ $ticket->schedule->bus->plate_number }}</div>
+                                            <div class="fw-bold">{{ $ticket->schedule->bus->registration_number }}</div>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3">

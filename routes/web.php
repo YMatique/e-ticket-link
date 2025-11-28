@@ -118,6 +118,7 @@ Route::middleware(['admin'])->group(function () {
         // Route::get('/validate', [TicketController::class, 'validateForm'])->name('validate');
         // Validação de bilhetes
         Route::get('/validate/scan', [TicketController::class, 'validateForm'])->name('validate');
+        Route::post('/{ticket}/validate', [TicketController::class, 'validateTicket'])->name('tickets.validate-ticket');
         // Route::post('/validate/scan', [TicketController::class, 'validateTicket'])->name('validate.scan');
         
         // Cancelar bilhete
@@ -170,7 +171,7 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/webhook/mpesa', [PaymentController::class, 'mpesaWebhook'])->name('webhook.mpesa');
         Route::post('/webhook/emola', [PaymentController::class, 'emolaWebhook'])->name('webhook.emola');
     });
-
+    */
     // Relatórios (Reports)
     Route::prefix('reports')->name('reports.')->group(function () {
         Route::get('/', [ReportController::class, 'index'])->name('index');
@@ -186,7 +187,7 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/export/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf');
         Route::post('/export/excel', [ReportController::class, 'exportExcel'])->name('export.excel');
     });
-*/
+
     /*
     |--------------------------------------------------------------------------
     | LOCALIZAÇÃO

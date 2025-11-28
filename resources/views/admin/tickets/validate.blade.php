@@ -437,7 +437,7 @@ function validateTicket(qrCodeData) {
 	showValidationLoading();
 	
 	// Buscar bilhete
-	fetch(`/tickets/${ticketNumber}/find`, {
+	fetch(`/api/tickets/${ticketNumber}/find`, {
 		method: 'GET',
 		headers: {
 			'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,

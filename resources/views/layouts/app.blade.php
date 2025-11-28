@@ -82,13 +82,13 @@
 							</div>
 
 							<div class="col">
-								{{-- <a href="{{ route('reports.index') }}" class="dropdown-item text-wrap h-100 align-items-start rounded-bottom-end p-3">
+								<a href="{{ route('reports.index') }}" class="dropdown-item text-wrap h-100 align-items-start rounded-bottom-end p-3">
 									<div>
 										<i class="ph-chart-line ph-2x text-info mb-2"></i>
 										<div class="fw-semibold my-1">Relatórios</div>
 										<div class="text-muted">Ver estatísticas e vendas</div>
 									</div>
-								</a> --}}
+								</a>
 							</div>
 						</div>
 					</div>
@@ -315,12 +315,12 @@
 								<li class="nav-item"><a href="{{ route('payments.mpesa') }}" class="nav-link {{ request()->routeIs('payments.mpesa') ? 'active' : '' }}">M-Pesa / e-Mola</a></li>
 							</ul>
 						</li> --}}
-						{{-- <li class="nav-item">
+						<li class="nav-item">
 							<a href="{{ route('reports.index') }}" class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
 								<i class="ph-chart-line"></i>
 								<span>Relatórios</span>
 							</a>
-						</li> --}}
+						</li>
 
 						<!-- Localização -->
 						<li class="nav-item-header">
