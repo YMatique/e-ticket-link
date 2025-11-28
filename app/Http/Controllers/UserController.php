@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -70,7 +71,7 @@ class UserController extends Controller
         $user->syncRoles($validated['roles']);
 
         return redirect()
-            ->route('admin.users.index')
+            ->route('users.index')
             ->with('success', 'Utilizador criado com sucesso!');
     }
 
@@ -118,7 +119,7 @@ class UserController extends Controller
         $user->syncRoles($validated['roles']);
 
         return redirect()
-            ->route('admin.users.index')
+            ->route('users.index')
             ->with('success', 'Utilizador atualizado com sucesso!');
     }
 
@@ -139,7 +140,7 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()
-            ->route('admin.users.index')
+            ->route('users.index')
             ->with('success', 'Utilizador eliminado com sucesso.');
     }
 
@@ -149,7 +150,7 @@ class UserController extends Controller
             return back()->with('error', 'Não podes desativar a tua própria conta.');
         }
 
-        $user->update(['is_active' => !$user->is_active]);
+        $user->update(['satus' => $user->stauts=='active'?'inactive':'active']);
 
         return back()->with('success', 'Estado do utilizador alterado.');
     }
