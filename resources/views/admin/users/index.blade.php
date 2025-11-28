@@ -4,9 +4,9 @@
 <div class="content">
 
     <div class="page-header page-header-light shadow mb-4">
-        <div class="page-header-content d-flex">
+        <div class="page-header-content d-flex pt-2 pb-2">
             <h4><i class="ph-users-three me-2"></i> Utilizadores do Sistema</h4>
-            <a href="{{ route('users.create') }}" class="btn btn-primary ms-auto">
+            <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary ms-auto">
                 <i class="ph-plus me-2"></i> Novo Utilizador
             </a>
         </div>
@@ -107,8 +107,12 @@
                             @endforeach
                         </td>
                         <td>
-                            <span class="badge bg-{{ $user->is_active ? 'success' : 'secondary' }} bg-opacity-10 text-{{ $user->is_active ? 'success' : 'secondary' }}">
-                                {{ $user->is_active ? 'Ativo' : 'Inativo' }}
+                            <span class="badge bg-{{ $user->status =='active' ? 'success' : 'secondary' }} bg-opacity-10 text-{{ $user->status=='active' ? 'success' : 'secondary' }}">
+                                 @php
+                                       $array = ['active'=>'Ativo','inactive'=>'Desativado', 'blocked'=>'Bloqueado'];
+                                       $userStatus = $array[$user->status];
+                                   @endphp
+                                    {{  $userStatus  }}
                             </span>
                         </td>
                         <td>{{ $user->created_at->format('d/m/Y') }}</td>
@@ -118,7 +122,7 @@
                             </a>
                             <form action="{{ route('users.toggle', $user) }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-light" title="{{ $user->is_active ? 'Desativar' : 'Ativar' }}">
+                                <button type="submit" class="btn btn-sm btn-light" title="{{ $user->status=='active' ? 'Desativar' : 'Ativar' }}">
                                     <i class="ph-user-switch"></i>
                                 </button>
                             </form>
