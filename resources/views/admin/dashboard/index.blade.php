@@ -313,6 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
             responsive: true,
             plugins: {
                 legend: { display: false },
+                maintainAspectRatio: false,
                 tooltip: {
                     backgroundColor: 'rgba(0,0,0,0.8)',
                     callbacks: {
