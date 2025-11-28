@@ -34,7 +34,7 @@ class PermissionCreate extends Seeder
         $admin->givePermissionTo(Permission::all());
 
         $schedule = Role::create(['name' => 'Agendador']);
-        $schedule->givePermissionTo(['manage schedules', 'manage bus', 'manage routes', 'manage city', 'manage province']);
+        $schedule->givePermissionTo(['manage schedule', 'manage bus', 'manage routes', 'manage city', 'manage province']);
 
         $agente = Role::create(['name' => 'Agente']);
         $agente->givePermissionTo(['manage tickets', 'view reports', 'manage passenger']);

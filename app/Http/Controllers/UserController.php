@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,8 +12,8 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('role:Admin'); // só Admin pode gerir usuários
+        // $this->middleware('auth');
+        // $this->middleware('role:Admin'); // só Admin pode gerir usuários
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +22,7 @@ class UserController extends Controller
     {
         $stats = [
         'total'  => User::count(),
-        'active' => User::where('is_active', true)->count(),
+        'active' => User::where('status', 'active')->count(),
         'admin'  => User::role('Admin')->count(),
         'today'  => User::whereDate('created_at', today())->count(),
     ];
