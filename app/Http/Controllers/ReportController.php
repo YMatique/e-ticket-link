@@ -114,13 +114,38 @@ class ReportController extends Controller
 
     public function buses(Request $request)
     {
-        $buses = Bus::with(['schedules' => function($q) {
-                $q->where('departure_date', '>=', now()->subDays(30));
-            }])
-            ->withCount('schedules')
-            ->get();
+        $startDate = $request->get('start_date', now()->subDays(30)->format('Y-m-d'));
+    $endDate   = $request->get('end_date', now()->format('Y-m-d'));
+        // Período completo com hora
+    $start = $startDate . ' 00:00:00';
+    $end   = $endDate . ' 23:59:59';
 
-        return view('admin.reports.buses', compact('buses'));
+    $buses = Bus::query()
+        ->with(['schedules' => fn($q) => $q->whereBetween('departure_date', [$startDate, $endDate])])
+        ->withCount([
+            'schedules as total_trips' => fn($q) => $q->whereBetween('departure_date', [$startDate, $endDate])
+        ])
+        ->withCount([
+            'schedules as completed_trips' => fn($q) => $q
+                ->whereBetween('departure_date', [$startDate, $endDate])
+                ->where('status', 'departed')
+        ])
+        ->leftJoin('schedules', 'buses.id', '=', 'schedules.bus_id')
+        ->leftJoin('tickets', function ($join) use ($start, $end) {
+            $join->on('schedules.id', '=', 'tickets.schedule_id')
+                 ->where('tickets.status', 'paid')
+                 ->whereBetween('tickets.created_at', [$start, $end]);
+        })
+        ->selectRaw('
+            buses.*,
+            COALESCE(COUNT(tickets.id), 0) as tickets_sold_count,
+            COALESCE(SUM(tickets.price), 0) as total_revenue
+        ')
+        ->groupBy('buses.id')
+        ->orderByDesc('total_revenue')
+        ->get();
+
+        return view('admin.reports.buses', compact('buses','startDate', 'endDate'));
     }
 
     // Exportações
