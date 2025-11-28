@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\ScheduleController;
@@ -89,7 +90,7 @@ Route::middleware(['admin'])->group(function () {
     */
     
     // Passageiros (Passengers)
-/*
+
     Route::prefix('passengers')->name('passengers.')->group(function () {
         Route::get('/', [PassengerController::class, 'index'])->name('index');
         Route::get('/create', [PassengerController::class, 'create'])->name('create');
@@ -105,7 +106,7 @@ Route::middleware(['admin'])->group(function () {
         // Activar/Desactivar passageiro
         Route::patch('/{passenger}/toggle-status', [PassengerController::class, 'toggleStatus'])->name('toggle-status');
     });
-*/
+
     // Bilhetes (Tickets)
     Route::prefix('tickets')->name('tickets.')->group(function () {
         Route::get('/', [TicketController::class, 'index'])->name('index');

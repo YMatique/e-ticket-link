@@ -278,7 +278,7 @@
 							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Passageiros & Bilhetes</div>
 							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
-						{{-- <li class="nav-item nav-item-submenu {{ request()->is('passengers*') ? 'nav-item-open' : '' }}">
+						<li class="nav-item nav-item-submenu {{ request()->is('passengers*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
 								<i class="ph-users"></i>
 								<span>Passageiros</span>
@@ -287,7 +287,7 @@
 								<li class="nav-item"><a href="{{ route('passengers.index') }}" class="nav-link {{ request()->routeIs('passengers.index') ? 'active' : '' }}">Lista de Passageiros</a></li>
 								<li class="nav-item"><a href="{{ route('passengers.create') }}" class="nav-link {{ request()->routeIs('passengers.create') ? 'active' : '' }}">Novo Passageiro</a></li>
 							</ul>
-						</li> --}}
+						</li>
 						<li class="nav-item nav-item-submenu {{ request()->is('tickets*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
 								<i class="ph-ticket"></i>
