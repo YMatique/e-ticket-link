@@ -345,7 +345,7 @@
 							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Sistema</div>
 							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
-						{{-- <li class="nav-item nav-item-submenu {{ request()->is('settings*') ? 'nav-item-open' : '' }}">
+						<li class="nav-item nav-item-submenu {{ request()->is('settings*') ? 'nav-item-open' : '' }}">
 							<a href="#" class="nav-link">
 								<i class="ph-gear"></i>
 								<span>Configurações</span>
@@ -354,7 +354,7 @@
 								<li class="nav-item"><a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">Utilizadores</a></li>
 								<li class="nav-item"><a href="{{ route('settings.system') }}" class="nav-link {{ request()->routeIs('settings.system') ? 'active' : '' }}">Sistema</a></li>
 							</ul>
-						</li> --}}
+						</li>
 
 					</ul>
 				</div>

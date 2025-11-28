@@ -225,9 +225,9 @@ Route::middleware(['admin'])->group(function () {
     | SISTEMA
     |--------------------------------------------------------------------------
     */
-    /*
+    
     // Utilizadores (Users)
-    Route::prefix('users')->name('users.')->middleware('role:admin')->group(function () {
+    Route::prefix('users')->name('users.')/*->middleware('role:admin')*/->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/create', [UserController::class, 'create'])->name('create');
         Route::post('/', [UserController::class, 'store'])->name('store');
