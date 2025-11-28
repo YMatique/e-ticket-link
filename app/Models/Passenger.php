@@ -21,6 +21,7 @@ class Passenger extends Model
         'document_type',
         'document_number',
         'is_active',
+        'account_id', 
     ];
 
     /**
@@ -66,4 +67,8 @@ class Passenger extends Model
     {
         return strtoupper(substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1));
     }
+    public function account()
+{
+    return $this->belongsTo(Account::class);
+}
 }

@@ -23,6 +23,7 @@ class Ticket extends Model
         'qr_code',
         'validated_at',
         'validated_by_user_id',
+        'account_id',
     ];
 
     /**
@@ -55,7 +56,7 @@ class Ticket extends Model
     public static function generateTicketNumber(): string
     {
         do {
-            $number = 'TKT-' . now()->format('Ymd') . '-' . strtoupper(substr(uniqid(), -6));
+            $number = 'TKT-'.now()->format('Ymd').'-'.strtoupper(substr(uniqid(), -6));
         } while (self::where('ticket_number', $number)->exists());
 
         return $number;
@@ -98,7 +99,7 @@ class Ticket extends Model
      */
     public function isValid(): bool
     {
-        return $this->status === 'paid' && !$this->validated_at;
+        return $this->status === 'paid' && ! $this->validated_at;
     }
 
     /**
@@ -106,7 +107,21 @@ class Ticket extends Model
      */
     public function isCancellable(): bool
     {
-        return in_array($this->status, ['reserved', 'paid']) 
+        return in_array($this->status, ['reserved', 'paid'])
             && $this->schedule->departure_date->isFuture();
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
+    public function isPurchasedForOther()
+    {
+        if (! $this->account_id || ! $this->passenger->account_id) {
+            return false;
+        }
+
+        return $this->passenger->account_id !== $this->account_id;
     }
 }
