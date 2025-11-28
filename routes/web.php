@@ -331,6 +331,8 @@ Route::prefix('account')->name('account.')->group(function () {
         return redirect('/');
     })->name('logout');
 });
+
+
 require __DIR__.'/auth.php';
 require __DIR__.'/public.php';
 require __DIR__.'/pdf.php';

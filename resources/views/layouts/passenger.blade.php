@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,8 +11,9 @@
     <!-- Global stylesheets -->
     <link href="{{ asset('template/assets/fonts/inter/inter.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template/assets/icons/phosphor/styles.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('template/html/layout_3/full/assets/css/ltr/all.min.css') }}" id="stylesheet" rel="stylesheet" type="text/css">
-    
+    <link href="{{ asset('template/html/layout_3/full/assets/css/ltr/all.min.css') }}" id="stylesheet" rel="stylesheet"
+        type="text/css">
+
     @livewireStyles
     @stack('styles')
 </head>
@@ -41,50 +43,54 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a 
-                        href="{{ route('public.my-tickets') }}" 
-                        class="nav-link">
+                        <a href="{{ route('public.my-tickets') }}" class="nav-link">
                             <i class="ph-ticket me-1"></i>
                             Meus Bilhetes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a 
-                        href="{{ route('public.help') }}" 
-                        class="nav-link">
+                        <a href="{{ route('public.help') }}" class="nav-link">
                             <i class="ph-question me-1"></i>
                             Ajuda
                         </a>
                     </li>
-                    
-                    @auth
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="ph-user-circle me-1"></i>
-                                {{ Auth::user()->name }}
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a href="{{ route('dashboard') }}" class="dropdown-item">
-                                    <i class="ph-gauge me-2"></i>
-                                    Dashboard
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="ph-sign-out me-2"></i>
-                                        Sair
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
+
+                    <!-- layouts/auth.blade.php ou layouts/public.blade.php -->
+
+                    @auth('account')
+                        <!-- Menu de cliente logado -->
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
+                                {{ Auth::guard('account')->user()->name }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('my-tickets') }}">
+                                        <i class="ph-ticket me-2"></i> Meus Bilhetes
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('my-profile') }}">
+                                        <i class="ph-user me-2"></i> Meu Perfil
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <form method="POST" action="{{ route('account.logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="ph-sign-out me-2"></i> Sair
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
                     @else
-                        <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link">
-                                <i class="ph-sign-in me-1"></i>
-                                Entrar
-                            </a>
-                        </li>
+                        <!-- Botões de login/registro -->
+                        <a href="{{ route('account.login') }}" class="btn btn-light me-2">Login</a>
+                        <a href="{{ route('account.register') }}" class="btn btn-primary">Criar Conta</a>
                     @endauth
                 </ul>
             </div>
@@ -97,9 +103,9 @@
           {{ $slot }}  
         @endisset --}}
         @if (isset($slot))
-            {{ $slot }}  
+            {{ $slot }}
         @else
-             @yield('content')            
+            @yield('content')
         @endif
 
     </main>
@@ -131,16 +137,12 @@
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a 
-                            href="{{ route('public.my-tickets') }}" 
-                            class="text-white-50 text-decoration-none">
+                            <a href="{{ route('public.my-tickets') }}" class="text-white-50 text-decoration-none">
                                 <i class="ph-caret-right me-1"></i> Meus Bilhetes
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a 
-                            href="{{ route('public.help') }}" 
-                            class="text-white-50 text-decoration-none">
+                            <a href="{{ route('public.help') }}" class="text-white-50 text-decoration-none">
                                 <i class="ph-caret-right me-1"></i> Ajuda
                             </a>
                         </li>
@@ -181,9 +183,10 @@
     <script src="{{ asset('template/assets/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('template/assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/toast.js') }}"></script>
-    
+
     @livewireScripts
     @stack('scripts')
 
 </body>
+
 </html>

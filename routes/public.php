@@ -41,3 +41,17 @@ Route::view('/ajuda', 'livewire.public.help')->name('public.help');
 
 // Validar Bilhete (para motoristas/agentes)
 Route::get('/validar-bilhete', ValidateTicket::class)->name('public.validate-ticket');
+
+
+Route::middleware(['auth.account'])->group(function () {
+    // Meus bilhetes
+    Route::get('/my-tickets', [MyTicketsController::class, 'index'])->name('my-tickets');
+    
+    // Perfil
+    Route::get('/my-profile', [MyProfileController::class, 'index'])->name('my-profile');
+    
+    // Processo de compra (Livewire)
+    // Estas rotas já devem existir
+    Route::get('/booking/passenger-info/{schedule}', PassengerInfo::class)->name('booking.passenger-info');
+    // Route::get('/booking/payment', [BookingController::class, 'payment'])->name('booking.payment');
+});
