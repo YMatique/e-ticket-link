@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ReportController;
@@ -27,8 +28,9 @@ Route::get('/', function () {
 
 Route::middleware(['admin'])->group(function () {
      // Dashboard
-    Route::view('dashboard', 'admin.dashboard')
-        ->name('dashboard');
+    // Route::view('dashboard', 'admin.dashboard')
+    //     ->name('dashboard');
+    Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');
     // Route::get('/dashboard', [DashboardController::class, 'index'])
     //     ->name('dashboard');
 
