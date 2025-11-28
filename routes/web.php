@@ -104,7 +104,7 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/{passenger}/travel-history', [PassengerController::class, 'travelHistory'])->name('travel-history');
         
         // Activar/Desactivar passageiro
-        Route::patch('/{passenger}/toggle-status', [PassengerController::class, 'toggleStatus'])->name('toggle-status');
+        Route::patch('/{passenger}/toggle-status', [PassengerController::class, 'toggleStatus'])->name('toggle');
     });
 
     // Bilhetes (Tickets)

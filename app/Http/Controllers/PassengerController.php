@@ -15,6 +15,13 @@ class PassengerController extends Controller
      */
     public function index(Request $request)
     {
+        $stats = [
+        'total'         => Passenger::count(),
+        'active'        => Passenger::where('is_active', true)->count(),
+        'with_tickets'  => Passenger::has('tickets')->count(),
+        'today'         => Passenger::whereDate('created_at', today())->count(),
+    ];
+
         $query = Passenger::query();
 
         // Filtros
@@ -38,7 +45,7 @@ class PassengerController extends Controller
                             ->paginate(20)
                             ->withQueryString();
 
-        return view('admin.passengers.index', compact('passengers'));
+        return view('admin.passengers.index', compact('passengers','stats'));
     }
 
     /**
