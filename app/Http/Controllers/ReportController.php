@@ -63,14 +63,22 @@ class ReportController extends Controller
         $startDate = $request->get('start_date', now()->subDays(30)->format('Y-m-d'));
         $endDate   = $request->get('end_date', now()->format('Y-m-d'));
 
-        $routes = Route::withCount(['tickets' => function($q) use ($startDate, $endDate) {
-                $q->whereBetween('created_at', [$startDate, $endDate])->where('status', 'paid');
-            }])
-            ->withSum(['tickets' => function($q) use ($startDate, $endDate) {
-                $q->whereBetween('created_at', [$startDate, $endDate])->where('status', 'paid');
-            }], 'price')
-            ->orderByDesc('tickets_count')
-            ->get();
+       $routes = Route::with(['originCity', 'destinationCity'])
+        ->withCount([
+            'schedules as schedules_count'
+        ])
+        ->leftJoin('schedules', 'routes.id', '=', 'schedules.route_id')
+        ->leftJoin('tickets', function ($join) use ($startDate, $endDate) {
+            $join->on('schedules.id', '=', 'tickets.schedule_id')
+                 ->where('tickets.status', 'paid')
+                 ->whereBetween('tickets.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+        })
+        ->selectRaw('routes.*, 
+                     COALESCE(COUNT(tickets.id), 0) as tickets_count,
+                     COALESCE(SUM(tickets.price), 0) as tickets_sum_price')
+        ->groupBy('routes.id')
+        ->orderByDesc('tickets_count')
+        ->get();
 
         return view('admin.reports.routes', compact('routes', 'startDate', 'endDate'));
     }
