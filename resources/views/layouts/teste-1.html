@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Ticket Bus | Passagens de Autocarro Online em Moçambique</title>
+    <meta name="description" content="Compre bilhetes de autocarro online de forma rápida e segura. Maputo, Beira, Nampula, Chimoio, Tete e mais destinos.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('img/favicon.png') }}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.0.3/src/css/phosphor.css">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --success: #06d6a0;
+            --dark: #121212;
+            --gray-100: #f8f9fa;
+            --gray-800: #343a40;
+        }
+        body { font-family: 'Inter', sans-serif; background: #f5f7ff; }
+        .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+        .feature-icon { width: 70px; height: 70px; background: rgba(67,97,238,0.1); color: var(--primary); }
+        .city-card { transition: all 0.3s ease; border: none; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .city-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(67,97,238,0.15); }
+        .navbar-scrolled { background: rgba(255,255,255,0.95) !important; backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+        .btn-primary { background: var(--primary); border: none; padding: 12px 32px; border-radius: 12px; font-weight: 600; }
+        .btn-success { background: var(--success); border: none; }
+        footer { background: var(--dark); }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" style="background: transparent; transition: all 0.4s;">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-white fs-3" href="/">
+            <i class="ph-bus me-2"></i> E-Ticket Bus
+        </a>
+        <div class="d-flex gap-3">
+            <a href="#consultar" class="btn btn-outline-light rounded-pill px-4">Consultar Bilhete</a>
+            <a href="/login" class="btn btn-light rounded-pill px-4 d-none d-lg-inline">Área Admin</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero text-white py-6 py-lg-7">
+    <div class="container">
+        <div class="row align-items-center min-vh-100 pt-5">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    Viaje com <span class="text-warning">conforto</span> e <span class="text-warning">segurança</span>
+                </h1>
+                <p class="lead mb-5 opacity-90">
+                    Compre o seu bilhete de autocarro online em menos de 2 minutos.<br>
+                    M-Pesa, e-Mola ou cartão — você escolhe!
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#comprar" class="btn btn-warning btn-lg px-5 py-3 rounded-pill shadow-lg">
+                        <i class="ph-ticket me-2"></i> Comprar Bilhete Agora
+                    </a>
+                    <a href="#consultar" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill">
+                        <i class="ph-magnifying-glass me-2"></i> Consultar Bilhete
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center mt-5 mt-lg-0">
+                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&h=600&fit=crop&crop=center" 
+                     alt="Autocarro moderno" class="img-fluid rounded-4 shadow-lg" style="max-height: 500px;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Consultar Bilhete -->
+<section id="consultar" class="py-5 bg-white">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center mb-5">
+                    <i class="ph-receipt text-primary ph-4x mb-3"></i>
+                    <h2 class="fw-bold">Consultar o Seu Bilhete</h2>
+                    <p class="text-muted lead">Introduza o código do bilhete para ver detalhes e baixar PDF</p>
+                </div>
+
+                <form action="{{ route('public.ticket.show') }}" method="GET" class="row g-3 justify-content-center">
+                    <div class="col-md-8 col-lg-6">
+                        <input type="text" name="code" class="form-control form-control-lg text-center fs-4 fw-bold" 
+                               placeholder="TKT-20251228-ABC123" required style="letter-spacing: 3px;">
+                    </div>
+                    <div class="col-md-4 col-lg-3">
+                        <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill">
+                            <i class="ph-magnifying-glass me-2"></i> Buscar
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <small class="text-muted">Ou escaneie o QR Code do seu bilhete</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Destinos Populares -->
+<section class="py-6 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Destinos Mais Procurados</h2>
+            <p class="lead text-muted">Ligue-se a todo o país com conforto</p>
+        </div>
+
+        <div class="row g-4">
+            @php
+                $cities = ['Maputo', 'Beira', 'Nampula', 'Quelimane', 'Tete', 'Chimoio', 'Pemba', 'Lichinga'];
+            @endphp
+            @foreach($cities as $city)
+            <div class="col-md-6 col-lg-3">
+                <div class="city-card bg-white h-100">
+                    <img src="https://source.unsplash.com/600x400/?{{ strtolower($city) }},mozambique" 
+                         alt="{{ $city }}" class="w-100" style="height: 180px; object-fit: cover;">
+                    <div class="p-4 text-center">
+                        <h5 class="fw-bold mb-1">{{ $city }}</h5>
+                        <p class="text-muted small mb-3">A partir de 450 MT</p>
+                        <a href="#comprar" class="btn btn-outline-primary rounded-pill px-4">Ver horários</a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="py-6">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Porquê escolher E-Ticket Bus?</h2>
+        </div>
+        <div class="row g-5">
+            <div class="col-md-4 text-center">
+                <div class="feature-icon rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                    <i class="ph-clock-countdown ph-2x"></i>
+                </div>
+                <h5 class="fw-bold">Compra em 2 minutos</h5>
+                <p class="text-muted">Processo 100% online. Receba o bilhete no WhatsApp e e-mail.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="feature-icon rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                    <i class="ph-device-mobile ph-2x"></i>
+                </div>
+                <h5 class="fw-bold">Pague com M-Pesa ou e-Mola</h5>
+                <p class="text-muted">Sem filas. Pague com o seu telemóvel em segundos.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="feature-icon rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                    <i class="ph-shield-check ph-2x"></i>
+                </div>
+                <h5 class="fw-bold">100% Seguro</h5>
+                <p class="text-muted">Bilhete com QR Code único. Validação instantânea no embarque.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-white py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <h4 class="fw-bold fs-4 mb-3"><i class="ph-bus me-2"></i> E-Ticket Bus</h4>
+                <p>A maneira mais moderna e segura de viajar de autocarro em Moçambique.</p>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="fw-bold mb-3">Links Rápidos</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#consultar" class="text-white text-decoration-none">Consultar Bilhete</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Termos de Uso</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Política de Privacidade</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="fw-bold mb-3">Contacto</h6>
+                <p class="mb-2"><i class="ph-phone me-2"></i> +258 84 000 0000</p>
+                <p class="mb-2"><i class="ph-envelope me-2"></i> suporte@eticketbus.co.mz</p>
+                <p><i class="ph-whatsapp-logo me-2"></i> +258 87 000 0000</p>
+            </div>
+        </div>
+        <hr class="my-4 opacity-25">
+        <div class="text-center">
+            <small>© 2025 E-Ticket Bus. Todos os direitos reservados.</small>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Navbar efeito ao scroll
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('navbar-scrolled');
+            navbar.querySelector('.navbar-brand').classList.replace('text-white', 'text-dark');
+        } else {
+            navbar.classList.remove('navbar-scrolled');
+            navbar.querySelector('.navbar-brand').classList.replace('text-dark', 'text-white');
+        }
+    });
+</script>
+</body>
+</html>

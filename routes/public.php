@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 // Homepage - Busca de Bilhetes
 Route::get('/', SearchTickets::class)->name('public.home');
 
+Route::view('teste', 'livewire.public.testehome');
+
 // Resultados de Viagens Disponíveis
 Route::get('/viagens', AvailableTrips::class)->name('public.trips');
 

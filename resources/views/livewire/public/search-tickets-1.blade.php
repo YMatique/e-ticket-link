@@ -1,3 +1,6 @@
+@extends('layouts.passenger')
+
+@section('title', 'e-TicketLink - Compre seus bilhetes online')
 
 @push('styles')
 <style>
@@ -31,75 +34,6 @@
     .hero-content {
         position: relative;
         z-index: 2;
-    }
-
-    .hero-image-container {
-        position: relative;
-        z-index: 2;
-        animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-        0%, 100% {
-            transform: translateY(0px);
-        }
-        50% {
-            transform: translateY(-20px);
-        }
-    }
-
-    .bus-illustration {
-        position: relative;
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    .bus-svg {
-        width: 100%;
-        height: auto;
-        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
-    }
-
-    .hero-decorative-circles {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-    }
-
-    .circle-1 {
-        position: absolute;
-        width: 300px;
-        height: 300px;
-        background: rgba(255, 107, 53, 0.1);
-        border-radius: 50%;
-        top: -50px;
-        right: -50px;
-        animation: pulse 4s ease-in-out infinite;
-    }
-
-    .circle-2 {
-        position: absolute;
-        width: 200px;
-        height: 200px;
-        background: rgba(13, 110, 253, 0.1);
-        border-radius: 50%;
-        bottom: 50px;
-        right: 100px;
-        animation: pulse 5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
-            opacity: 0.5;
-        }
-        50% {
-            transform: scale(1.1);
-            opacity: 0.8;
-        }
     }
 
     .hero-title {
@@ -505,7 +439,7 @@
 </style>
 @endpush
 
-<div>
+@section('content')
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
@@ -536,82 +470,6 @@
                         <i class="ph-check-circle text-success fs-4"></i>
                         <span class="text-white">Bilhete Digital</span>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6 hero-image-container">
-                <div class="bus-illustration">
-                    <div class="hero-decorative-circles">
-                        <div class="circle-1"></div>
-                        <div class="circle-2"></div>
-                    </div>
-                    <svg class="bus-svg" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Sombra do autocarro -->
-                        <ellipse cx="400" cy="450" rx="280" ry="30" fill="rgba(0,0,0,0.2)"/>
-                        
-                        <!-- Corpo principal do autocarro -->
-                        <rect x="120" y="180" width="560" height="220" rx="30" fill="#FF6B35"/>
-                        
-                        <!-- Parte inferior -->
-                        <rect x="120" y="350" width="560" height="50" rx="15" fill="#E85A2A"/>
-                        
-                        <!-- Janelas -->
-                        <rect x="160" y="210" width="80" height="100" rx="10" fill="rgba(255,255,255,0.3)"/>
-                        <rect x="260" y="210" width="80" height="100" rx="10" fill="rgba(255,255,255,0.3)"/>
-                        <rect x="360" y="210" width="80" height="100" rx="10" fill="rgba(255,255,255,0.3)"/>
-                        <rect x="460" y="210" width="80" height="100" rx="10" fill="rgba(255,255,255,0.3)"/>
-                        <rect x="560" y="210" width="80" height="100" rx="10" fill="rgba(255,255,255,0.3)"/>
-                        
-                        <!-- Detalhes das janelas -->
-                        <line x1="200" y1="210" x2="200" y2="310" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-                        <line x1="300" y1="210" x2="300" y2="310" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-                        <line x1="400" y1="210" x2="400" y2="310" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-                        <line x1="500" y1="210" x2="500" y2="310" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-                        <line x1="600" y1="210" x2="600" y2="310" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-                        
-                        <!-- Farol dianteiro -->
-                        <circle cx="650" cy="240" r="15" fill="#FFF9C4"/>
-                        <circle cx="650" cy="240" r="10" fill="#FFEB3B"/>
-                        
-                        <!-- Farol traseiro -->
-                        <circle cx="150" cy="240" r="15" fill="#FFCDD2"/>
-                        <circle cx="150" cy="240" r="10" fill="#F44336"/>
-                        
-                        <!-- Listra lateral -->
-                        <rect x="120" y="320" width="560" height="15" fill="#FFFFFF" opacity="0.3"/>
-                        
-                        <!-- Porta -->
-                        <rect x="580" y="250" width="70" height="120" rx="8" fill="rgba(0,0,0,0.2)"/>
-                        <rect x="585" y="255" width="60" height="110" rx="6" fill="#1a2435"/>
-                        <circle cx="640" cy="310" r="8" fill="#FFD700"/>
-                        
-                        <!-- Roda dianteira -->
-                        <circle cx="580" cy="410" r="45" fill="#37474F"/>
-                        <circle cx="580" cy="410" r="35" fill="#263238"/>
-                        <circle cx="580" cy="410" r="20" fill="#455A64"/>
-                        <circle cx="580" cy="410" r="10" fill="#607D8B"/>
-                        
-                        <!-- Roda traseira -->
-                        <circle cx="220" cy="410" r="45" fill="#37474F"/>
-                        <circle cx="220" cy="410" r="35" fill="#263238"/>
-                        <circle cx="220" cy="410" r="20" fill="#455A64"/>
-                        <circle cx="220" cy="410" r="10" fill="#607D8B"/>
-                        
-                        <!-- Logo/Detalhe -->
-                        <text x="400" y="350" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">e-TicketLink</text>
-                        
-                        <!-- Efeitos de brilho -->
-                        <rect x="160" y="210" width="30" height="40" rx="5" fill="rgba(255,255,255,0.6)"/>
-                        <rect x="260" y="210" width="30" height="40" rx="5" fill="rgba(255,255,255,0.4)"/>
-                        <rect x="360" y="210" width="30" height="40" rx="5" fill="rgba(255,255,255,0.6)"/>
-                        <rect x="460" y="210" width="30" height="40" rx="5" fill="rgba(255,255,255,0.4)"/>
-                        <rect x="560" y="210" width="30" height="40" rx="5" fill="rgba(255,255,255,0.6)"/>
-                        
-                        <!-- Linhas de velocidade -->
-                        <line x1="80" y1="260" x2="100" y2="260" stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="70" y1="290" x2="95" y2="290" stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="85" y1="320" x2="105" y2="320" stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round"/>
-                    </svg>
                 </div>
             </div>
         </div>
@@ -888,7 +746,7 @@
         </div>
     </div>
 </section>
-</div>
+@endsection
 
 @push('scripts')
 <script>
