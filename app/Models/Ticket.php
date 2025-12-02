@@ -24,6 +24,8 @@ class Ticket extends Model
         'validated_at',
         'validated_by_user_id',
         'account_id',
+        'cancelled_at',
+        'cancellation_reason',
     ];
 
     /**
@@ -34,6 +36,7 @@ class Ticket extends Model
     protected $casts = [
         'price' => 'decimal:2',
         'validated_at' => 'datetime',
+        'cancelled_at' => 'datetime',
     ];
 
     /**

@@ -13,24 +13,33 @@ use Livewire\Component;
 
 class PassengerInfo extends Component
 {
-   public $schedule;
+    public $schedule;
+
     public $seats = [];
+
     public $totalPrice = 0;
-    
+
     // Dados do passageiro
     public $passengers = [];
+
     public $email;
+
     public $phone;
+
     public $accept_terms = false;
+
     public $create_account = false;
+
     public $password;
-    
+
     // Pagamento
     public $payment_method = 'mpesa';
+
     public $mpesa_number;
-    
+
     // Estados
     public $step = 1; // 1: dados, 2: pagamento, 3: processando
+
     public $reservationExpiry;
 
     protected function rules()
@@ -80,21 +89,21 @@ class PassengerInfo extends Component
     public function mount(Schedule $schedule)
     {
         $this->schedule = $schedule->load(['route.originCity', 'route.destinationCity', 'bus']);
-        
+
         // Obter assentos da URL
         $seatsParam = request('seats');
-        if (!$seatsParam) {
+        if (! $seatsParam) {
             return redirect()->route('public.seats', ['schedule' => $schedule->id]);
         }
 
         $this->seats = explode(',', $seatsParam);
-        
+
         // Verificar se assentos ainda estão disponíveis
         $this->validateSeatsAvailability();
-        
+
         // Calcular preço total
         $this->totalPrice = count($this->seats) * $this->schedule->price;
-        
+
         // Inicializar array de passageiros
         foreach ($this->seats as $seat) {
             $this->passengers[] = [
@@ -105,10 +114,10 @@ class PassengerInfo extends Component
                 'document_number' => '',
             ];
         }
-        
+
         // Timer de expiração
         $this->reservationExpiry = now()->addMinutes(15)->timestamp;
-        
+
         // Preencher dados se usuário autenticado
         if (auth()->check()) {
             $user = auth()->user();
@@ -126,8 +135,9 @@ class PassengerInfo extends Component
 
         $unavailableSeats = array_intersect($this->seats, $occupiedSeats);
 
-        if (!empty($unavailableSeats)) {
+        if (! empty($unavailableSeats)) {
             session()->flash('error', 'Alguns assentos não estão mais disponíveis.');
+
             return redirect()->route('public.seats', ['schedule' => $this->schedule->id]);
         }
     }
@@ -135,7 +145,7 @@ class PassengerInfo extends Component
     public function goToPayment()
     {
         // $this->validate();
-          $rules = [
+        $rules = [
             'email' => 'required|email',
             'phone' => ['required', 'regex:/^(\+?258)?[8][2-7][0-9]{7}$/'],
             'accept_terms' => 'accepted',
@@ -180,7 +190,6 @@ class PassengerInfo extends Component
 
         $this->validate($rules);
 
-        
         $this->step = 3; // Processando
 
         try {
@@ -199,15 +208,15 @@ class PassengerInfo extends Component
                         'last_name' => $passengerData['last_name'],
                         'document_type' => $passengerData['document_type'],
                         'document_number' => $passengerData['document_number'],
-                        'password' => $this->create_account && $this->password 
-                            ? Hash::make($this->password) 
+                        'password' => $this->create_account && $this->password
+                            ? Hash::make($this->password)
                             : Hash::make(uniqid()),
                     ]
                 );
 
                 $createdPassengers[] = [
                     'passenger' => $passenger,
-                    'seat' => $passengerData['seat_number']
+                    'seat' => $passengerData['seat_number'],
                 ];
             }
 
@@ -220,7 +229,7 @@ class PassengerInfo extends Component
                     'schedule_id' => $this->schedule->id,
                     'seat_number' => $data['seat'],
                     'price' => $this->schedule->price,
-                    'status' => 'reserved',//$this->payment_method === 'cash' ? 'reserved' : 'pending_payment',
+                    'status' => 'reserved', // $this->payment_method === 'cash' ? 'reserved' : 'pending_payment',
                     'qr_code' => null, // Será gerado após pagamento
                 ]);
 
@@ -231,7 +240,7 @@ class PassengerInfo extends Component
             if ($this->payment_method === 'mpesa') {
                 // Integração M-Pesa (simulado)
                 $paymentResult = $this->processMpesaPayment();
-                
+
                 if ($paymentResult['success']) {
                     // Atualizar status dos tickets para 'paid'
                     foreach ($tickets as $ticket) {
@@ -262,18 +271,19 @@ class PassengerInfo extends Component
 
             // Redirecionar para confirmação
             session()->flash('success', 'Compra realizada com sucesso!');
+
             return redirect()->route('public.ticket-confirmation', [
-                'tickets' => collect($tickets)->pluck('id')->implode(',')
+                'tickets' => collect($tickets)->pluck('id')->implode(','),
             ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
-                                     \Log::info('ERRO: '.$e->getMessage());
-            
+            \Log::info('ERRO: '.$e->getMessage());
+
             $this->step = 2;
             $this->dispatch('show-toast', [
-                'message' => 'Erro ao processar pagamento: ' . $e->getMessage(),
-                'type' => 'error'
+                'message' => 'Erro ao processar pagamento: '.$e->getMessage(),
+                'type' => 'error',
             ]);
         }
     }
@@ -281,15 +291,13 @@ class PassengerInfo extends Component
     private function processMpesaPayment()
     {
 
-    
-
         // TODO: Integração real com M-Pesa API
         // Por enquanto, simulação
         sleep(2); // Simular delay de processamento
-        
+
         return [
             'success' => true,
-            'transaction_id' => 'MPESA-' . time(),
+            'transaction_id' => 'MPESA-'.time(),
         ];
     }
 
@@ -298,22 +306,22 @@ class PassengerInfo extends Component
         // Gerar código QR simples (pode usar biblioteca específica)
         // return base64_encode($ticketNumber . '|' . now()->timestamp); //LEGACY
         $timestamp = now()->timestamp;
-        $data = $ticketNumber . '|' . $timestamp;
-        
+        $data = $ticketNumber.'|'.$timestamp;
+
         // Adicionar hash HMAC SHA256 para segurança (previne falsificação)
         $hash = hash_hmac('sha256', $data, config('app.key'));
-        
+
         // Formato final: TICKET|TIMESTAMP|HASH
-        $fullData = $data . '|' . $hash;
-        
+        $fullData = $data.'|'.$hash;
+
         // Codificar em Base64 para QR Code
         return base64_encode($fullData);
     }
 
-        /**
+    /**
      * Valida um QR Code decodificando e verificando o hash
-     * 
-     * @param string $qrCode
+     *
+     * @param  string  $qrCode
      * @return array|false Retorna ['ticket_number' => string, 'timestamp' => int] ou false se inválido
      */
     private function validateQrCode($qrCode)
@@ -321,73 +329,76 @@ class PassengerInfo extends Component
         try {
             // Decodificar Base64
             $decoded = base64_decode($qrCode, true);
-            
+
             if ($decoded === false) {
                 return false;
             }
-            
+
             // Separar componentes
             $parts = explode('|', $decoded);
-            
+
             if (count($parts) !== 3) {
                 return false;
             }
-            
-            list($ticketNumber, $timestamp, $hash) = $parts;
-            
+
+            [$ticketNumber, $timestamp, $hash] = $parts;
+
             // Verificar hash de segurança
-            $expectedHash = hash_hmac('sha256', $ticketNumber . '|' . $timestamp, config('app.key'));
-            
-            if (!hash_equals($expectedHash, $hash)) {
+            $expectedHash = hash_hmac('sha256', $ticketNumber.'|'.$timestamp, config('app.key'));
+
+            if (! hash_equals($expectedHash, $hash)) {
                 \Log::warning('QR Code com hash inválido detectado', [
-                    'qr_code' => substr($qrCode, 0, 50) . '...'
+                    'qr_code' => substr($qrCode, 0, 50).'...',
                 ]);
+
                 return false;
             }
-            
+
             return [
                 'ticket_number' => $ticketNumber,
                 'timestamp' => (int) $timestamp,
-                'valid' => true
+                'valid' => true,
             ];
-            
+
         } catch (\Exception $e) {
             \Log::error('Erro ao validar QR Code', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
+
             return false;
         }
     }
+
     private function sendTicketNotifications($tickets)
     {
-         foreach ($tickets as $ticket) {
+        foreach ($tickets as $ticket) {
             try {
                 // Enviar email
                 Mail::to($ticket->passenger->email)->send(
                     new \App\Mail\TicketPurchased($ticket)
                 );
-                
+
                 \Log::info('Email de bilhete enviado com sucesso', [
                     'ticket_id' => $ticket->id,
                     'ticket_number' => $ticket->ticket_number,
-                    'email' => $ticket->passenger->email
+                    'email' => $ticket->passenger->email,
                 ]);
-                
+
             } catch (\Exception $e) {
                 // Log do erro mas não falha a compra
                 \Log::error('Erro ao enviar email de bilhete', [
                     'ticket_id' => $ticket->id,
-                    'error' => $e->getMessage()
+                    'error' => $e->getMessage(),
                 ]);
             }
         }
-        
+
         // TODO: Enviar SMS (futuro)
         // TODO: Enviar WhatsApp (futuro)
 
         // Por enquanto, apenas log
-        \Log::info('Tickets enviados para ' . $this->email, [
-            'tickets' => collect($tickets)->pluck('ticket_number')->toArray()
+        \Log::info('Tickets enviados para '.$this->email, [
+            'tickets' => collect($tickets)->pluck('ticket_number')->toArray(),
         ]);
     }
 
