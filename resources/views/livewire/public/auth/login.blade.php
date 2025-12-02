@@ -1,22 +1,21 @@
 <div class="w-100 mx-auto">
-
-    <form class="login-form" method="POST" action="{{ route('login') }}">
-        @csrf
-
+    <!-- Login form -->
+    <form wire:submit.prevent="login" class="login-form">
         <div class="card mb-0">
             <div class="card-body">
                 <div class="text-center mb-3">
                     <div class="d-inline-flex align-items-center justify-content-center mb-4 mt-2">
-                        <i class="ph-bus ph-4x text-primary"></i>
+                        <i class="ph-user-circle ph-4x text-primary"></i>
                     </div>
                     <h5 class="mb-0">Entrar na sua conta</h5>
-                    <span class="d-block text-muted">Digite suas credenciais abaixo</span>
+                    <span class="d-block text-muted">Insira suas credenciais abaixo</span>
                 </div>
 
-                <!-- Session Status -->
-                @if (session('status'))
+                <!-- Success Message -->
+                @if (session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <span class="fw-semibold">Sucesso!</span> {{ session('status') }}
+                        <i class="ph-check-circle me-2"></i>
+                        {{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
@@ -25,11 +24,15 @@
                 <div class="mb-3">
                     <label class="form-label">Email</label>
                     <div class="form-control-feedback form-control-feedback-start">
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                            value="{{ old('email') }}" placeholder="seu@email.com" required autofocus
-                            autocomplete="username">
+                        <input type="email" 
+                               class="form-control @error('email') is-invalid @enderror" 
+                               wire:model.blur="email"
+                               placeholder="seu@email.com" 
+                               required 
+                               autofocus 
+                               autocomplete="username">
                         <div class="form-control-feedback-icon">
-                            <i class="ph-user-circle text-muted"></i>
+                            <i class="ph-envelope text-muted"></i>
                         </div>
                         @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -39,10 +42,17 @@
 
                 <!-- Password -->
                 <div class="mb-3">
-                    <label class="form-label">Palavra-passe</label>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="form-label mb-0">Palavra-passe</label>
+                        <a href="#" class="text-muted small">Esqueceu a palavra-passe?</a>
+                    </div>
                     <div class="form-control-feedback form-control-feedback-start">
-                        <input type="password" class="form-control @error('password') is-invalid @enderror"
-                            name="password" placeholder="•••••••••••" required autocomplete="current-password">
+                        <input type="password" 
+                               class="form-control @error('password') is-invalid @enderror"
+                               wire:model.blur="password"
+                               placeholder="•••••••••••" 
+                               required 
+                               autocomplete="current-password">
                         <div class="form-control-feedback-icon">
                             <i class="ph-lock text-muted"></i>
                         </div>
@@ -55,40 +65,46 @@
                 <!-- Remember Me -->
                 <div class="mb-3">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
-                        <label class="form-check-label" for="remember_me">Lembrar-me</label>
+                        <input type="checkbox" 
+                               class="form-check-input" 
+                               id="remember" 
+                               wire:model="remember">
+                        <label class="form-check-label" for="remember">
+                            Lembrar-me
+                        </label>
                     </div>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="ph-sign-in me-2"></i>
-                        Entrar
+                    <button type="submit" 
+                            class="btn btn-primary w-100" 
+                            wire:loading.attr="disabled"
+                            wire:target="login">
+                        <span wire:loading.remove wire:target="login">
+                            <i class="ph-sign-in me-2"></i>
+                            Entrar
+                        </span>
+                        <span wire:loading wire:target="login">
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                            A entrar...
+                        </span>
                     </button>
                 </div>
 
-                <!-- Links -->
+                <!-- Register Link -->
                 <div class="text-center text-muted">
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}">Esqueceu a palavra-passe?</a>
-                    @endif
+                    Não tem conta? <a href="{{ route('account.register') }}" wire:navigate>Criar conta</a>
                 </div>
-
-                @if (Route::has('register'))
-                    <div class="text-center text-muted mt-2">
-                        Não tem conta? <a href="{{ route('register') }}">Criar uma conta</a>
-                    </div>
-                @endif
             </div>
         </div>
     </form>
 
-	<style>
+    <style>
         .login-form {
             width: 100%;
             max-width: 420px;
-			margin: 0 auto;
+            margin: 0 auto;
         }
 
         .card {
