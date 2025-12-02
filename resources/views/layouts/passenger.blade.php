@@ -13,7 +13,7 @@
     <link href="{{ asset('template/assets/icons/phosphor/styles.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template/html/layout_3/full/assets/css/ltr/all.min.css') }}" id="stylesheet" rel="stylesheet"
         type="text/css">
-
+    <link rel="stylesheet" href="{{ asset('override.css') }}">
     @livewireStyles
     @stack('styles')
 </head>
