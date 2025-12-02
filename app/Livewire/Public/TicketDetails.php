@@ -4,6 +4,7 @@ namespace App\Livewire\Public;
 
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class TicketDetails extends Component
@@ -89,10 +90,32 @@ class TicketDetails extends Component
 
     public function resendEmail()
     {
+
+         try {
+            // Reenviar email
+            Mail::to($this->ticket->passenger->email)->send(
+                new \App\Mail\TicketPurchased($this->ticket)
+            );
+            
+            session()->flash('success', 'Bilhete reenviado com sucesso para ' . $this->ticket->passenger->email);
+            
+            \Log::info('Bilhete reenviado', [
+                'ticket_id' => $this->ticket->id,
+                'email' => $this->ticket->passenger->email
+            ]);
+            
+        } catch (\Exception $e) {
+            session()->flash('error', 'Erro ao enviar email. Tente novamente mais tarde.');
+            
+            \Log::error('Erro ao reenviar bilhete', [
+                'ticket_id' => $this->ticket->id,
+                'error' => $e->getMessage()
+            ]);
+        }
         // TODO: Implementar reenvio de email
         // Mail::to($this->ticket->passenger->email)->send(new TicketPurchased($this->ticket));
 
-        session()->flash('success', 'Email reenviado com sucesso!');
+        // session()->flash('success', 'Email reenviado com sucesso!');
     }
 
     public function render()
