@@ -164,14 +164,14 @@
                                 <td class="text-end">
                                     <div class="btn-group btn-group-sm">
                                         <a 
-                                        {{-- href="{{ route('ticket.show', $ticket) }}"  --}}
+                                        href="{{ route('ticket.show', $ticket) }}" 
                                            class="btn btn-light" 
                                            title="Ver detalhes"
                                            wire:navigate>
                                             <i class="ph-eye"></i>
                                         </a>
                                         <a 
-                                        {{-- href="{{ route('ticket.pdf', $ticket) }}"  --}}
+                                        href="{{ route('tickets.pdf.download', $ticket) }}" 
                                            class="btn btn-light" 
                                            title="Baixar PDF" 
                                            target="_blank">

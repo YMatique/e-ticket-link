@@ -8,6 +8,7 @@ use App\Livewire\Public\Profile;
 use App\Livewire\Public\SearchTickets;
 use App\Livewire\Public\SeatSelection;
 use App\Livewire\Public\Ticketconfirmation;
+use App\Livewire\Public\TicketDetails;
 use App\Livewire\Public\ValidateTicket;
 use Illuminate\Support\Facades\Route;
 
@@ -50,9 +51,10 @@ Route::get('/validar-bilhete', ValidateTicket::class)->name('public.validate-tic
 Route::middleware(['auth.account'])->group(function () {
     // Meus bilhetes
     Route::get('/my-tickets', MyTicketsDashboard::class)->name('my-tickets');
-    
     // Perfil
     Route::get('/my-profile',Profile::class)->name('my-profile');
+
+ Route::get('/ticket/{ticket}', TicketDetails::class)->name('ticket.show');
     
     // Processo de compra (Livewire)
     // Estas rotas já devem existir

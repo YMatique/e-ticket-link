@@ -148,11 +148,6 @@ Route::middleware(['admin'])->group(function () {
 
          
     });
-    // Rotas de PDF (fora do grupo tickets pois usa controller diferente)
-    Route::prefix('tickets')->name('tickets.pdf.')->group(function () {
-        Route::get('/{ticket}/pdf/download', [TicketPdfController::class, 'download'])->name('download');
-        Route::get('/{ticket}/pdf/view', [TicketPdfController::class, 'view'])->name('view');
-    });
 
     /*
     |--------------------------------------------------------------------------
@@ -280,8 +275,7 @@ Route::middleware(['admin'])->group(function () {
             Route::get('/payment-gateways', [SettingController::class, 'paymentGateways'])->name('payment-gateways');
             Route::put('/payment-gateways', [SettingController::class, 'updatePaymentGateways'])->name('payment-gateways.update');
         });
-    });
-    
+    }); 
 });
     
 // API Routes para o formulário de emissão de bilhetes
@@ -293,6 +287,11 @@ Route::prefix('api')->name('api.')->group(function () {
     Route::get('/passengers/search', [TicketController::class, 'apiSearchPassengers'])->name('passengers.search');
 });
 
+ // Rotas de PDF (fora do grupo tickets pois usa controller diferente)
+    Route::prefix('tickets')->name('tickets.pdf.')->group(function () {
+        Route::get('/{ticket}/pdf/download', [TicketPdfController::class, 'download'])->name('download');
+        Route::get('/{ticket}/pdf/view', [TicketPdfController::class, 'view'])->name('view');
+    });
 // API para validação
 Route::prefix('api')->name('api.')->group(function () {
     // Buscar bilhete por número

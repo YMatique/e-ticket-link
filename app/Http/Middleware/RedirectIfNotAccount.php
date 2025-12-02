@@ -17,7 +17,8 @@ class RedirectIfNotAccount
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::guard('account')->check()) {
-            return redirect()->route('account.login');
+            return redirect()->route('account.login')
+            ->with('info', 'Por favor, faça login para continuar.');
         }
         return $next($request);
     }
