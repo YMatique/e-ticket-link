@@ -6,6 +6,7 @@ use App\Models\Passenger;
 use App\Models\Schedule;
 use App\Models\TemporaryReservation;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -194,14 +195,16 @@ class PassengerInfo extends Component
 
         try {
             DB::beginTransaction();
+            $account = Auth::guard('account')->user();
+            $accountId = $account ? $account->id : null;
 
             // 1. Criar ou buscar passageiros
             $createdPassengers = [];
             foreach ($this->passengers as $passengerData) {
                 $passenger = Passenger::firstOrCreate(
                     [
-                        'email' => $this->email,
-                        'phone' => $this->phone,
+                        'document_type' => $passengerData['document_type'],
+                        'document_number' => $passengerData['document_number'],
                     ],
                     [
                         'first_name' => $passengerData['first_name'],
@@ -211,9 +214,13 @@ class PassengerInfo extends Component
                         'password' => $this->create_account && $this->password
                             ? Hash::make($this->password)
                             : Hash::make(uniqid()),
+                        'account_id' => $accountId,
                     ]
                 );
 
+                if ($accountId && ! $passenger->account_id) {
+                    $passenger->update(['account_id' => $accountId]);
+                }
                 $createdPassengers[] = [
                     'passenger' => $passenger,
                     'seat' => $passengerData['seat_number'],
@@ -227,6 +234,7 @@ class PassengerInfo extends Component
                     'ticket_number' => Ticket::generateTicketNumber(),
                     'passenger_id' => $data['passenger']->id,
                     'schedule_id' => $this->schedule->id,
+                     'account_id' => $accountId,
                     'seat_number' => $data['seat'],
                     'price' => $this->schedule->price,
                     'status' => 'reserved', // $this->payment_method === 'cash' ? 'reserved' : 'pending_payment',
