@@ -13,6 +13,7 @@ use App\Http\Controllers\TicketPdfController;
 use App\Http\Controllers\UserController;
 use App\Livewire\Public\Auth\Login as AuthLogin;
 use App\Livewire\Public\Auth\Register;
+use App\Livewire\Public\MyTicketsDashboard;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -319,6 +320,8 @@ Route::middleware(['auth'])->group(function () {
         )
         ->name('two-factor.show');
 });
+
+
 
 Route::prefix('account')->name('account.')->group(function () {
     Route::get('/login', AuthLogin::class)->name('login');

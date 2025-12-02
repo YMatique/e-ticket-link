@@ -7,7 +7,7 @@
                     <h4 class="mb-1">Meus Bilhetes</h4>
                     <p class="text-muted mb-0">Gerencie todos os seus bilhetes aqui</p>
                 </div>
-                <a href="{{ route('trips') }}" class="btn btn-primary" wire:navigate>
+                <a href="{{ route('public.home') }}" class="btn btn-primary" wire:navigate>
                     <i class="ph-magnifying-glass me-2"></i>
                     Buscar Viagens
                 </a>
@@ -163,13 +163,15 @@
                                 </td>
                                 <td class="text-end">
                                     <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('ticket.show', $ticket) }}" 
+                                        <a 
+                                        {{-- href="{{ route('ticket.show', $ticket) }}"  --}}
                                            class="btn btn-light" 
                                            title="Ver detalhes"
                                            wire:navigate>
                                             <i class="ph-eye"></i>
                                         </a>
-                                        <a href="{{ route('ticket.pdf', $ticket) }}" 
+                                        <a 
+                                        {{-- href="{{ route('ticket.pdf', $ticket) }}"  --}}
                                            class="btn btn-light" 
                                            title="Baixar PDF" 
                                            target="_blank">
@@ -190,7 +192,7 @@
                                         @endif
                                     </p>
                                     @if(!$search && !$statusFilter)
-                                        <a href="{{ route('trips') }}" class="btn btn-primary" wire:navigate>
+                                        <a href="{{ route('public.home') }}" class="btn btn-primary" wire:navigate>
                                             <i class="ph-magnifying-glass me-2"></i>
                                             Buscar Viagens
                                         </a>
